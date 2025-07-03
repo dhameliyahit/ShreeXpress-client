@@ -49,10 +49,14 @@ const Header = () => {
       {/* Mobile View Nav Link's */}
       <button
 <<<<<<< HEAD
+<<<<<<< HEAD
         className="md:hidden sm:flex border px-4 text-2xl mx-2 cursor-pointer"
 =======
         className="md:hidden sm:flex border px-4 text-2xl mx-2 items-center cursor-pointer"
 >>>>>>> f6dc138 (Git add)
+=======
+        className="md:hidden sm:flex border px-4 text-2xl mx-2 items-center cursor-pointer"
+>>>>>>> d257327 (Day-02)
         onClick={() => setIsSidebarOpen(true)}
       >
         <RxHamburgerMenu />
@@ -60,17 +64,26 @@ const Header = () => {
       <div
         className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d257327 (Day-02)
                              ${
                                isSidebarOpen
                                  ? "translate-x-0"
                                  : "-translate-x-full"
                              }
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> d257327 (Day-02)
                              ${isSidebarOpen
             ? "translate-x-0"
             : "-translate-x-full"
           }
+<<<<<<< HEAD
 >>>>>>> f6dc138 (Git add)
+=======
+>>>>>>> d257327 (Day-02)
         `}
       >
         <div className="flex items-center justify-between p-4 border-b">

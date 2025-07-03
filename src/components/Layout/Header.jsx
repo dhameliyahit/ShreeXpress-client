@@ -18,7 +18,7 @@ const Header = () => {
   ];
 
   return (
-    <div className="flex justify-between md:items-center py-2 shadow-lg">
+    <div className="flex justify-between items-center py-2 shadow-lg">
       <div className="md:px-5">
         {" "}
         {/* Logo & name Component */}

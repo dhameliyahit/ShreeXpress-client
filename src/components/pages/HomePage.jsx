@@ -26,9 +26,22 @@ const HomePage = () => {
                         <h1 className="text-4xl font-bold"><span className='text-md'>Welcome,</span><br /><span className='text-5xl font-bold'>ShreeXpress</span><br /><span className='text-md'>courier service pvt ltd</span></h1>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+                <Outlet />
+>>>>>>> f6dc138 (Git add)
             </Layout>
         </>
     )
 }
 
+<<<<<<< HEAD
+=======
+const Outlet = () => {
+    return (
+        <button>Hello</button>
+    )
+}
+
+>>>>>>> f6dc138 (Git add)
 export default HomePage

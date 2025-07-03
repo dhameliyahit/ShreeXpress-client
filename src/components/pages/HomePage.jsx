@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import { TopBar } from '../TopBar'
-import Layout from '../Layout/Layout';
-
-const HomePage = () => {
-
-    const HomeBG = "/assets/HomeBG.jpg"; //background image path
-=======
 import React, { useState } from 'react'
 import { TopBar } from '../TopBar'
 import Layout from '../Layout/Layout';
@@ -16,54 +7,19 @@ const HomeBG = "./assets/HomeBG.jpg"; // Adjust the path as necessary
 
 const HomePage = () => {
 
->>>>>>> d257327 (Day-02)
 
     return (
         <>
             <TopBar /> {/* This is the Top bar callusnow** component 🔝 */}
             <Layout>
-<<<<<<< HEAD
-                <div className="relative w-full h-[80vh]">
-                    {/* Background Image */}
-                    <img
-                        src={HomeBG}
-                        alt="Home Background"
-                        className="w-full h-full object-cover"
-                    />
-
-                    {/* Black overlay */}
-                    <div className="absolute inset-0 bg-black/40"></div>
-
-                    {/* Optional: Content on top */}
-                    <div className="absolute inset-0 flex items-center justify-center text-white">
-                        <h1 className="text-4xl font-bold"><span className='text-md'>Welcome,</span><br /><span className='text-5xl font-bold'>ShreeXpress</span><br /><span className='text-md'>courier service pvt ltd</span></h1>
-                    </div>
-                </div>
-<<<<<<< HEAD
-=======
-                <Outlet />
->>>>>>> f6dc138 (Git add)
-=======
                 <HeroSection /> {/* This is the Hero section callusnow** component 🔝 */}
                 <QuickAccessSection /> {/* This is the Quick Access section callusnow** component 🔝 */}
                 <AboutUs />
->>>>>>> d257327 (Day-02)
             </Layout>
         </>
     )
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-const Outlet = () => {
-    return (
-        <button>Hello</button>
-    )
-}
-
->>>>>>> f6dc138 (Git add)
-=======
 
 const HeroSection = () => {
 
@@ -194,7 +150,7 @@ const AboutUs = () => {
 
                     <div className="space-y-4 flex flex-col">
                         {/* Feature 1 */}
-                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
+                        <div className="flex items-start gap-4 border-b-2 border-[#ACAFC1]">
                             <FaRocket className="text-[#383185] mt-1" size={20} />
                             <div>
                                 <h4 className="font-semibold text-gray-800">FAST DELIVERY</h4>
@@ -244,5 +200,4 @@ const AboutUs = () => {
 
 
 
->>>>>>> d257327 (Day-02)
 export default HomePage

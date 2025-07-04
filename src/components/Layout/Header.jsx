@@ -47,7 +47,7 @@ const Header = () => {
 
       {/* Mobile View Nav Link's */}
       <button
-        className="md:hidden sm:flex border px-4 text-2xl mx-2 items-center cursor-pointer"
+        className="md:hidden sm:flex border px-4 py-4 text-2xl mx-2 cursor-pointer"
         onClick={() => setIsSidebarOpen(true)}
       >
         <RxHamburgerMenu />

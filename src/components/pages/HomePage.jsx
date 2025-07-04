@@ -157,7 +157,7 @@ const AboutUs = () => {
                 {/* Left Content */}
                 <div>
                     {/* Add Shadow Text */}
-                    <h1 className="font-bold text-wrap text-gray-300 opacity-30 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15 z-10">ABOUT</h1>
+                    <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15 z-10">ABOUT</h1>
                     <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4">ABOUT US</h2>
                     <p className="text-gray-700 mb-6 leading-relaxed text-sm md:text-base z-10">
                         ShreeXpress Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public. ShreeXpress Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.

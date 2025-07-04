@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { TopBar } from '../TopBar'
 import Layout from '../Layout/Layout';
 import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
+import Typewriter from 'typewriter-effect';
 
 const HomeBG = "./assets/HomeBG.jpg"; // Adjust the path as necessary
 
@@ -34,8 +35,22 @@ const HeroSection = () => {
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-center">
                 <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
                     <span className="text-sm md:text-lg block mb-1">Welcome,</span>
-                    <span className="text-4xl md:text-5xl font-bold block">ShreeXpress</span>
-                    <span className="text-sm md:text-lg block mt-1">courier service pvt ltd</span>
+                    <span className="text-4xl md:text-5xl font-bold block">
+                        {/* Added Typewriter Animation */}
+                        <Typewriter options={{
+                            strings: ['ShreeXpress'],
+                            autoStart: true,
+                            loop: true,
+                        }} />
+                    </span>
+                    <span className="text-sm md:text-lg block mt-1">
+                        {/* Added Typewriter Animation */}
+                        <Typewriter options={{
+                            strings: ['Courier Service', 'Pvt. ltd.'],
+                            autoStart: true,
+                            loop: true,
+                        }} />
+                    </span>
                 </h1>
             </div>
         </div>
@@ -150,7 +165,7 @@ const AboutUs = () => {
 
                     <div className="space-y-4 flex flex-col">
                         {/* Feature 1 */}
-                        <div className="flex items-start gap-4 border-b-2 border-[#ACAFC1]">
+                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
                             <FaRocket className="text-[#383185] mt-1" size={20} />
                             <div>
                                 <h4 className="font-semibold text-gray-800">FAST DELIVERY</h4>
@@ -190,7 +205,7 @@ const AboutUs = () => {
                     <img
                         src={AboutUsImg}
                         alt="Courier Van"
-                        className="w-full max-w-md md:max-w-lg object-contain border-l-2"
+                        className="w-full max-w-md md:max-w-lg object-contain"
                     />
                 </div>
             </div>

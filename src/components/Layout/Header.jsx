@@ -28,7 +28,7 @@ const Header = () => {
           alt="ShreeMahavir courier Logo"
         />
       </div>
-      <div className="last:pr-4 first:text-[#E31E25] hidden md:flex">
+      <div className="pr-4 first:text-[#E31E25] hidden md:flex">
         {" "}
         {/* Navigation Component */}
         {navigationLinks.map((link, index) => (
@@ -36,8 +36,7 @@ const Header = () => {
             key={index}
             href={link.path}
             className={`mx-2 uppercase text-[13px] pb-[2px] transition duration-200 border-b-2 border-transparent hover:border-[#E31E25] hover:text-[#E31E25]
-              ${index === 0 ? "text-[#E31E25]" : ""}
-              ${index === navigationLinks.length - 1 ? "pr-4" : ""}`}
+              ${index === 0 ? "text-[#E31E25]" : ""}`}
           >
             {link.name}
           </a>

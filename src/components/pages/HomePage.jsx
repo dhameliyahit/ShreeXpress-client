@@ -41,7 +41,7 @@ const HeroSection = () => {
                     <span className="text-1xl md:text-2xl mt-3 font-bold block">
                         Courier Service pvt. ltd.
                     </span>
-                    <span className="text-sm md:text-lg inline-flex items-center block mt-1">
+                    <span className="text-sm md:text-lg inline-flex items-center mt-1">
                         {/* Added Typewriter Animation */}
                         <span className='mr-2'>We Deliver — </span> <Typewriter options={{
                             strings: [' Fast.', ' Safe.', ' Reliable.'],

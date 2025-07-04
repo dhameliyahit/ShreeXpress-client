@@ -32,21 +32,19 @@ const HeroSection = () => {
                 className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/60"></div>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
                 <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
-                    <span className="text-sm md:text-lg block mb-1">Welcome,</span>
-                    <span className="text-4xl md:text-5xl font-bold block">
-                        {/* Added Typewriter Animation */}
-                        <Typewriter options={{
-                            strings: ['ShreeXpress'],
-                            autoStart: true,
-                            loop: true,
-                        }} />
+                    <span className="text-1xl md:text-3xl block mb-1">Welcome,</span>
+                    <span className="text-5xl md:text-7xl text-[#C52024] font-bold block">
+                        ShreeXpress
                     </span>
-                    <span className="text-sm md:text-lg block mt-1">
+                    <span className="text-1xl md:text-2xl mt-3 font-bold block">
+                        Courier Service pvt. ltd.
+                    </span>
+                    <span className="text-sm md:text-lg inline-flex items-center block mt-1">
                         {/* Added Typewriter Animation */}
-                        <Typewriter options={{
-                            strings: ['Courier Service', 'Pvt. ltd.'],
+                        <span className='mr-2'>We Deliver — </span> <Typewriter options={{
+                            strings: [' Fast.', ' Safe.', ' Reliable.'],
                             autoStart: true,
                             loop: true,
                         }} />
@@ -158,12 +156,14 @@ const AboutUs = () => {
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-5">
                 {/* Left Content */}
                 <div>
+                    {/* Add Shadow Text */}
+                    <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15 z-10">ABOUT</h1>
                     <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4">ABOUT US</h2>
-                    <p className="text-gray-700 mb-6 leading-relaxed text-sm md:text-base">
+                    <p className="text-gray-700 mb-6 leading-relaxed text-sm md:text-base z-10">
                         ShreeXpress Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public. ShreeXpress Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
                     </p>
 
-                    <div className="space-y-4 flex flex-col">
+                    <div className="space-y-4 flex flex-col z-10">
                         {/* Feature 1 */}
                         <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
                             <FaRocket className="text-[#383185] mt-1" size={20} />
@@ -201,7 +201,7 @@ const AboutUs = () => {
                 </div>
 
                 {/* Right Image */}
-                <div className="flex justify-center">
+                <div className="flex justify-end">
                     <img
                         src={AboutUsImg}
                         alt="Courier Van"

@@ -23,18 +23,18 @@ const Header = () => {
     <>
       <TopBar />
       <div className="flex justify-between items-center py-2 shadow-lg">
-        <div className="md:px-5">
-          {" "}
-          {/* Logo & name Component */}
-          <img
-            className="w-60"
-            src={"/assets/ShreeXpressLogo.png"}
-            alt="ShreeMahavir courier Logo"
-          />
-        </div>
+        <Link to="/">
+          <div className="md:px-5">
+            {" "}
+            {/* Logo & name Component */}
+            <img
+              className="w-60"
+              src={"/assets/ShreeXpressLogo.png"}
+              alt="ShreeMahavir courier Logo"
+            />
+          </div>
+        </Link>
         <div className="pr-4 first:text-[#E31E25] hidden md:flex">
-          {" "}
-          {/* Navigation Component */}
           {navigationLinks.map((link, index) => (
             <Link
               key={index}

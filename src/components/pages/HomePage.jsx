@@ -5,7 +5,7 @@ import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
 import Typewriter from 'typewriter-effect';
 import RequestOfPickup from './RequestOfPickup';
 
-const HomeBG = "./assets/HomeBG.jpg"; // Adjust the path as necessary
+
 
 const HomePage = () => {
 
@@ -16,7 +16,7 @@ const HomePage = () => {
                 <HeroSection /> {/* This is the Hero section callusnow** component 🔝 */}
                 <QuickAccessSection /> {/* This is the Quick Access section callusnow** component 🔝 */}
                 <AboutUs />
-                <RequestOfPickup isLayout={false} /> 
+                <RequestOfPickup isLayout={false} />
             </Layout>
         </>
     )
@@ -24,11 +24,17 @@ const HomePage = () => {
 
 
 const HeroSection = () => {
+    const HomeBG = "https://images.unsplash.com/photo-1592838064575-70ed626d3a0e?q=80&w=1118&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    const fallbackBG = "./assets/HomeBG.jpg";
 
     return (
         <div className="relative w-full h-[80vh]">
             <img
                 src={HomeBG}
+                onError={(e) => {
+                    e.target.onerror = null; // prevent infinite loop if fallback also fails
+                    e.target.src = fallbackBG;
+                }}
                 alt="Home Background"
                 className="w-full h-full object-cover"
             />

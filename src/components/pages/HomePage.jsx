@@ -16,6 +16,7 @@ const HomePage = () => {
                 <HeroSection /> {/* This is the Hero section callusnow** component 🔝 */}
                 <QuickAccessSection /> {/* This is the Quick Access section callusnow** component 🔝 */}
                 <AboutUs />
+                <RequestOfPickUp />
             </Layout>
         </>
     )
@@ -157,8 +158,8 @@ const AboutUs = () => {
                 {/* Left Content */}
                 <div>
                     {/* Add Shadow Text */}
-                    <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15 z-10">ABOUT</h1>
-                    <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4">ABOUT US</h2>
+                    <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15">ABOUT</h1>
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">ABOUT US</h2>
                     <p className="text-gray-700 mb-6 leading-relaxed text-sm md:text-base z-10">
                         ShreeXpress Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public. ShreeXpress Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
                     </p>
@@ -213,6 +214,117 @@ const AboutUs = () => {
     );
 };
 
+// add request of pick up component
+// add one feild like enter pincode or city name so find nearest branch in select option
+const RequestOfPickUp = () => {
+
+    const ROPImg = './assets/ROP.png'; // Adjust the path as necessary
+    /*
+        near by brach show commendis 
+        if(name && pincode)
+    */
+    return (
+    
+        <section className="flex flex-col lg:flex-row items-center pb-6 justify-between px-6  bg-white w-full">
+            {/* Left Image */}
+            <div className="lg:w-1/2 w-full flex justify-center mb-8 lg:mb-0">
+                <img
+                    src={ROPImg}
+                    alt="Pickup Delivery Guy"
+                    className="w-[400px] h-auto object-contain"
+                />
+            </div>
+
+            {/* Right Form */}
+            <div className="lg:w-1/2 w-full max-w-xl">
+                <h2 className="text-2xl font-bold mb-2">REQUEST FOR PICKUP</h2>
+                <p className="text-sm text-gray-600 mb-6">
+                    SHREE MAHAVIR EXPRESS SERVICES currently offers doorstep pickup from over 100 Cities in India & connects to more than 4000 pincodes in India.
+                </p>
+
+                <form className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium">Full Name *</label>
+                        <input
+                            type="text"
+                            placeholder="Enter your full name"
+                            className="w-full border border-gray-300 rounded px-3 py-2"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium">Phone No. *</label>
+                        <input
+                            type="tel"
+                            placeholder="Enter your phone number"
+                            className="w-full border border-gray-300 rounded px-3 py-2"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium">Goods Type</label>
+                        <input
+                            type="text"
+                            placeholder="e.g. Documents, Parcel"
+                            className="w-full border border-gray-300 rounded px-3 py-2"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium">Appx. Weight</label>
+                        <input
+                            type="text"
+                            placeholder="e.g. 2 KG"
+                            className="w-full border border-gray-300 rounded px-3 py-2"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium">Address *</label>
+                        <input
+                            type="text"
+                            placeholder="Enter full address"
+                            className="w-full border border-gray-300 rounded px-3 py-2"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium">Nearest Branch *</label>
+                        <select className="w-full border border-gray-300 rounded px-3 py-2">
+                            <option>ABU ROAD</option>
+                            <option>Ahmedabad</option>
+                            <option>Mumbai</option>
+                            {/* Add more options if needed */}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium">Enter Captcha *</label>
+                        <div className="flex items-center gap-4">
+                            <input
+                                type="text"
+                                placeholder="Enter captcha"
+                                className="w-full border border-gray-300 rounded px-3 py-2"
+                            />
+                            <img
+                                src="/your-captcha-path/captcha-image.png"
+                                alt="Captcha"
+                                className="h-10 w-auto"
+                            />
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="bg-purple-700 text-white px-5 py-2 rounded hover:bg-purple-800 transition"
+                    >
+                        SUBMIT REQUEST
+                    </button>
+                </form>
+            </div>
+        </section>
+    );
+};
 
 
 export default HomePage

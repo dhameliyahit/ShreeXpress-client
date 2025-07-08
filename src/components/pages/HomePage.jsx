@@ -1,20 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TopBar } from '../TopBar'
 import Layout from '../Layout/Layout';
 import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
 import Typewriter from 'typewriter-effect';
 import RequestOfPickup from './RequestOfPickup';
-
-
+import AOS from 'aos'
 
 const HomePage = () => {
-
+    // AOS initialize
+    useEffect(() => {
+        AOS.init();
+    }, []);
 
     return (
         <>
             <Layout>
-                <HeroSection /> {/* This is the Hero section callusnow** component 🔝 */}
-                <QuickAccessSection /> {/* This is the Quick Access section callusnow** component 🔝 */}
+                <HeroSection /> {/* This is the Hero section */}
+                <QuickAccessSection /> {/* This is the Quick Access section */}
                 <AboutUs />
                 <RequestOfPickup isLayout={false} />
             </Layout>
@@ -63,6 +65,7 @@ const HeroSection = () => {
 };
 
 const QuickAccessSection = () => {
+    
     const branchList = [
         "Surat - Ring Road Branch",
         "Ahmedabad - CG Road Branch",
@@ -92,7 +95,7 @@ const QuickAccessSection = () => {
         <section className="bg-white backdrop-blur-md py-3 px-4 md:px-10">
             <div className="max-w-5xl mx-auto grid grid-cols-1 text-lg md:grid-cols-2 gap-6 bg-white/60 p-6 md:p-10 border border-white/20">
                 {/* Track Consignment */}
-                <div className='shadow-2xl p-5 border border-[#383185]'>
+                <div className='shadow-2xl p-5 border border-[#383185]' data-aos="zoom-in-right">
                     <div className='mb-2 flex items-center'>
                         <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
                         <h2 className="font-semibold text-gray-800">Track Your Consignment</h2>
@@ -114,7 +117,7 @@ const QuickAccessSection = () => {
                 </div>
 
                 {/* Find Outlet */}
-                <div className="relative shadow-2xl p-5 border border-[#383185]">
+                <div className="relative shadow-2xl p-5 border border-[#383185]" data-aos="zoom-in-left">
                     <div className='mb-2 flex items-center'>
                         <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
                         <h2 className="font-semibold text-gray-800">Find Our Outlet</h2>
@@ -162,7 +165,7 @@ const AboutUs = () => {
         <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187]">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-5">
                 {/* Left Content */}
-                <div>
+                <div data-aos="fade-right">
                     {/* Add Shadow Text */}
                     <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15">ABOUT</h1>
                     <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">ABOUT US</h2>
@@ -208,7 +211,7 @@ const AboutUs = () => {
                 </div>
 
                 {/* Right Image */}
-                <div className="flex lg:justify-end justify-center">
+                <div className="flex lg:justify-end justify-center" data-aos="fade-left">
                     <img
                         src={AboutUsImg}
                         alt="Courier Van"

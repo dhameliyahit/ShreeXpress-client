@@ -92,10 +92,10 @@ const QuickAccessSection = () => {
     };
 
     return (
-        <section className="bg-white backdrop-blur-md py-3 px-4 md:px-10">
-            <div className="max-w-5xl mx-auto grid grid-cols-1 text-lg md:grid-cols-2 gap-6 bg-white/60 p-6 md:p-10 border border-white/20">
+        <section className="bg-white backdrop-blur-md py-3 px-4 md:px-10 ">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 text-lg md:grid-cols-2 gap-6 bg-white/60 p-4 md:p-10 border border-white/20">
                 {/* Track Consignment */}
-                <div className='shadow-2xl p-5 border border-[#383185]' data-aos="zoom-in-right">
+                <div className='shadow-2xl p-5 border border-[#383185] transition-all' data-aos="zoom-in-right">
                     <div className='mb-2 flex items-center'>
                         <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
                         <h2 className="font-semibold text-gray-800">Track Your Consignment</h2>
@@ -117,7 +117,7 @@ const QuickAccessSection = () => {
                 </div>
 
                 {/* Find Outlet */}
-                <div className="relative shadow-2xl p-5 border border-[#383185]" data-aos="zoom-in-left">
+                <div className="relative shadow-2xl p-5 border border-[#383185] transition-all" data-aos="zoom-in-left">
                     <div className='mb-2 flex items-center'>
                         <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
                         <h2 className="font-semibold text-gray-800">Find Our Outlet</h2>
@@ -162,8 +162,8 @@ const QuickAccessSection = () => {
 const AboutUs = () => {
     const AboutUsImg = './assets/AboutUsImg.png'
     return (
-        <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187]">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-5">
+        <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187] ">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-2 sm:p-5">
                 {/* Left Content */}
                 <div data-aos="fade-right">
                     {/* Add Shadow Text */}
@@ -215,7 +215,7 @@ const AboutUs = () => {
                     <img
                         src={AboutUsImg}
                         alt="Courier Van"
-                        className="w-full max-w-md md:max-w-lg object-contain"
+                        className="w-full max-w-xl object-contain"
                     />
                 </div>
             </div>

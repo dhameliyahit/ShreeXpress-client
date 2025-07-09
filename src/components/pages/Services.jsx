@@ -70,7 +70,7 @@ export default function Services() {
 
     return (
         <Layout>
-            <section className="px-4 py-10 sm:px-6 lg:px-12">
+            <section className="px-4 py-10 sm:px-6 lg:px-12 ">
                 <div className="max-w-7xl mx-auto gap-10 items-center md:p-5">
                     <div>
                         {/* Add Shadow Text */}

@@ -11,19 +11,19 @@ export default function RequestOfPickup({ isLayout = true }) {
     }, []);
 
     const content = (
-        <section className="flex flex-col lg:flex-row mb-10 items-center pb-6 justify-evenly px-6 border-t border-gray-300 bg-white w-full">
+        <section className="flex flex-col lg:flex-row mb-10 items-center pb-6 justify-evenly px-6 border-t border-gray-300 bg-white w-full ">
             {/* Left Image */}
-            <div className="flex justify-center lg:mb-0 mt-10" data-aos="fade-right">
+            <div className="flex justify-center lg:mb-0 mt-10 transition-all" data-aos="fade-right">
                 <img
                     src={ROPImg}
                     alt="Pickup Delivery Guy"
-                    className="object-contain border-b-2 max-h-[500px]"
+                    className="object-contain border-b-2 lg:max-h-full max-h-[400px]"
                 />
             </div>
 
             {/* Right Form */}
-            <div className="w-full max-w-xl flex-1 lg:mt-10" data-aos="fade-left">
-                <h2 className="text-2xl font-bold mb-2">REQUEST FOR PICKUP</h2>
+            <div className="w-full max-w-xl flex-1 lg:mt-10 transition-all" data-aos="fade-left">
+                <h2 className="text-2xl font-bold mb-2 text-center lg:text-left">REQUEST FOR PICKUP</h2>
                 <p className="text-sm text-gray-600 mb-6">
                     SHREEXPRESS COURIER SERVICES currently offers doorstep pickup from over 100 Cities in India & connects to more than 4000 pincodes in India.
                 </p>
@@ -34,7 +34,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                         <input
                             type="text"
                             placeholder="Enter your full name"
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
@@ -43,7 +43,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                         <input
                             type="tel"
                             placeholder="Enter your phone number"
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
@@ -52,7 +52,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                         <input
                             type="number"
                             placeholder="Enter Pincode"
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
@@ -62,7 +62,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                             <input
                                 type="text"
                                 placeholder="e.g. Documents, Parcel"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -71,7 +71,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                             <input
                                 type="text"
                                 placeholder="e.g. 2 KG"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
                     </div>
@@ -80,13 +80,13 @@ export default function RequestOfPickup({ isLayout = true }) {
                         <label className="block text-sm font-medium">Address *</label>
                         <textarea
                             placeholder="Enter full address" autoComplete='address'
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium">Nearest Branch *</label>
-                        <select className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2">
+                        <select className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3">
                             <option>ABU ROAD</option>
                             <option>Ahmedabad</option>
                             <option>Mumbai</option>
@@ -94,7 +94,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                         </select>
                     </div>
 
-                    <button type="submit" className="bg-purple-700 text-white px-5 py-2 rounded hover:bg-purple-800 transition">
+                    <button type="submit" className="bg-purple-700 text-white px-5 py-3 rounded hover:bg-purple-800 transition">
                         SUBMIT REQUEST
                     </button>
                 </form>

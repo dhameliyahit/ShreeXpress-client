@@ -22,7 +22,7 @@ export default function About() {
 const AboutUs = () => {
     const AboutUsImg = './assets/AboutUsImg.png'
     return (
-        <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187]">
+        <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187] ">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-5">
                 {/* Left Content */}
                 <div data-aos="fade-right">

@@ -1,19 +1,12 @@
-import { useEffect } from "react";
 import Layout from "../Layout/Layout";
-import AOS from 'aos'
 
 export default function RequestOfPickup({ isLayout = true }) {
     const ROPImg = './assets/ROP.png'; // Adjust the path as necessary
 
-    // AOS intialize
-    useEffect(() => {
-        AOS.init()
-    }, []);
-
     const content = (
         <section className="flex flex-col lg:flex-row mb-10 items-center pb-6 justify-evenly px-6 border-t border-gray-300 bg-white w-full">
             {/* Left Image */}
-            <div className="flex justify-center lg:mb-0 mt-10" data-aos="fade-right">
+            <div className="flex justify-center lg:mb-0 mt-10">
                 <img
                     src={ROPImg}
                     alt="Pickup Delivery Guy"
@@ -22,7 +15,7 @@ export default function RequestOfPickup({ isLayout = true }) {
             </div>
 
             {/* Right Form */}
-            <div className="w-full max-w-xl flex-1 lg:mt-10" data-aos="fade-left">
+            <div className="w-full max-w-xl flex-1 lg:mt-10">
                 <h2 className="text-2xl font-bold mb-2">REQUEST FOR PICKUP</h2>
                 <p className="text-sm text-gray-600 mb-6">
                     SHREEXPRESS COURIER SERVICES currently offers doorstep pickup from over 100 Cities in India & connects to more than 4000 pincodes in India.

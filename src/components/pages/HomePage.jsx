@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { TopBar } from '../TopBar'
 import Layout from '../Layout/Layout';
 import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
 import Typewriter from 'typewriter-effect';
 import RequestOfPickup from './RequestOfPickup';
-import AOS from 'aos'
+
+const HomeBG = "./assets/HomeBG.jpg"; // Adjust the path as necessary
 
 const HomePage = () => {
-    // AOS initialize
-    useEffect(() => {
-        AOS.init();
-    }, []);
+
 
     return (
         <>
             <Layout>
-                <HeroSection /> {/* This is the Hero section */}
-                <QuickAccessSection /> {/* This is the Quick Access section */}
+                <HeroSection /> {/* This is the Hero section callusnow** component 🔝 */}
+                <QuickAccessSection /> {/* This is the Quick Access section callusnow** component 🔝 */}
                 <AboutUs />
-                <RequestOfPickup isLayout={false} />
+                <RequestOfPickup isLayout={false} /> 
             </Layout>
         </>
     )
@@ -26,17 +24,11 @@ const HomePage = () => {
 
 
 const HeroSection = () => {
-    const HomeBG = "https://images.unsplash.com/photo-1592838064575-70ed626d3a0e?q=80&w=1118&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-    const fallbackBG = "./assets/HomeBG.jpg";
 
     return (
         <div className="relative w-full h-[80vh]">
             <img
                 src={HomeBG}
-                onError={(e) => {
-                    e.target.onerror = null; // prevent infinite loop if fallback also fails
-                    e.target.src = fallbackBG;
-                }}
                 alt="Home Background"
                 className="w-full h-full object-cover"
             />
@@ -65,7 +57,6 @@ const HeroSection = () => {
 };
 
 const QuickAccessSection = () => {
-    
     const branchList = [
         "Surat - Ring Road Branch",
         "Ahmedabad - CG Road Branch",
@@ -95,7 +86,7 @@ const QuickAccessSection = () => {
         <section className="bg-white backdrop-blur-md py-3 px-4 md:px-10">
             <div className="max-w-5xl mx-auto grid grid-cols-1 text-lg md:grid-cols-2 gap-6 bg-white/60 p-6 md:p-10 border border-white/20">
                 {/* Track Consignment */}
-                <div className='shadow-2xl p-5 border border-[#383185]' data-aos="zoom-in-right">
+                <div className='shadow-2xl p-5 border border-[#383185]'>
                     <div className='mb-2 flex items-center'>
                         <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
                         <h2 className="font-semibold text-gray-800">Track Your Consignment</h2>
@@ -117,7 +108,7 @@ const QuickAccessSection = () => {
                 </div>
 
                 {/* Find Outlet */}
-                <div className="relative shadow-2xl p-5 border border-[#383185]" data-aos="zoom-in-left">
+                <div className="relative shadow-2xl p-5 border border-[#383185]">
                     <div className='mb-2 flex items-center'>
                         <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
                         <h2 className="font-semibold text-gray-800">Find Our Outlet</h2>
@@ -165,7 +156,7 @@ const AboutUs = () => {
         <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187]">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-5">
                 {/* Left Content */}
-                <div data-aos="fade-right">
+                <div>
                     {/* Add Shadow Text */}
                     <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15">ABOUT</h1>
                     <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">ABOUT US</h2>
@@ -211,7 +202,7 @@ const AboutUs = () => {
                 </div>
 
                 {/* Right Image */}
-                <div className="flex lg:justify-end justify-center" data-aos="fade-left">
+                <div className="flex lg:justify-end justify-center">
                     <img
                         src={AboutUsImg}
                         alt="Courier Van"

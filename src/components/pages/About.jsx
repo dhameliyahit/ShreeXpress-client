@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Layout from '../Layout/Layout'
 import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
-import AOS from 'aos';
 
 export default function About() {
-    // AOS initialize
-    useEffect(() => {
-        AOS.init();
-    }, []);
-    
     return (
         <>
             <Layout>
@@ -25,7 +19,7 @@ const AboutUs = () => {
         <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187]">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-5">
                 {/* Left Content */}
-                <div data-aos="fade-right">
+                <div>
                     {/* Add Shadow Text */}
                     <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15">ABOUT</h1>
                     <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">ABOUT US</h2>
@@ -71,7 +65,7 @@ const AboutUs = () => {
                 </div>
 
                 {/* Right Image */}
-                <div className="flex lg:justify-end justify-center" data-aos="fade-left">
+                <div className="flex lg:justify-end justify-center">
                     <img
                         src={AboutUsImg}
                         alt="Courier Van"
@@ -110,7 +104,7 @@ const CompanyDetails = () => {
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-center text-gray-500">
-                <div className="border p-6 shadow-sm" data-aos="zoom-in-up">
+                <div className="border p-6 shadow-sm">
                     <h3 className="text-md font-bold uppercase mb-2">Vision</h3>
                     <p className="text-sm leading-relaxed">
                         We will achieve leadership in the Indian courier industry by providing integrated logistics
@@ -119,7 +113,7 @@ const CompanyDetails = () => {
                     </p>
                 </div>
 
-                <div className="border p-6 shadow-sm" data-aos="zoom-in-up">
+                <div className="border p-6 shadow-sm">
                     <h3 className="text-md font-bold uppercase mb-2">Mission</h3>
                     <p className="text-sm leading-relaxed">
                         At <span className="font-bold">ShreeXpress Courier Service</span> it is our obligation to provide our clients
@@ -128,7 +122,7 @@ const CompanyDetails = () => {
                     </p>
                 </div>
 
-                <div className="border p-6 shadow-sm" data-aos="zoom-in-up">
+                <div className="border p-6 shadow-sm">
                     <h3 className="text-md font-bold uppercase mb-2">Values</h3>
                     <p className="text-sm leading-relaxed">
                         <span className="font-bold">ShreeXpress Courier Service</span> is a fair employer who employs people from

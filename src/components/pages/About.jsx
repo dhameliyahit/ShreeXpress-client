@@ -110,7 +110,7 @@ const CompanyDetails = () => {
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-center text-gray-500">
-                <div className="border p-6 shadow-sm" data-aos="zoom-in-up">
+                <div className="border p-6 shadow-md hover:bg-[#0B6BD3] hover:text-[white] transition-all" data-aos="zoom-in-up">
                     <h3 className="text-md font-bold uppercase mb-2">Vision</h3>
                     <p className="text-sm leading-relaxed">
                         We will achieve leadership in the Indian courier industry by providing integrated logistics
@@ -119,8 +119,8 @@ const CompanyDetails = () => {
                     </p>
                 </div>
 
-                <div className="border p-6 shadow-sm" data-aos="zoom-in-up">
-                    <h3 className="text-md font-bold uppercase mb-2">Mission</h3>
+                <div className="border p-6 shadow-md hover:bg-[#0B6BD3] hover:text-[white] transition-all" data-aos="zoom-in-up">
+                    <h3 className="text-md font-bold uppercase mb-2 ">Mission</h3>
                     <p className="text-sm leading-relaxed">
                         At <span className="font-bold">ShreeXpress Courier Service</span> it is our obligation to provide our clients
                         with the most advanced high-quality delivery solutions available in the courier industry today. The
@@ -128,7 +128,7 @@ const CompanyDetails = () => {
                     </p>
                 </div>
 
-                <div className="border p-6 shadow-sm" data-aos="zoom-in-up">
+                <div className="border p-6 shadow-md hover:bg-[#0B6BD3] hover:text-[white] transition-all" data-aos="zoom-in-up">
                     <h3 className="text-md font-bold uppercase mb-2">Values</h3>
                     <p className="text-sm leading-relaxed">
                         <span className="font-bold">ShreeXpress Courier Service</span> is a fair employer who employs people from

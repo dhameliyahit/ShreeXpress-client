@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import AOS from 'aos'
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function ContactUs() {
     // AOS intialize
@@ -17,7 +20,32 @@ export default function ContactUs() {
 }
 
 const ContactForm = () => {
+    const { register, handleSubmit, reset } = useForm();
+    const [loading, setLoading] = useState(false);
     const ContactUsImg = '/assets/contactus.png';
+
+    const backend_url = import.meta.env.VITE_BACKEND_URL;
+
+    const onSubmit = async (data) => {
+        // console.log(data);
+        try {
+            setLoading(true)
+            const res = await axios.post(`${backend_url}/api/v1/lead/contact`, data)
+            console.log("Server Response:", res.data);
+            setLoading(false)
+            reset();
+        } catch (error) {
+            toast.error(error.message || "Something went wrong", {
+                style: {
+                    fontWeight: "bold",
+                    fontSize: "17px",
+                    color: "black"
+                }
+            }); // Show error in toasts
+            console.log(error);
+            setLoading(false);
+        }
+    }
 
     return (
         <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187] ">
@@ -41,11 +69,12 @@ const ContactForm = () => {
 
                 {/* Right Form */}
                 <div className="w-full max-w-xl transition-all" data-aos="fade-left">
-                    <form className="space-y-4 mt-10">
+                    <form className="space-y-4 mt-10" onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <label className="block text-sm font-medium">Full Name *</label>
                             <input
                                 type="text"
+                                {...register("full_name")}
                                 placeholder="Enter your full name"
                                 className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
@@ -55,6 +84,7 @@ const ContactForm = () => {
                             <label className="block text-sm font-medium">Phone No. *</label>
                             <input
                                 type="tel"
+                                {...register("phone_number")}
                                 placeholder="Enter your phone number"
                                 className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
@@ -64,6 +94,7 @@ const ContactForm = () => {
                             <label className="block text-sm font-medium">Email *</label>
                             <input
                                 type="email"
+                                {...register("email")}
                                 placeholder="Enter your Email"
                                 className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
@@ -73,6 +104,7 @@ const ContactForm = () => {
                             <label className="block text-sm font-medium">Subject *</label>
                             <input
                                 type="text"
+                                {...register("subject")}
                                 placeholder="Enter your Subject"
                                 className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
@@ -81,13 +113,14 @@ const ContactForm = () => {
                         <div>
                             <label className="block text-sm font-medium">Message *</label>
                             <textarea
+                                {...register("message")}
                                 placeholder="Enter your Subject"
                                 className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
-                        <button type="submit" className="bg-purple-700 text-white px-5 py-3 rounded hover:bg-purple-800 transition">
-                            SUBMIT
+                        <button type="submit" className="bg-purple-700 text-white cursor-pointer px-5 py-3 rounded hover:bg-purple-800 transition">
+                            {loading ? 'Submitting...' : 'SUBMIT'}
                         </button>
                     </form>
                 </div>

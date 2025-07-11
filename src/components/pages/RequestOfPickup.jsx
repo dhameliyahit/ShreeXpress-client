@@ -1,33 +1,69 @@
+import { useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
+import { useForm } from 'react-hook-form';
+import AOS from 'aos'
+import axios from 'axios';
+import { toast } from "react-toastify";
 
 export default function RequestOfPickup({ isLayout = true }) {
     const ROPImg = './assets/ROP.png'; // Adjust the path as necessary
+    const { register, handleSubmit, reset } = useForm();
+    const [loading, setLoading] = useState(false)
+
+    const backend_url = import.meta.env.VITE_BACKEND_URL;
+
+    const onSubmit = async (data) => {
+        // console.log(data);
+        try {
+            setLoading(true)
+            const res = await axios.post(`${backend_url}/api/v1/lead/pickup`, data)
+            console.log("Server Response:", res.data);
+            setLoading(false)
+            reset();
+        } catch (error) {
+            toast.error(error.message || "Something went wrong", {
+                style: {
+                    fontWeight: "bold",
+                    fontSize: "17px",
+                    color: "black"
+                }
+            }); // Show error in toasts
+            console.log(error);
+            setLoading(false);
+        }
+    }
+
+    // AOS intialize
+    useEffect(() => {
+        AOS.init()
+    }, []);
 
     const content = (
-        <section className="flex flex-col lg:flex-row mb-10 items-center pb-6 justify-evenly px-6 border-t border-gray-300 bg-white w-full">
+        <section className="flex flex-col lg:flex-row mb-10 items-center pb-6 justify-evenly px-6 border-t border-gray-300 bg-white w-full ">
             {/* Left Image */}
-            <div className="flex justify-center lg:mb-0 mt-10">
+            <div className="flex justify-center lg:mb-0 mt-10 transition-all" data-aos="fade-right">
                 <img
                     src={ROPImg}
                     alt="Pickup Delivery Guy"
-                    className="object-contain border-b-2 max-h-[500px]"
+                    className="object-contain border-b-2 lg:max-h-full max-h-[400px]"
                 />
             </div>
 
             {/* Right Form */}
-            <div className="w-full max-w-xl flex-1 lg:mt-10">
-                <h2 className="text-2xl font-bold mb-2">REQUEST FOR PICKUP</h2>
+            <div className="w-full max-w-xl flex-1 lg:mt-10 transition-all" data-aos="fade-left">
+                <h2 className="text-2xl font-bold mb-2 text-center lg:text-left">REQUEST FOR PICKUP</h2>
                 <p className="text-sm text-gray-600 mb-6">
                     SHREEXPRESS COURIER SERVICES currently offers doorstep pickup from over 100 Cities in India & connects to more than 4000 pincodes in India.
                 </p>
 
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label className="block text-sm font-medium">Full Name *</label>
                         <input
                             type="text"
+                            {...register("full_name")}
                             placeholder="Enter your full name"
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
@@ -35,8 +71,9 @@ export default function RequestOfPickup({ isLayout = true }) {
                         <label className="block text-sm font-medium">Phone No. *</label>
                         <input
                             type="tel"
+                            {...register("phone_number")}
                             placeholder="Enter your phone number"
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
@@ -44,8 +81,9 @@ export default function RequestOfPickup({ isLayout = true }) {
                         <label className="block text-sm font-medium">PinCode *</label>
                         <input
                             type="number"
+                            {...register("pincode")}
                             placeholder="Enter Pincode"
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
@@ -54,8 +92,9 @@ export default function RequestOfPickup({ isLayout = true }) {
                             <label className="block text-sm font-medium">Goods Type</label>
                             <input
                                 type="text"
+                                {...register("goods_type")}
                                 placeholder="e.g. Documents, Parcel"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -63,8 +102,9 @@ export default function RequestOfPickup({ isLayout = true }) {
                             <label className="block text-sm font-medium">Appx. Weight</label>
                             <input
                                 type="text"
+                                {...register("approx_weight")}
                                 placeholder="e.g. 2 KG"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                                className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
                     </div>
@@ -72,14 +112,15 @@ export default function RequestOfPickup({ isLayout = true }) {
                     <div>
                         <label className="block text-sm font-medium">Address *</label>
                         <textarea
+                            {...register("address")}
                             placeholder="Enter full address" autoComplete='address'
-                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2"
+                            className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium">Nearest Branch *</label>
-                        <select className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-2">
+                        <select className="w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3" {...register("nearest_branch")}>
                             <option>ABU ROAD</option>
                             <option>Ahmedabad</option>
                             <option>Mumbai</option>
@@ -87,8 +128,8 @@ export default function RequestOfPickup({ isLayout = true }) {
                         </select>
                     </div>
 
-                    <button type="submit" className="bg-purple-700 text-white px-5 py-2 rounded hover:bg-purple-800 transition">
-                        SUBMIT REQUEST
+                    <button type="submit" className="bg-purple-700 text-white px-5 cursor-pointer py-3 rounded hover:bg-purple-800 transition">
+                        {loading ? "Submitting..." : "SUBMIT REQUEST"}
                     </button>
                 </form>
             </div>

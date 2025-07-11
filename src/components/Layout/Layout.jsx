@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     return (
         <>
             <Header />
-            <main className="w-full min-h-[80vh]">
+            <main className="w-full min-h-[80vh] overflow-hidden">
                 {children}
             </main>
             <Footer />

@@ -5,10 +5,11 @@ export default function PageNotFound() {
     const PageNotFoundImg = 'https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif'
     return (
         <div className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+            {/* PageNotFound GIF */}
             <img
-                src={PageNotFoundImg} // Replace with your image path
+                src={PageNotFoundImg}
                 alt="Page Not Found"
-                className="max-w-sm md:max-w-md mb-6"
+                className="max-w-full md:max-w-lg mb-6"
             />
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Oops! Page Not Found</h1>
             <p className="text-gray-600 mb-6">The page you're looking for doesn't exist.</p>

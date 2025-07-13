@@ -23,11 +23,11 @@ const AboutUs = () => {
     const AboutUsImg = './assets/AboutUsImg.png'
     return (
         <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187] ">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-5">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-2 sm:p-5">
                 {/* Left Content */}
                 <div data-aos="fade-right">
                     {/* Add Shadow Text */}
-                    <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15">ABOUT</h1>
+                    <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5">ABOUT</h1>
                     <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">ABOUT US</h2>
                     <p className="text-gray-700 mb-6 leading-relaxed text-sm md:text-base z-10">
                         ShreeXpress Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public. ShreeXpress Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
@@ -91,7 +91,7 @@ const directors = [
 
 const CompanyDetails = () => {
     return (
-        <div className="bg-white max-w-7xl mx-auto gap-10 my-5 items-center p-5 border-t-1 border-[#393187]">
+        <div className="bg-white max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 border-[#393187]">
             <h2 className="text-xl font-bold uppercase mb-4">Directors of ShreeXpress Courier Service</h2>
             <ul className="mb-6 space-y-1 text-gray-500">
                 {directors.map((name, idx) => (
@@ -109,9 +109,13 @@ const CompanyDetails = () => {
                 experience of the Courier Industry and now it is spread across India.
             </p>
 
-            <div className="grid md:grid-cols-3 gap-6 text-center text-gray-500">
-                <div className="border p-6 shadow-sm hover:bg-[#0B6BD3] hover:text-white">
-                    <div className="border p-6 shadow-md hover:bg-[#0B6BD3] hover:text-[white] transition-all" data-aos="zoom-in-up">
+            <div className="grid md:grid-cols-3 gap-6 text-center text-gray-700">
+                <div className="relative border rounded-lg sm:p-6 p-2 m-0 shadow-md group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                    {/* background layer */}
+                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
+
+                    {/* Content */}
+                    <div className="relative z-10 group-hover:text-white transition-all">
                         <h3 className="text-md font-bold uppercase mb-2">Vision</h3>
                         <p className="text-sm leading-relaxed">
                             We will achieve leadership in the Indian courier industry by providing integrated logistics
@@ -119,28 +123,35 @@ const CompanyDetails = () => {
                             responsive, and a cohesive organization.
                         </p>
                     </div>
+                </div>
 
-                    <div className="border p-6 shadow-sm hover:bg-[#0B6BD3] hover:text-white">
+                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md m-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                    {/* background layer */}
+                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
+
+                    {/* Content */}
+                    <div className="relative z-10 group-hover:text-white transition-all">
                         <h3 className="text-md font-bold uppercase mb-2">Mission</h3>
-                        <div className="border p-6 shadow-md hover:bg-[#0B6BD3] hover:text-[white] transition-all" data-aos="zoom-in-up">
-                            <h3 className="text-md font-bold uppercase mb-2 ">Mission</h3>
-                            <p className="text-sm leading-relaxed">
-                                At <span className="font-bold">ShreeXpress Courier Service</span> it is our obligation to provide our clients
-                                with the most advanced high-quality delivery solutions available in the courier industry today. The
-                                operations model represents some of the best value to our clients and customers.
-                            </p>
-                        </div>
+                        <p className="text-sm leading-relaxed">
+                            At <span className="font-bold">ShreeXpress Courier Service</span> it is our obligation to provide our clients
+                            with the most advanced high-quality delivery solutions available in the courier industry today. The
+                            operations model represents some of the best value to our clients and customers.
+                        </p>
+                    </div>
+                </div>
 
-                        <div className="border p-6 shadow-sm hover:bg-[#0B6BD3] hover:text-white">
-                            <div className="border p-6 shadow-md hover:bg-[#0B6BD3] hover:text-[white] transition-all" data-aos="zoom-in-up">
-                                <h3 className="text-md font-bold uppercase mb-2">Values</h3>
-                                <p className="text-sm leading-relaxed">
-                                    <span className="font-bold">ShreeXpress Courier Service</span> is a fair employer who employs people from
-                                    various cultures and regions. Built on the values that define the way they do business,
-                                    ShreeXpress believes in empowering people to ensure accountability and responsiveness.
-                                </p>
-                            </div>
-                        </div>
+                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md m-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                    {/* background layer */}
+                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
+
+                    {/* Content */}
+                    <div className="relative z-10 group-hover:text-white transition-all">
+                        <h3 className="text-md font-bold uppercase mb-2">Values</h3>
+                        <p className="text-sm leading-relaxed">
+                            <span className="font-bold">ShreeXpress Courier Service</span> is a fair employer who employs people from
+                            various cultures and regions. Built on the values that define the way they do business,
+                            ShreeXpress believes in empowering people to ensure accountability and responsiveness.
+                        </p>
                     </div>
                 </div>
             </div>

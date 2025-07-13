@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 export default function RequestOfPickup({ isLayout = true }) {
-    const ROPImg = './assets/ROP.png'; // Adjust the path as necessary
+    const ROPImg = './assets/ROP_2.png'; // Adjust the path as necessary
     const { register, handleSubmit, reset } = useForm();
     const [loading, setLoading] = useState(false)
 
@@ -35,22 +35,22 @@ export default function RequestOfPickup({ isLayout = true }) {
 
     // AOS intialize
     useEffect(() => {
-        AOS.init()
+        AOS.init();
     }, []);
 
     const content = (
-        <section className="flex flex-col lg:flex-row mb-10 items-center pb-6 justify-evenly px-6 border-t border-gray-300 bg-white w-full ">
+        <section className="max-w-7xl mx-auto mb-5 grid grid-cols-1 md:grid-cols-2 items-center p-2 sm:p-5 py-12 px-4 md:px-10 border-t border-gray-300 bg-white w-full ">
             {/* Left Image */}
-            <div className="flex justify-center lg:mb-0 mt-10 transition-all" data-aos="fade-right">
+            <div className="flex justify-center lg:mb-0 transition-all lg:mt-10" data-aos="fade-right">
                 <img
                     src={ROPImg}
                     alt="Pickup Delivery Guy"
-                    className="object-contain border-b-2 lg:max-h-full max-h-[400px]"
+                    className="w-full max-w-md object-contain transition-all ease-linear"
                 />
             </div>
 
             {/* Right Form */}
-            <div className="w-full max-w-xl flex-1 lg:mt-10 transition-all" data-aos="fade-left">
+            <div className="w-full max-w-xl flex-1 mx-auto lg:mt-10 transition-all" data-aos="fade-left">
                 <h2 className="text-2xl font-bold mb-2 text-center lg:text-left">REQUEST FOR PICKUP</h2>
                 <p className="text-sm text-gray-600 mb-6">
                     SHREEXPRESS COURIER SERVICES currently offers doorstep pickup from over 100 Cities in India & connects to more than 4000 pincodes in India.

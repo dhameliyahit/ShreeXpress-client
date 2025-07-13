@@ -15,8 +15,8 @@ const Header = () => {
         { name: "Services", path: "/services" },
         { name: "Pickup Request", path: "/pickup-request" },
         { name: "Contact Us", path: "/contact-us" },
-        { name: "Network", path: "/network" },
         { name: "Franchisee Inquiry", path: "/franchisee-inquiry" },
+        { name: "Network", path: "/network" },
         { name: "Complain", path: "/complain" },
     ];
 

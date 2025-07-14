@@ -22,7 +22,7 @@ export default function About() {
 const AboutUs = () => {
     const AboutUsImg = './assets/AboutUsImg.png'
     return (
-        <section className="bg-white py-12 px-4 md:px-10 border-t-2 border-[#393187] ">
+        <section className="py-12 px-4 md:px-10">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-2 sm:p-5">
                 {/* Left Content */}
                 <div data-aos="fade-right">
@@ -84,9 +84,9 @@ const AboutUs = () => {
 };
 
 const directors = [
-    "DHAMELIYA HEET",
-    "BALAR CRENS",
-    "DHANANI HARSH",
+    { name: "DHAMELIYA HEET", phone: 1234567890 },
+    { name: "BALAR CRENS", phone: 9825515123 },
+    { name: "DHANANI HARSH", phone: 1234567890 }
 ];
 
 const CompanyDetails = () => {
@@ -94,10 +94,10 @@ const CompanyDetails = () => {
         <div className="bg-white max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 border-[#393187]">
             <h2 className="text-xl font-bold uppercase mb-4">Directors of ShreeXpress Courier Service</h2>
             <ul className="mb-6 space-y-1 text-gray-500">
-                {directors.map((name, idx) => (
+                {directors.map((director, idx) => (
                     <li key={idx} className="flex items-center gap-2">
                         <span className="text-gray-500">➤</span>
-                        {name}
+                        {director.name}
                     </li>
                 ))}
             </ul>
@@ -115,7 +115,7 @@ const CompanyDetails = () => {
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
                     {/* Content */}
-                    <div className="relative z-10 group-hover:text-white transition-all">
+                    <div className="relative z-10 group-hover:text-white m-0 transition-all">
                         <h3 className="text-md font-bold uppercase mb-2">Vision</h3>
                         <p className="text-sm leading-relaxed">
                             We will achieve leadership in the Indian courier industry by providing integrated logistics
@@ -130,7 +130,7 @@ const CompanyDetails = () => {
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
                     {/* Content */}
-                    <div className="relative z-10 group-hover:text-white transition-all">
+                    <div className="relative z-10 group-hover:text-white m-0 transition-all">
                         <h3 className="text-md font-bold uppercase mb-2">Mission</h3>
                         <p className="text-sm leading-relaxed">
                             At <span className="font-bold">ShreeXpress Courier Service</span> it is our obligation to provide our clients
@@ -145,7 +145,7 @@ const CompanyDetails = () => {
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
                     {/* Content */}
-                    <div className="relative z-10 group-hover:text-white transition-all">
+                    <div className="relative z-10 group-hover:text-white m-0 transition-all">
                         <h3 className="text-md font-bold uppercase mb-2">Values</h3>
                         <p className="text-sm leading-relaxed">
                             <span className="font-bold">ShreeXpress Courier Service</span> is a fair employer who employs people from

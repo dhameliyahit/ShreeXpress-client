@@ -39,7 +39,7 @@ export default function RequestOfPickup({ isLayout = true }) {
     }, []);
 
     const content = (
-        <section className="max-w-7xl mx-auto mb-5 grid grid-cols-1 md:grid-cols-2 items-center p-2 sm:p-5 py-12 px-4 md:px-10 border-t border-gray-300 bg-white w-full ">
+        <section className="max-w-7xl mx-auto mb-5 grid grid-cols-1 md:grid-cols-2 items-center p-2 sm:p-5 py-12 px-4 md:px-10 border-t border-gray-300 w-full ">
             {/* Left Image */}
             <div className="flex justify-center lg:mb-0 transition-all lg:mt-10" data-aos="fade-right">
                 <img

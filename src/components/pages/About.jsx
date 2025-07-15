@@ -93,7 +93,7 @@ const directors = [
 
 const CompanyDetails = () => {
     return (
-        <div className="max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 border-[#393187]">
+        <div className={`max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 border-[#393187]`}>
             <h2 className="text-xl font-bold uppercase mb-4">Directors of ShreeXpress Courier Service</h2>
             <ul className="mb-6 space-y-1 0">
                 {directors.map((director, idx) => (
@@ -112,7 +112,7 @@ const CompanyDetails = () => {
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-center">
-                <div className="relative border rounded-lg sm:p-6 p-2 mb-0 shadow-md group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border rounded-lg sm:p-6 p-2 mb-0 shadow-md group overflow-hidden transition-all transform hover:scale-102" data-aos="zoom-in-up" >
                     {/* background layer */}
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
@@ -127,7 +127,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all transform hover:scale-102" data-aos="zoom-in-up" >
                     {/* background layer */}
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
@@ -142,9 +142,9 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all transform hover:scale-102" data-aos="zoom-in-up" >
                     {/* background layer */}
-                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
+                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-in-out group-hover:w-full z-0" />
 
                     {/* Content */}
                     <div className="relative z-10 group-hover:text-white m-0 transition-all">

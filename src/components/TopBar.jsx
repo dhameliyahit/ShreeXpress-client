@@ -14,7 +14,7 @@ export const TopBar = () => {
                 <span className='pl-2 text-md'><IoCall /></span> <span className='text-md font-bold mx-1'>CALL US NOW :     </span>  <span className='text-md font-bold text-[#D8262D]'><a href="tel:+919638601192">+91-9638601192</a></span>
             </div>
 
-            <div className="ml-auto mr-1 hidden md:flex">
+            <div className="ml-auto mr-1 flex">
                 <ThemeToggle onclik={toggleTheme} />
             </div>
             <Link to='/login' className='h-11 px-10 flex items-center text-md cursor-pointer bg-[#393187] hover:bg-[#D91F2B] transition-all'>LOGIN</Link>

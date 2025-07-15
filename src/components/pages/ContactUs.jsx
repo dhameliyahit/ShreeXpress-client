@@ -78,7 +78,7 @@ const ContactForm = () => {
                                 type="text"
                                 {...register("full_name")}
                                 placeholder="Enter your full name"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -88,7 +88,7 @@ const ContactForm = () => {
                                 type="tel"
                                 {...register("phone_number")}
                                 placeholder="Enter your phone number"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -98,7 +98,7 @@ const ContactForm = () => {
                                 type="email"
                                 {...register("email")}
                                 placeholder="Enter your Email"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -108,7 +108,7 @@ const ContactForm = () => {
                                 type="text"
                                 {...register("subject")}
                                 placeholder="Enter your Subject"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -117,7 +117,7 @@ const ContactForm = () => {
                             <textarea
                                 {...register("message")}
                                 placeholder="Enter your Subject"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 

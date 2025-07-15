@@ -17,7 +17,7 @@ export default function Login() {
 
     return (
         <Layout>
-            <div className="min-h-screen flex flex-col items-center justify-center sm:p-4">
+            <div className="h-[80vh] flex flex-col items-center justify-center sm:p-4">
                 <div className="w-full max-w-md bg-white shadow-xl rounded-lg sm:py-8 sm:px-8 py-6 px-4">
                     {/* Logo */}
                     <div className="text-center mb-6">
@@ -38,7 +38,7 @@ export default function Login() {
                                 type="email"
                                 {...register("email")}
                                 placeholder="you@example.com"
-                                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#383185] border-gray-300"
+                                className="mt-1 w-full text-black px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#383185] border-gray-300"
                                 required
                             />
                         </div>
@@ -46,10 +46,10 @@ export default function Login() {
                             <label className="block text-sm font-medium text-gray-600">Password</label>
                             <div className='relative'>
                                 <input
-                                    type={ showPassword ? 'text' : 'password' }
+                                    type={showPassword ? 'text' : 'password'}
                                     {...register("password")}
                                     placeholder="••••••••"
-                                    className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#383185] border-gray-300"
+                                    className="mt-1 w-full px-4 text-black py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#383185] border-gray-300"
                                     autoComplete=''
                                     required
                                 />
@@ -70,10 +70,10 @@ export default function Login() {
                             Login
                         </button>
                     </form>
-                </div>
 
-                {/* Home Page Link */}
-                <Link to="/" className='text-center text-[#383185] hover:underline underline-offset-5 mt-5 flex flex-wrap justify-center items-center'> <FaArrowLeft /> <span> Back to Home </span> </Link>
+                    {/* Home Page Link */}
+                    <Link to="/" className='text-center text-[#383185] hover:underline underline-offset-5 mt-5 flex flex-wrap justify-center items-center'> <FaArrowLeft /> <span> Back to Home </span> </Link>
+                </div>
             </div>
         </Layout>
     )

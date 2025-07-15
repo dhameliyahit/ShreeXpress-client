@@ -25,19 +25,14 @@ const HomePage = () => {
 }
 
 const HeroSection = () => {
-    const HomeBG = "https://images.unsplash.com/photo-1592838064575-70ed626d3a0e?q=80&w=1118&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-    const fallbackBG = "./assets/HomeBG.jpg";
+    const fallbackBG = "./assets/HomeBG-1.jpg";
 
     return (
-        <div className="relative w-full h-[80vh]">
+        <div className="relative w-full h-[400px]">
             <img
-                src={HomeBG}
-                onError={(e) => {
-                    e.target.onerror = null; // prevent infinite loop if fallback also fails
-                    e.target.src = fallbackBG;
-                }}
+                src={fallbackBG}
                 alt="Home Background"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
             />
             <div className="absolute inset-0 bg-black/60"></div>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">

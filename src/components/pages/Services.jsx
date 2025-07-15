@@ -74,9 +74,10 @@ export default function Services() {
                 <div className="max-w-7xl mx-auto gap-10 items-center md:p-5">
                     <div>
                         {/* Add Shadow Text */}
-                        <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15">SERVICE</h1>
+                        <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 ">SERVICE</h1>
                         <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">OUR SERVICE</h2>
 
+                        {/* Map Image */}
                         <div className="flex justify-center items-center my-10">
                             <img
                                 src={WorldMapImg}

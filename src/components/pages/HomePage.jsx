@@ -24,7 +24,6 @@ const HomePage = () => {
     )
 }
 
-
 const HeroSection = () => {
     const HomeBG = "https://images.unsplash.com/photo-1592838064575-70ed626d3a0e?q=80&w=1118&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
     const fallbackBG = "./assets/HomeBG.jpg";
@@ -92,8 +91,8 @@ const QuickAccessSection = () => {
     };
 
     return (
-        <section className="bg-white backdrop-blur-md py-3 px-4 md:px-10 ">
-            <div className="max-w-5xl mx-auto grid grid-cols-1 text-lg md:grid-cols-2 gap-6 bg-white/60 p-4 md:p-10 border border-white/20">
+        <section className="bg-white backdrop-blur-md py-3 px-1 sm:px-4 md:px-10 ">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 text-lg md:grid-cols-2 gap-6 bg-white/60 p-2 md:p-10 border border-white/20">
                 {/* Track Consignment */}
                 <div className='shadow-2xl p-5 border border-[#383185] transition-all' data-aos="zoom-in-right">
                     <div className='mb-2 flex items-center'>

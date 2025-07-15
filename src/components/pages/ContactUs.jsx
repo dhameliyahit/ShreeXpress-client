@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import AOS from 'aos'
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import ThemeContext from '../../context/Theme/ThemeContext';
 
 export default function ContactUs() {
     // AOS intialize
@@ -20,6 +21,7 @@ export default function ContactUs() {
 }
 
 const ContactForm = () => {
+    const { theme } = useContext(ThemeContext)
     const { register, handleSubmit, reset } = useForm();
     const [loading, setLoading] = useState(false);
     const ContactUsImg = '/assets/contactus.png';
@@ -55,15 +57,15 @@ const ContactForm = () => {
                 <div className="h-full flex flex-col justify-evenly transition-all">
                     <div>
                         <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 -left-15">CONTACT</h1>
-                        <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">CONTACT US</h2>
+                        <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>CONTACT US</h2>
                     </div>
                     <div className='flex justify-center items-center'>
                         <img src={ContactUsImg} alt="" className='max-w-full sm:max-w-[400px]' />
                     </div>
                     <ul className='flex-1 flex flex-col justify-center gap-1'>
-                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Phone numbers:</span> <p className="text-gray-500 w-full wrap-anywhere"> +91-9825515123 </p> </li>
+                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Phone numbers:</span> <p className=" w-full wrap-anywhere"> +91-9825515123 </p> </li>
 
-                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Email address:</span> <p className="text-gray-500 w-full wrap-anywhere"> info@shreexpresscourier.co.in <br /> service@shreexpresscourier.co.in </p> </li>
+                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Email address:</span> <p className=" w-full wrap-anywhere"> info@shreexpresscourier.co.in <br /> service@shreexpresscourier.co.in </p> </li>
                     </ul>
                 </div>
 
@@ -133,7 +135,7 @@ const ContactMap = () => {
     return (
         <section>
             {/* Google Map */}
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7438.677534689519!2d72.87923741445087!3d21.2184109731211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04f6ef999fe8b%3A0x2b1e12024710c65b!2sChikuwadi%2C%20Nana%20Varachha%2C%20Surat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1752068677430!5m2!1sen!2sin" className='w-full' height="500" allowFullScreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7438.677534689519!2d72.87923741445087!3d21.2184109731211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04f6ef999fe8b%3A0x2b1e12024710c65b!2sChikuwadi%2C%20Nana%20Varachha%2C%20Surat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1752068677430!5m2!1sen!2sin" className='w-full' height="500" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </section>
     )
 }

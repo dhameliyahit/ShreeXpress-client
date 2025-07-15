@@ -3,7 +3,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import { TopBar } from "../TopBar";
-import ThemeToggle from "../ThemeToggle";
 
 const Header = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -34,16 +33,14 @@ const Header = () => {
                         />
                     </div>
                 </Link>
-                <div className="ml-auto mr-1 hidden md:flex">
-                    <ThemeToggle />
-                </div>
+
                 <div className="pr-4 hidden md:flex">
                     {navigationLinks.map((link, index) => {
                         const isActive = location.pathname === link.path;
                         return (
                             <Link key={index} to={link.path}
                                 className={`mx-2 uppercase text-sm font-semibold transition duration-200 border-b-2 
-                                    ${isActive ? "text-[#E31E25] border-[#E31E25]" : "text-black border-transparent"}
+                                    ${isActive ? "text-[#E31E25] border-[#E31E25]" : "border-transparent"}
                                     hover:border-[#E31E25] hover:text-[#E31E25]`} >
                                 {link.name}
                             </Link>
@@ -79,9 +76,6 @@ const Header = () => {
                                 {link.name}
                             </Link>
                         ))}
-                        <div className="p-4 mx-auto">
-                            <ThemeToggle />
-                        </div>
                     </nav>
                 </div>
 

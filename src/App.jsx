@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import HomePage from './components/pages/HomePage'
 import About from './components/pages/About'
@@ -9,10 +9,15 @@ import ContactUs from './components/pages/ContactUs'
 import Login from './components/pages/Login'
 import { ToastContainer } from 'react-toastify'
 import FranchiseeInquiry from './components/pages/FranchiseeInquiry'
+import Progress from './components/Progress'
+import ThemeContext from './context/Theme/ThemeContext'
 
 export default function App() {
+  const context = useContext(ThemeContext);
+  const { theme } = context;
   return (
-    <>
+    <div className={`${theme === 'light' ? 'bg-white text-black' : 'dark:bg-[#000000] dark:text-white'} transition-all duration-300`}>
+      <Progress />
       <ToastContainer />
       <Routes>
         <Route path='/' element={<HomePage />} />
@@ -24,6 +29,6 @@ export default function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/*' element={<PageNotFound />} />
       </Routes>
-    </>
+    </div>
   )
 }

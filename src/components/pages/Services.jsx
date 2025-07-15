@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import { IoMdStopwatch } from "react-icons/io";
 import { TbTruckDelivery, TbCoinRupee } from "react-icons/tb";
 import AOS from 'aos';
+import ThemeContext from "../../context/Theme/ThemeContext";
 
 export default function Services() {
+    const { theme } = useContext(ThemeContext);
+
     // Images
     const WorldMapImg = './assets/world_map.png'
     const WorldImg = './assets/earth.png'
@@ -75,7 +78,7 @@ export default function Services() {
                     <div>
                         {/* Add Shadow Text */}
                         <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 ">SERVICE</h1>
-                        <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">OUR SERVICE</h2>
+                        <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>OUR SERVICE</h2>
 
                         {/* Map Image */}
                         <div className="flex justify-center items-center my-10">
@@ -88,7 +91,7 @@ export default function Services() {
 
                         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center p-2 my-5 lg:px-20">
                             {/* Left Content */}
-                            <div className="text-gray-700 text-center text-sm md:text-base mb-6 md:px-7">
+                            <div className="text-center text-sm md:text-base mb-6 md:px-7">
                                 <div data-aos="fade-right">
                                     <p className="leading-relaxed z-10">
                                         At shreeXpress Courier Service, we specialize in providing affordable, fast, and reliable parcel delivery
@@ -108,7 +111,7 @@ export default function Services() {
                                             <div className="text-3xl sm:m-auto mx-5" data-aos="fade-right">{option.icon}</div>
                                             <div className="mx-5">
                                                 <h4 className="font-bold text-md mb-1" data-aos="fade-right"> {option.title}</h4>
-                                                <p className="text-sm text-gray-600" data-aos="fade-right">{option.description}</p>
+                                                <p className="text-sm" data-aos="fade-right">{option.description}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -118,14 +121,17 @@ export default function Services() {
                             {/* Right Content */}
                             <img src={WorldImg} alt="world courier" className="max-w-full object-fit mx-auto" data-aos="fade-left" />
                         </div>
-                        
+
                         {/* Services */}
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
                             {services.map((service, index) => (
-                                <div key={index} className="border border-gray-200 px-5 py-5 sm:py-10 sm:px-10 rounded-sm shadow-lg hover:shadow-xl transition" data-aos="zoom-in-up">
-                                    <h5 className="font-bold text-md mb-2">{service.title}</h5>
-                                    <div className="p-2.5"></div>
-                                    <p className="text-sm text-gray-600">{service.description}</p>
+                                <div key={index} className="border relative sm:p-6 p-2 mb-0 group overflow-hidden transition-all border-gray-200 px-5 py-5 sm:py-10 sm:px-10 rounded-sm shadow-lg hover:shadow-xl" data-aos="zoom-in-up">
+                                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
+                                    <div className="relative z-10 group-hover:text-white m-0 transition-all">
+                                        <h5 className="font-bold text-md mb-2">{service.title}</h5>
+                                        <div className="p-2.5"></div>
+                                        <p className="text-sm ">{service.description}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>

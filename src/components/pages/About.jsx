@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Layout from '../Layout/Layout'
 import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
 import AOS from 'aos';
+import ThemeContext from '../../context/Theme/ThemeContext';
 
 export default function About() {
     // AOS initialize
@@ -20,6 +21,7 @@ export default function About() {
 }
 
 const AboutUs = () => {
+    const { theme } = useContext(ThemeContext);
     const AboutUsImg = './assets/AboutUsImg.png'
     return (
         <section className="py-12 px-4 md:px-10">
@@ -28,18 +30,18 @@ const AboutUs = () => {
                 <div data-aos="fade-right">
                     {/* Add Shadow Text */}
                     <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5">ABOUT</h1>
-                    <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">ABOUT US</h2>
-                    <p className="text-gray-700 mb-6 leading-relaxed text-sm md:text-base z-10">
+                    <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>ABOUT US</h2>
+                    <p className="mb-6 leading-relaxed text-sm md:text-base z-10">
                         ShreeXpress Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public. ShreeXpress Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
                     </p>
 
                     <div className="space-y-4 flex flex-col z-10">
                         {/* Feature 1 */}
                         <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
-                            <FaRocket className="text-[#383185] mt-1" size={20} />
+                            <FaRocket className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
-                                <h4 className="font-semibold text-gray-800">FAST DELIVERY</h4>
-                                <p className="text-gray-600 text-sm">
+                                <h4 className="font-semibold">FAST DELIVERY</h4>
+                                <p className="text-sm">
                                     We provide efficient and prompt mail management services to the
                                     entire society.
                                 </p>
@@ -48,10 +50,10 @@ const AboutUs = () => {
 
                         {/* Feature 2 */}
                         <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
-                            <FaShieldAlt className="text-[#383185] mt-1" size={20} />
+                            <FaShieldAlt className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
-                                <h4 className="font-semibold text-gray-800">SECURED SERVICE</h4>
-                                <p className="text-gray-600 text-sm">
+                                <h4 className="font-semibold">SECURED SERVICE</h4>
+                                <p className="text-sm">
                                     Secure delivery for sensitive documents for enterprise and public.
                                 </p>
                             </div>
@@ -59,10 +61,10 @@ const AboutUs = () => {
 
                         {/* Feature 3 */}
                         <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1] ">
-                            <FaGlobe className="text-[#383185] mt-1" size={20} />
+                            <FaGlobe className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
-                                <h4 className="font-semibold text-gray-800">WORLDWIDE SHIPPING</h4>
-                                <p className="text-gray-600 text-sm">
+                                <h4 className="font-semibold">WORLDWIDE SHIPPING</h4>
+                                <p className="text-sm">
                                     Serving across 4000 PINs with 1.5 million daily transactions.
                                 </p>
                             </div>
@@ -91,26 +93,26 @@ const directors = [
 
 const CompanyDetails = () => {
     return (
-        <div className="bg-white max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 border-[#393187]">
+        <div className="max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 border-[#393187]">
             <h2 className="text-xl font-bold uppercase mb-4">Directors of ShreeXpress Courier Service</h2>
-            <ul className="mb-6 space-y-1 text-gray-500">
+            <ul className="mb-6 space-y-1 0">
                 {directors.map((director, idx) => (
                     <li key={idx} className="flex items-center gap-2">
-                        <span className="text-gray-500">➤</span>
+                        <span className="0">➤</span>
                         {director.name}
                     </li>
                 ))}
             </ul>
 
-            <p className="mb-12 text-[15px] leading-relaxed text-gray-500">
+            <p className="mb-12 text-[15px] leading-relaxed 0">
                 <span className="font-bold">ShreeXpress Courier Service</span> is managed by some of the efficient and
                 dedicated members with over 20 years of experienced personnel from the same industry.{" "}
                 <span className="font-bold">ShreeXpress Courier Service</span> was started by 4 directors with the vast
                 experience of the Courier Industry and now it is spread across India.
             </p>
 
-            <div className="grid md:grid-cols-3 gap-6 text-center text-gray-700">
-                <div className="relative border rounded-lg sm:p-6 p-2 m-0 shadow-md group overflow-hidden transition-all" data-aos="zoom-in-up" >
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+                <div className="relative border rounded-lg sm:p-6 p-2 mb-0 shadow-md group overflow-hidden transition-all" data-aos="zoom-in-up" >
                     {/* background layer */}
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
@@ -125,7 +127,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md m-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
                     {/* background layer */}
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
@@ -140,7 +142,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md m-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
                     {/* background layer */}
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 

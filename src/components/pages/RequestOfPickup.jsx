@@ -52,7 +52,7 @@ export default function RequestOfPickup({ isLayout = true }) {
             {/* Right Form */}
             <div className="w-full max-w-xl flex-1 mx-auto lg:mt-10 transition-all" data-aos="fade-left">
                 <h2 className="text-2xl font-bold mb-2 text-center lg:text-left">REQUEST FOR PICKUP</h2>
-                <p className="text-sm text-gray-600 mb-6">
+                <p className="text-sm mb-6">
                     SHREEXPRESS COURIER SERVICES currently offers doorstep pickup from over 100 Cities in India & connects to more than 4000 pincodes in India.
                 </p>
 

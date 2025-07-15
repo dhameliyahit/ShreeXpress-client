@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Layout from '../Layout/Layout'
 import { useForm } from 'react-hook-form'
 import AOS from 'aos'
+import ThemeContext from '../../context/Theme/ThemeContext'
 
 export default function FranchiseeInquiry() {
     return (
@@ -13,6 +14,7 @@ export default function FranchiseeInquiry() {
 }
 
 const IntroSection = () => {
+    const { theme } = useContext(ThemeContext)
     const FranchiseImg = "/assets/franchise.jpg";
 
     // AOS initialize
@@ -28,9 +30,9 @@ const IntroSection = () => {
                 <div className="h-full flex flex-col justify-evenly transition-all" data-aos="fade-right">
                     <div>
                         <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 ">FRANCHISEE</h1>
-                        <h2 className="text-3xl md:text-4xl font-bold text-[#383185] mb-4 z-99">FRANCHISEE INQUIRE</h2>
+                        <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>FRANCHISEE INQUIRE</h2>
                     </div>
-                    <div className="space-y-3 text-gray-700">
+                    <div className="space-y-3 ">
                         <p>
                             is a well-known and established name in Domestic, International Courier and Cargo
                             industry worldwide. With minimal branding and advertising effort, the company today has
@@ -109,7 +111,7 @@ const FranchiseeForm = () => {
                         />
                     </div>
                 </div>
-                
+
                 <div className='grid md:grid-cols-2 gap-4'>
                     <div>
                         <label className="block text-sm font-medium">Franchisee Location *</label>
@@ -131,7 +133,7 @@ const FranchiseeForm = () => {
                         />
                     </div>
                 </div>
-                
+
                 <div className='grid md:grid-cols-2 gap-4'>
                     <div>
                         <label className="block text-sm font-medium">Current Business / Courier</label>

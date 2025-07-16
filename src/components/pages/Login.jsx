@@ -72,7 +72,7 @@ export default function Login() {
                     </form>
 
                     {/* Home Page Link */}
-                    <Link to="/" className='text-center text-[#383185] hover:underline underline-offset-5 mt-5 flex flex-wrap justify-center items-center'> <FaArrowLeft /> <span> Back to Home </span> </Link>
+                    {/* <Link to="/" className='text-center text-[#383185] hover:underline underline-offset-5 mt-5 flex flex-wrap justify-center items-center'> <FaArrowLeft /> <span> Back to Home </span> </Link> */}
                 </div>
             </div>
         </Layout>

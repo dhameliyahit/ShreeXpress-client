@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import { TopBar } from "../TopBar";
+import ThemeContext from "../../context/Theme/ThemeContext";
 
 const Header = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const location = useLocation();
+    const { theme } = useContext(ThemeContext);
 
     //for mapping our Links
     const navigationLinks = [
@@ -21,14 +23,14 @@ const Header = () => {
     return (
         <>
             <TopBar />
-            <div className="flex justify-between items-center py-2 shadow-lg">
+            <div className={`flex justify-between items-center py-2 shadow-lg ${theme === 'dark' ? 'bg-black' : ''}`}>
                 <Link to="/">
                     <div className="md:px-5">
                         {" "}
                         {/* Logo & name Component */}
                         <img
                             className="w-60"
-                            src={"/assets/ShreeXpressLogo.png"}
+                            src={theme === 'dark' ? "/assets/ShreeXpressLogoDark.png" : "/assets/ShreeXpressLogo.png"}
                             alt="ShreeMahavir courier Logo"
                         />
                     </div>

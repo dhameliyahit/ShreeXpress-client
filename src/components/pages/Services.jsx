@@ -125,7 +125,7 @@ export default function Services() {
                         {/* Services */}
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
                             {services.map((service, index) => (
-                                <div key={index} className="border relative sm:p-6 p-2 mb-0 group overflow-hidden transition-all border-gray-200 px-5 py-5 sm:py-10 sm:px-10 rounded-sm shadow-lg hover:shadow-xl transform hover:scale-102" data-aos="zoom-in-up">
+                                <div key={index} className="relative sm:p-6 p-2 mb-0 group overflow-hidden transition-all border-1 border-[#1F242A] px-5 py-5 sm:py-10 sm:px-10 rounded-sm shadow-lg hover:shadow-xl transform hover:scale-102" data-aos="zoom-in-up">
                                     
                                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-sm transition-all duration-[1400ms] ease-in-out group-hover:w-full z-0" />
                                     

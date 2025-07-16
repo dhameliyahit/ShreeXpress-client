@@ -23,7 +23,7 @@ const Header = () => {
     return (
         <>
             <TopBar />
-            <div className={`flex justify-between items-center py-2 shadow-lg ${theme === 'dark' ? 'bg-black' : ''}`}>
+            <div className={`flex justify-between items-center py-2 shadow-lg ${theme === 'dark' ? 'bg-[#0C1017] border-b-1 border-[#1F242A]' : ''}`}>
                 <Link to="/">
                     <div className="md:px-5">
                         {" "}

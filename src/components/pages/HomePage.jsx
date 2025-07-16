@@ -171,7 +171,7 @@ const AboutUs = () => {
 
                     <div className="space-y-4 flex flex-col z-10">
                         {/* Feature 1 */}
-                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
+                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
                             <FaRocket className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
                                 <h4 className="font-semibold">FAST DELIVERY</h4>
@@ -183,7 +183,7 @@ const AboutUs = () => {
                         </div>
 
                         {/* Feature 2 */}
-                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
+                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
                             <FaShieldAlt className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
                                 <h4 className="font-semibold ">SECURED SERVICE</h4>
@@ -194,7 +194,7 @@ const AboutUs = () => {
                         </div>
 
                         {/* Feature 3 */}
-                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1] ">
+                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
                             <FaGlobe className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
                                 <h4 className="font-semibold">WORLDWIDE SHIPPING</h4>

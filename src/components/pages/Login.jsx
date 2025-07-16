@@ -4,16 +4,51 @@ import { FaArrowLeft, FaEyeSlash } from "react-icons/fa";
 import Layout from '../Layout/Layout';
 import { useForm } from 'react-hook-form'
 import { FaEye } from "react-icons/fa";
+import { toast } from 'react-toastify';
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+
+
+const API_URL = "http://localhost:5000"
 
 export default function Login() {
+    const navigate = useNavigate();
+
     const { handleSubmit, register } = useForm();
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePassword = () => setShowPassword(!showPassword);
 
-    const handleLogin = (data) => {
-        console.log(data);
-    }
+    const handleLogin = async (data) => {
+        try {
+            const res = await axios.post(`${API_URL}/api/auth/login`, {
+                email: data.email,
+                password: data.password
+            });
+
+            const { token, user } = res.data;
+
+            localStorage.setItem("Authorization", `Bearer ${token}`);
+            localStorage.setItem("user", JSON.stringify(user));
+
+            toast.success("Login Successful");
+
+            // 🔁 Redirect by role
+            if (user.role === "admin") {
+                navigate("/admin");
+            } else if (user.role === "superadmin") {
+                navigate("/superadmin");
+            } else if (user.role === "client") {
+                navigate("/client");
+            } else {
+                navigate("/login");
+            }
+
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Login Failed");
+        }
+    };
+
 
     return (
         <Layout>
@@ -46,7 +81,7 @@ export default function Login() {
                             <label className="block text-sm font-medium text-gray-600">Password</label>
                             <div className='relative'>
                                 <input
-                                    type={ showPassword ? 'text' : 'password' }
+                                    type={showPassword ? 'text' : 'password'}
                                     {...register("password")}
                                     placeholder="••••••••"
                                     className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#383185] border-gray-300"

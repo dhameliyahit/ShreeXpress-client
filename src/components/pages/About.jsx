@@ -3,6 +3,7 @@ import Layout from '../Layout/Layout'
 import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
 import AOS from 'aos';
 import ThemeContext from '../../context/Theme/ThemeContext';
+import { ChevronDownIcon } from '@heroicons/react/24/solid'
 
 export default function About() {
     // AOS initialize
@@ -37,7 +38,7 @@ const AboutUs = () => {
 
                     <div className="space-y-4 flex flex-col z-10">
                         {/* Feature 1 */}
-                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
+                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
                             <FaRocket className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
                                 <h4 className="font-semibold">FAST DELIVERY</h4>
@@ -49,7 +50,7 @@ const AboutUs = () => {
                         </div>
 
                         {/* Feature 2 */}
-                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1]">
+                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
                             <FaShieldAlt className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
                                 <h4 className="font-semibold">SECURED SERVICE</h4>
@@ -60,7 +61,7 @@ const AboutUs = () => {
                         </div>
 
                         {/* Feature 3 */}
-                        <div className="flex items-start gap-4 border-b-2 pb-2 border-[#ACAFC1] ">
+                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
                             <FaGlobe className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
                             <div>
                                 <h4 className="font-semibold">WORLDWIDE SHIPPING</h4>
@@ -86,23 +87,40 @@ const AboutUs = () => {
 };
 
 const directors = [
-    { name: "DHAMELIYA HEET", phone: 1234567890 },
-    { name: "BALAR CRENS", phone: 9825515123 },
-    { name: "DHANANI HARSH", phone: 1234567890 }
+    { name: "BALAR CRENS", phone: 9825515123, email: "balarcrens@gmail.com" },
+    { name: "DHAMELIYA HEET", phone: 9638601192, email: "heetdhameliya@gmail.com" },
+    { name: "DHANANI HARSH", phone: 8905718200, email: "harshdhanani@gmail.com" }
 ];
 
 const CompanyDetails = () => {
+    const { theme } = useContext(ThemeContext);
     return (
-        <div className="max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 border-[#393187]">
+        <div className={`max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 ${theme === 'dark' ? 'border-[#1F242A]' : 'border-[#393187]'}`}>
             <h2 className="text-xl font-bold uppercase mb-4">Directors of ShreeXpress Courier Service</h2>
-            <ul className="mb-6 space-y-1 0">
+            <ul className="mb-6 space-y-4">
                 {directors.map((director, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                        <span className="0">➤</span>
-                        {director.name}
-                    </li>
+                    <details key={idx} className="group rounded-lg border border-[#1F242A] p-4 transition-all duration-300 hover:shadow-md" >
+                        <summary className="cursor-pointer text-md sm:text-lg font-semibold flex items-center justify-between">
+                            {director.name}
+                            <ChevronDownIcon className="ml-2 w-5 h-5 text-gray-500 transition-transform duration-300 group-open:rotate-180" />
+                        </summary>
+                        <div className="mt-2">
+                            <p> 📞 Phone:{' '}
+                                <a href={`tel:+91${director.phone}`} className="text-blue-600 hover:underline dark:text-blue-400" >
+                                    +91 {director.phone}
+                                </a>
+                            </p>
+                            <p> 📧 Email:{' '}
+                                <a href={`mailto:${director.email}`} className="text-blue-600 hover:underline dark:text-blue-400" >
+                                    {director.email}
+                                </a>
+                            </p>
+                        </div>
+                    </details>
                 ))}
+
             </ul>
+
 
             <p className="mb-12 text-[15px] leading-relaxed 0">
                 <span className="font-bold">ShreeXpress Courier Service</span> is managed by some of the efficient and
@@ -112,7 +130,7 @@ const CompanyDetails = () => {
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-center">
-                <div className="relative border rounded-lg sm:p-6 p-2 mb-0 shadow-md group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border-1 border-[#1F242A] rounded-lg sm:p-6 p-2 mb-0 shadow-md group overflow-hidden transition-all transform hover:scale-102" data-aos="zoom-in-up" >
                     {/* background layer */}
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
@@ -127,7 +145,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border-1 border-[#1F242A] rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all transform hover:scale-102" data-aos="zoom-in-up" >
                     {/* background layer */}
                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
 
@@ -142,9 +160,9 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative border rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all" data-aos="zoom-in-up" >
+                <div className="relative border-1 border-[#1F242A] rounded-lg sm:p-6 p-2 shadow-md mb-0 group overflow-hidden transition-all transform hover:scale-102" data-aos="zoom-in-up" >
                     {/* background layer */}
-                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-out group-hover:w-full z-0" />
+                    <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-lg transition-all duration-[1400ms] ease-in-out group-hover:w-full z-0" />
 
                     {/* Content */}
                     <div className="relative z-10 group-hover:text-white m-0 transition-all">

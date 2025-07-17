@@ -78,7 +78,7 @@ const ContactForm = () => {
                                 type="text"
                                 {...register("full_name")}
                                 placeholder="Enter your full name"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -88,7 +88,7 @@ const ContactForm = () => {
                                 type="tel"
                                 {...register("phone_number")}
                                 placeholder="Enter your phone number"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -98,7 +98,7 @@ const ContactForm = () => {
                                 type="email"
                                 {...register("email")}
                                 placeholder="Enter your Email"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -108,7 +108,7 @@ const ContactForm = () => {
                                 type="text"
                                 {...register("subject")}
                                 placeholder="Enter your Subject"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -117,7 +117,7 @@ const ContactForm = () => {
                             <textarea
                                 {...register("message")}
                                 placeholder="Enter your Subject"
-                                className="w-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
                             />
                         </div>
 
@@ -135,7 +135,7 @@ const ContactMap = () => {
     return (
         <section>
             {/* Google Map */}
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7438.677534689519!2d72.87923741445087!3d21.2184109731211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04f6ef999fe8b%3A0x2b1e12024710c65b!2sChikuwadi%2C%20Nana%20Varachha%2C%20Surat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1752068677430!5m2!1sen!2sin" className='w-full' height="500" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7438.677534689519!2d72.87923741445087!3d21.2184109731211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04f6ef999fe8b%3A0x2b1e12024710c65b!2sChikuwadi%2C%20Nana%20Varachha%2C%20Surat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1752068677430!5m2!1sen!2sin" className='w-full border-t-1 border-[#1F242A]' height="500" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </section>
     )
 }

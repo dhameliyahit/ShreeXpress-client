@@ -20,7 +20,7 @@ export default function App() {
   const context = useContext(ThemeContext);
   const { theme } = context;
   return (
-    <div className={`${theme === 'light' ? 'bg-white text-black' : 'dark:bg-[#000000] dark:text-white'} transition-all duration-300`}>
+    <div className={`${theme === 'light' ? 'bg-white text-black' : 'dark:bg-[#05070A] dark:text-white'} transition-all duration-300`}>
       <Progress />
       <ToastContainer />
       <Routes>

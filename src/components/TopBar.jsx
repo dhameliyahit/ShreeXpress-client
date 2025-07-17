@@ -6,6 +6,7 @@ import ThemeContext from '../context/Theme/ThemeContext';
 import useAuth from '../hooks/useAuth'
 
 export const TopBar = () => {
+<<<<<<< HEAD
     const { token, user } = useAuth();
     const navigate = useNavigate();
     const context = useContext(ThemeContext);
@@ -19,13 +20,17 @@ export const TopBar = () => {
 
 
 
+=======
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    
+>>>>>>> balar-codebase
     return (
-        <div className='bg-[#292929] text-white flex justify-between flex-wrap items-center text-center shadow-lg '>
+        <div className={`${theme === 'dark' ? 'bg-[#111317] border-b-1 border-[#1F242A]' : 'bg-[#292929]'} text-white flex justify-between flex-wrap items-center text-center shadow-lg`}>
             <div className='h-auto flex items-center justify-center flex-wrap px-1 sm:px-4 py-2.5'>
                 <span className='pl-2 text-md'><IoCall /></span> <span className='text-md font-bold mx-1'>CALL US NOW :     </span>  <span className='text-md font-bold text-[#D8262D]'><a href="tel:+919638601192">+91-9638601192</a></span>
             </div>
 
-            <div className="ml-auto mr-1 hidden md:flex">
+            <div className="ml-auto mr-1 flex">
                 <ThemeToggle onclik={toggleTheme} />
             </div>
 

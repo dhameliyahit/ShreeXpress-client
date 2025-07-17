@@ -1,16 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { IoCall } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import ThemeContext from '../context/Theme/ThemeContext';
-import useAuth from '../hooks/useAuth'
+import useAuth from '../hooks/useAuth';
 
 export const TopBar = () => {
-<<<<<<< HEAD
     const { token, user } = useAuth();
     const navigate = useNavigate();
-    const context = useContext(ThemeContext);
-    const { toggleTheme } = context;
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     const handleLogout = () => {
         localStorage.removeItem("Authorization");
@@ -18,54 +16,48 @@ export const TopBar = () => {
         navigate("/login");
     };
 
-
-
-=======
-    const { theme, toggleTheme } = useContext(ThemeContext);
-    
->>>>>>> balar-codebase
     return (
-        <div className={`${theme === 'dark' ? 'bg-[#111317] border-b-1 border-[#1F242A]' : 'bg-[#292929]'} text-white flex justify-between flex-wrap items-center text-center shadow-lg`}>
-            <div className='h-auto flex items-center justify-center flex-wrap px-1 sm:px-4 py-2.5'>
-                <span className='pl-2 text-md'><IoCall /></span> <span className='text-md font-bold mx-1'>CALL US NOW :     </span>  <span className='text-md font-bold text-[#D8262D]'><a href="tel:+919638601192">+91-9638601192</a></span>
+        <div className={`${theme === 'dark' ? 'bg-[#111317] border-b border-[#1F242A]' : 'bg-[#292929]'} text-white flex justify-between items-center flex-wrap shadow-lg py-2 px-4`}>
+            <div className="flex items-center gap-2">
+                <IoCall className="text-lg" />
+                <span className="text-sm font-bold">CALL US NOW :</span>
+                <a href="tel:+919638601192" className="text-sm font-bold text-[#D8262D]">+91-9638601192</a>
             </div>
 
-            <div className="ml-auto mr-1 flex">
-                <ThemeToggle onclik={toggleTheme} />
+            <div className="flex items-center gap-3 ml-auto">
+                <ThemeToggle onClick={toggleTheme} />
+
+                {token && user ? (
+                    <>
+                        <Link to='/' className='text-sm hover:underline'>Home</Link>
+
+                        <button
+                            onClick={() => {
+                                if (user.role === "admin") navigate("/admin");
+                                else if (user.role === "superadmin") navigate("/superadmin");
+                                else if (user.role === "client") navigate("/client");
+                            }}
+                            className="h-10 px-5 bg-green-600 hover:bg-green-700 rounded text-sm"
+                        >
+                            Dashboard
+                        </button>
+
+                        <button
+                            onClick={handleLogout}
+                            className="h-10 px-5 bg-red-600 hover:bg-red-700 rounded text-sm ml-2"
+                        >
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <Link
+                        to="/login"
+                        className="h-10 px-6 bg-[#393187] hover:bg-[#D91F2B] rounded text-sm"
+                    >
+                        LOGIN
+                    </Link>
+                )}
             </div>
-
-            {token && user ? (
-                <>
-                    <Link to='/' className='mx-2' >Home</Link>
-                    <button
-                        onClick={() => {
-                            if (user.role === "admin") navigate("/admin");
-                            else if (user.role === "superadmin") navigate("/superadmin");
-                            else if (user.role === "client") navigate("/client");
-                        }}
-                        className="h-11 px-6 flex items-center text-md cursor-pointer bg-green-600 hover:bg-green-700 text-white rounded transition-all"
-                    >
-                        Dashboard
-                    </button>
-
-                    <button
-                        onClick={handleLogout}
-                        className="h-11 px-6 ml-4 flex items-center text-md cursor-pointer bg-red-600 hover:bg-red-700 text-white rounded transition-all"
-                    >
-                        Logout
-                    </button>
-                </>
-            ) : (
-                
-                <Link
-                    to="/login"
-                    className="h-11 px-10 flex items-center text-md cursor-pointer bg-[#393187] hover:bg-[#D91F2B] text-white transition-all"
-                >
-                    LOGIN
-                </Link>
-            )}
-
         </div>
-    )
-}
-
+    );
+};

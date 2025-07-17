@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from '../Loading';
 
 
-const API_URL = "http://localhost:5000"
+const API_URL = import.meta.env.VITE_BACKEND_URL
 
 export default function Login() {
     const navigate = useNavigate();

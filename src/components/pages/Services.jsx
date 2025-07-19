@@ -4,6 +4,7 @@ import { IoMdStopwatch } from "react-icons/io";
 import { TbTruckDelivery, TbCoinRupee } from "react-icons/tb";
 import AOS from 'aos';
 import ThemeContext from "../../context/Theme/ThemeContext";
+import '@google/model-viewer';
 
 export default function Services() {
     const { theme } = useContext(ThemeContext);
@@ -119,16 +120,24 @@ export default function Services() {
                             </div>
 
                             {/* Right Content */}
-                            <img src={WorldImg} alt="world courier" className="max-w-full object-fit mx-auto" data-aos="fade-left" />
+                            {/* <img src={WorldImg} alt="world courier" className="max-w-full object-fit mx-auto" data-aos="fade-left" /> */}
+                            <model-viewer
+                                src="/models/Earth.glb"
+                                alt="3D Model"
+                                auto-rotate
+                                camera-controls
+                                ar
+                                style={{ width: '100%', height: '100%' }}
+                            ></model-viewer>
                         </div>
 
                         {/* Services */}
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
                             {services.map((service, index) => (
                                 <div key={index} className="relative sm:p-6 p-2 mb-0 group overflow-hidden transition-all border-1 border-[#1F242A] px-5 py-5 sm:py-10 sm:px-10 rounded-sm shadow-lg hover:shadow-xl transform hover:scale-102" data-aos="zoom-in-up">
-                                    
+
                                     <div className="absolute inset-0 w-0 bg-[#09AFF4] rounded-r-sm transition-all duration-[1400ms] ease-in-out group-hover:w-full z-0" />
-                                    
+
                                     <div className="relative z-10 group-hover:text-white m-0 transition-all">
                                         <h5 className="font-bold text-md mb-2">{service.title}</h5>
                                         <div className="p-2.5"></div>

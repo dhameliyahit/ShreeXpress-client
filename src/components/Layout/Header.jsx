@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
@@ -9,6 +9,7 @@ const Header = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const location = useLocation();
     const { theme } = useContext(ThemeContext);
+    const [isSticky, setIsSticky] = useState(false);
 
     //for mapping our Links
     const navigationLinks = [
@@ -20,10 +21,20 @@ const Header = () => {
         { name: "Franchisee Inquiry", path: "/franchisee-inquiry" },
     ];
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsSticky(window.scrollY > 30);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+
     return (
         <>
             <TopBar />
-            <div className={`flex justify-between items-center py-2 shadow-lg ${theme === 'dark' ? 'bg-[#0C1017] border-b-1 border-[#1F242A]' : ''}`}>
+            <div className={`${isSticky ? "fixed top-0 left-0 right-0 z-50 shadow-lg" : ""}  flex justify-between items-center py-2 transition-all duration-300 ${theme === 'dark' ? 'bg-[#0C1017] border-b border-[#1F242A]' : 'bg-white'}`}>
                 <Link to="/">
                     <div className="md:px-5">
                         {" "}

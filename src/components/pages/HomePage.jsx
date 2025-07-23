@@ -25,7 +25,7 @@ const HomePage = () => {
 }
 
 const HeroSection = () => {
-    const fallbackBG = "./assets/HomeBG-1.jpg";
+    const fallbackBG = "./assets/HomeBG.jpg";
 
     return (
         <div className="relative w-full h-[400px]">

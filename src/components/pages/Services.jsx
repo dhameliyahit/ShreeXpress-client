@@ -11,7 +11,6 @@ export default function Services() {
 
     // Images
     const WorldMapImg = './assets/world_map.png'
-    const WorldImg = './assets/earth.png'
 
     // AOS initialize
     useEffect(() => {
@@ -120,7 +119,6 @@ export default function Services() {
                             </div>
 
                             {/* Right Content */}
-                            {/* <img src={WorldImg} alt="world courier" className="max-w-full object-fit mx-auto" data-aos="fade-left" /> */}
                             <model-viewer
                                 src="/models/Earth.glb"
                                 alt="3D Model"

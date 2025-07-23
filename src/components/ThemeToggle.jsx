@@ -1,24 +1,26 @@
-import React, { useContext } from 'react';
+//themeTggle.jsx
+import { useContext } from 'react';
+import { FaSun, FaMoon } from 'react-icons/fa';
 import ThemeContext from '../context/Theme/ThemeContext';
-import { FaSun, FaMoon } from "react-icons/fa";
 
-export default function ThemeToggle() {
+const ThemeToggle = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
+    const isDark = theme === 'dark';
 
     return (
-        <div className="flex items-center">
-            <div onClick={toggleTheme} className={`w-8 h-8 flex items-center bg-gray-300 dark:bg-[#292929] rounded-full p-1 cursor-pointer transition-colors duration-300`} >
-                <div className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out flex items-center justify-center`} >
-                    <div className={`transition-transform duration-500 ${theme === 'dark' ? 'rotate-[360deg]' : 'rotate-0'}`} >
-                        {theme === 'dark' ? (
-                            <FaMoon className="text-gray-800 text-md" />
-                        ) : (
-                            <FaSun className="text-yellow-400 text-md" />
-                        )}
-                    </div>
-                </div>
-
+        <button
+            onClick={toggleTheme}
+            className={`w-10 cursor-pointer h-7 flex items-center p-1 rounded-full transition-colors duration-300
+        ${isDark ? 'bg-gray-800' : 'bg-yellow-300'}`}
+        >
+            <div
+                className={`w-5 h-5 rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center text-white
+          ${isDark ? 'translate-x-3 bg-blue-600' : 'translate-x-0 bg-yellow-500'}`}
+            >
+                {isDark ? <FaMoon size={12} /> : <FaSun size={12} />}
             </div>
-        </div>
+        </button>
     );
-}
+};
+
+export default ThemeToggle;

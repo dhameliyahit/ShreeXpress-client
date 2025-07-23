@@ -38,6 +38,11 @@ export default function Login() {
                 navigate("/superadmin");
             } else if (user.role === "client") {
                 navigate("/client");
+                navigate("/dashboard");
+            } else if (user.role === "superadmin") {
+                navigate("/dashboard");
+            } else if (user.role === "client") {
+                navigate("/dashboard");
             } else {
                 navigate("/login");
             }
@@ -125,3 +130,4 @@ export default function Login() {
         </>
     );
 }
+

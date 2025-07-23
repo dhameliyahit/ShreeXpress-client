@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import AdminPage from './components/Admin/admin/AdminPage'
 import ClientPage from './components/Admin/client/ClientPage'
 import SuperadminPage from './components/Admin/superadmin/SuperadminPage'
+import DashboardMain from './components/Admin/DashboardMain'
 
 export default function App() {
   const context = useContext(ThemeContext);
@@ -45,7 +46,7 @@ export default function App() {
           path="/superadmin"
           element={
             <ProtectedRoute allowedRoles={["superadmin"]}>
-              <SuperadminPage  />
+              <SuperadminPage />
             </ProtectedRoute>
           }
         />
@@ -57,6 +58,27 @@ export default function App() {
               <ClientPage />
             </ProtectedRoute>
           }
+        />
+        <Route path="/dashboard" element={<DashboardMain />} />
+        <Route path="/admin" element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <AdminPage />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/superadmin" element={
+          <ProtectedRoute allowedRoles={["superadmin"]}>
+            <SuperadminPage />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/client" element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <ClientPage />
+          </ProtectedRoute>
+        }
         />
       </Routes>
     </div>

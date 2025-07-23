@@ -1,15 +1,25 @@
-import React from 'react'
-import Layout from '../../Layout/Layout'
-
 const AdminPage = () => {
+    return (
+        <>
+            <h1>Admin Dashboard</h1>
+        </>
+    )
+}
 
- const user = JSON.parse(localStorage.getItem("user"))
-console.log(user)
-  return (
-    <Layout>
-        <h1 className='py-2 text-2xl'>{user.name}</h1>
-    </Layout>
-  )
+export const Shipments = () => {
+    return (
+        <>
+            <h2>Shipments</h2>
+        </>
+    )
+}
+
+export const Clients = () => {
+    return (
+        <>
+            <h2>Clients</h2>
+        </>
+    )
 }
 
 export default AdminPage

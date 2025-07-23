@@ -14,7 +14,7 @@ import ThemeContext from './context/Theme/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminPage from './components/Admin/admin/AdminPage'
 import ClientPage from './components/Admin/client/ClientPage'
-import SuperadminPage from './components/Admin/superadmin/SuperAdminPage'
+import SuperadminPage from './components/Admin/superadmin/SuperAdmin'
 import DashboardMain from './components/Admin/DashboardMain'
 
 export default function App() {

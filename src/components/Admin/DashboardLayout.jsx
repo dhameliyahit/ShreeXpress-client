@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Sidebar from './SideBar';
-import AdminPage, { Clients, Shipments } from '../Admin/admin/AdminPage';
-import ClientPage, { MyShipments, Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { AddNewAdmin, ShowAdmins, Analytics } from '../Admin/superadmin/SuperAdminPage';
+import AdminPage, { Clients, Shipments } from './admin/AdminPage';
+import ClientPage, { MyShipments, Track } from './client/ClientPage';
+import SuperadminPage, { AddNewAdmin, ShowAdmins, Analytics } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
-const DashboardLayout = ({ role = 'admin' }) => {
+const DashboardLayout = ({ role  }) => {
     const [selectedPage, setSelectedPage] = useState('Dashboard');
 
     const renderContent = () => {

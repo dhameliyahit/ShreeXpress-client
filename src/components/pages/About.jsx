@@ -16,6 +16,7 @@ export default function About() {
             <Layout>
                 <AboutUs />
                 <CompanyDetails />
+                <Founders/>
             </Layout>
         </>
     )
@@ -87,8 +88,8 @@ const AboutUs = () => {
 };
 
 const directors = [
-    { name: "BALAR CRENS", phone: 9825515123, email: "balarcrens@gmail.com" },
     { name: "DHAMELIYA HEET", phone: 9638601192, email: "heetdhameliya@gmail.com" },
+    { name: "BALAR CRENS", phone: 9825515123, email: "balarcrens@gmail.com" },
     { name: "DHANANI HARSH", phone: 8905718200, email: "harshdhanani@gmail.com" }
 ];
 
@@ -177,4 +178,67 @@ const CompanyDetails = () => {
             </div>
         </div>
     );
+};
+
+
+const Founders = () => {
+    const founders = [
+      {
+        name: "John Doe",
+        title: "Co-Founder & CEO",
+        imageGray: "https://plus.unsplash.com/premium_photo-1726862586698-4404605ac267?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fGZvdW5kZXJ8ZW58MHx8MHx8fDA%3D",
+        imageColor: "https://via.placeholder.com/300x300?text=Founder+1+Color",
+      },
+      {
+        name: "Jane Smith",
+        title: "Co-Founder & CTO",
+        imageGray: "https://via.placeholder.com/300x300?text=Founder+2+Gray",
+        imageColor: "https://via.placeholder.com/300x300?text=Founder+2+Color",
+      },
+      {
+        name: "Alex Johnson",
+        title: "Co-Founder & CMO",
+        imageGray: "https://via.placeholder.com/300x300?text=Founder+3+Gray",
+        imageColor: "https://via.placeholder.com/300x300?text=Founder+3+Color",
+      },
+    ];
+ 
+    return (
+    <section className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black py-16 px-6 text-white font-[Poppins]">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-wide">
+          Meet Our Founders
+        </h2>
+        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+          Visionaries behind the brand – passionate, innovative, and driven.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
+        {founders.map((founder, idx) => (
+          <div
+            key={idx}
+            className="group bg-gray-800 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-500 relative"
+          >
+            <div className="relative w-full h-80 overflow-hidden">
+              <img
+                src={founder.imageGray}
+                alt={founder.name}
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500 group-hover:scale-105"
+              />
+              <img
+                src={founder.imageColor}
+                alt={founder.name}
+                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-500 group-hover:scale-105"
+              />
+            </div>
+            <div className="p-6 text-center">
+              <h3 className="text-2xl font-semibold mb-2">{founder.name}</h3>
+              <p className="text-sm text-gray-400">{founder.title}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 };

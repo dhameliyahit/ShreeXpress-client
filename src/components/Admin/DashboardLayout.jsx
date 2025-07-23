@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './SideBar';
 import AdminPage, { Clients, Shipments } from '../Admin/admin/AdminPage';
 import ClientPage, { MyShipments, Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { AddNewAdmin, ShowAdmins, Analytics } from '../Admin/superadmin/SuperadminPage';
+import SuperadminPage, { AddNewAdmin, ShowAdmins, Analytics, SqlEditor } from '../Admin/superadmin/SuperadminPage';
 import { TopBar } from '../TopBar';
 
 const DashboardLayout = ({ role }) => {
@@ -20,12 +20,13 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'Track') return <Track />;
             if (selectedPage === 'My Shipments') return <MyShipments />;
         }
-
+        
         if (role === 'superadmin') {
             if (selectedPage === 'Dashboard') return <SuperadminPage />;
             if (selectedPage === 'ShowAdmins') return <ShowAdmins />;
             if (selectedPage === 'AddNewAdmins') return <AddNewAdmin />;
             if (selectedPage === 'Analytics') return <Analytics />;
+            if (selectedPage === 'Editor') return <SqlEditor />;
         }
 
         return <div>Page not found</div>;

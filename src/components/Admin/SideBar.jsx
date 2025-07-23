@@ -13,6 +13,8 @@ import { FaTachometerAlt, FaShippingFast, FaUsers, FaChartBar, FaPlus, FaBars, }
 import { AiOutlineAim } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
+import { BiLogoPostgresql } from "react-icons/bi";
+
 
 const iconMap = {
   Dashboard: <FaTachometerAlt size={18} />,
@@ -23,7 +25,9 @@ const iconMap = {
   ShowAdmins: <FaUsers size={18} />,
   AddNewAdmins: <FaPlus size={18} />,
   Track: <AiOutlineAim size={18} />,
-  MyShipments: <FaShippingFast size={18} />
+  MyShipments: <FaShippingFast size={18} />,
+  Editor: <BiLogoPostgresql size={18} />
+
 };
 
 const Sidebar = ({ role = 'admin', onItemClick, selected }) => {
@@ -31,7 +35,7 @@ const Sidebar = ({ role = 'admin', onItemClick, selected }) => {
 
   const navItems = {
     admin: ['Dashboard', 'Shipments', 'Clients'],
-    superadmin: ['Dashboard', 'ShowAdmins', 'AddNewAdmins', 'Analytics'],
+    superadmin: ['Dashboard', 'ShowAdmins', 'AddNewAdmins', 'Analytics', 'Editor'],
     client: ['Dashboard', 'Track', 'MyShipments']
   };
   const navigate = useNavigate();
@@ -52,7 +56,6 @@ const Sidebar = ({ role = 'admin', onItemClick, selected }) => {
         transition: 'width 0.3s ease',
         display: 'flex',
         flexDirection: 'column',
-        flexDirection: 'column'
       }}
     >
       {/* Toggle */}

@@ -1,6 +1,16 @@
-import { Button, Card, CardContent, MenuItem, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
+import {
+    Button, Typography, Paper, Table, TableHead, TableBody, TableRow, TableCell,
+    TextField, CircularProgress, Alert
+} from '@mui/material'; import { useForm } from "react-hook-form";
 import Sidebar from "../SideBar";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+
+
+
+
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const SuperAdminPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -69,24 +79,28 @@ const SuperAdminPage = () => {
     );
 };
 
-const dummyAdmins = [
-    {
-        id: 1,
-        name: "Balar Crens",
-        email: "balarcrens@example.com",
-        role: "Super Admin",
-        joined: "2024-07-05",
-    },
-    {
-        id: 2,
-        name: "Dhameliya Hit",
-        email: "hit@example.com",
-        role: "Super Admin",
-        joined: "2024-06-12",
-    },
-];
+const token = localStorage.getItem("Authorization")
 
 export const ShowAdmins = () => {
+    const [admin, setAdmin] = useState([])
+    const getAllAdmin = async () => {
+        try {
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/auth/all/admin`, {
+                headers: {
+                    Authorization: `${token}`
+                }
+            })
+
+            console.log(res.data.admins)
+            setAdmin(res.data.admins)
+        } catch (error) {
+            console.log("error" + error.message)
+            toast.warn(`err ${error.message}`)
+        }
+    }
+
+    useEffect(() => { getAllAdmin() }, [])
+
     return (
         <div className="sm:p-6 p-2">
             {/* Header */}
@@ -108,7 +122,7 @@ export const ShowAdmins = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#1F242A]">
-                        {dummyAdmins.map((admin, index) => (
+                        {admin.map((admin, index) => (
                             <tr key={admin.id}>
                                 <td className="px-6 py-4">{index + 1}</td>
                                 <td className="px-6 py-4 font-medium">{admin.name}</td>
@@ -136,10 +150,24 @@ export const AddNewAdmin = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log("Submitted Admin:", data);
-        alert("✅ Admin added successfully!");
-        reset();
+        console.log(typeof data)
+        try {
+
+            const res = await axios.post(`${VITE_BACKEND_URL}/api/auth/new/admin`, data, {
+                headers: {
+                    "Authorization": `${token}`
+                }
+            })
+            toast.success("Admin Created")
+            reset();
+        } catch (error) {
+            console.log(`${VITE_BACKEND_URL}api/auth/new/admin`)
+            console.log(`Error ${error.message}`)
+            toast.warn(`Error ${error.message}`)
+        }
+
     };
 
     return (
@@ -210,8 +238,8 @@ export const AddNewAdmin = () => {
                         {...register("role")}
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                     >
-                        <option value="Admin">Admin</option>
-                        <option value="Super Admin">Super Admin</option>
+                        <option value="admin">Admin</option>
+                        <option value="superadmin">Super Admin</option>
                     </select>
                 </div>
 
@@ -260,5 +288,95 @@ export const Analytics = () => {
         </div>
     );
 };
+
+
+export const SqlEditor = () => {
+    const [query, setQuery] = useState('SELECT * FROM users;');
+    const [response, setResponse] = useState(null);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const runQuery = async () => {
+        setLoading(true);
+        setError('');
+        setResponse(null);
+        try {
+            const res = await axios.get('http://localhost:5000/sql/editor', {
+                params: { query },
+            });
+            setResponse(res.data);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Unknown Error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="max-w-5xl mx-auto p-6 space-y-6">
+            <Typography variant="h4" className="text-center font-bold">
+                🧠 SQL Editor
+            </Typography>
+
+            <TextField
+                label="Write SQL query"
+                multiline
+                rows={5}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                fullWidth
+                variant="outlined"
+            />
+
+            <div className="flex justify-end">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={runQuery}
+                    disabled={loading}
+                >
+                    {loading ? <CircularProgress size={24} /> : '▶️ Run'}
+                </Button>
+            </div>
+
+            {error && (
+                <Alert severity="error" className="mt-4">{error}</Alert>
+            )}
+
+            {response && (
+                <Paper elevation={3} className="p-4">
+                    <Typography variant="h6" gutterBottom>
+                        ✅ Query Result: {response.command} | Rows: {response.rowCount}
+                    </Typography>
+
+                    {response.rows?.length > 0 ? (
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    {response.fields.map((field) => (
+                                        <TableCell key={field}><strong>{field}</strong></TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {response.rows.map((row, idx) => (
+                                    <TableRow key={idx}>
+                                        {response.fields.map((field) => (
+                                            <TableCell key={field}>{String(row[field])}</TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <Typography className="mt-4">✅ Query executed. No rows returned.</Typography>
+                    )}
+                </Paper>
+            )}
+        </div>
+    );
+};
+
+
 
 export default SuperAdminPage;

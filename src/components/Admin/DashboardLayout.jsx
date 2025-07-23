@@ -5,7 +5,7 @@ import ClientPage, { MyShipments, Track } from '../Admin/client/ClientPage';
 import SuperadminPage, { AddNewAdmin, ShowAdmins, Analytics } from '../Admin/superadmin/SuperadminPage';
 import { TopBar } from '../TopBar';
 
-const DashboardLayout = ({ role = 'admin' }) => {
+const DashboardLayout = ({ role }) => {
     const [selectedPage, setSelectedPage] = useState('Dashboard');
 
     const renderContent = () => {

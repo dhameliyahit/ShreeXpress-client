@@ -9,7 +9,7 @@ import {
   Tooltip,
   IconButton,
 } from '@mui/material';
-import { FaTachometerAlt, FaShippingFast, FaUsers, FaChartBar,FaPlus,FaBars } from 'react-icons/fa';
+import { FaTachometerAlt, FaShippingFast, FaUsers, FaChartBar, FaPlus, FaBars, } from 'react-icons/fa';
 import { AiOutlineAim } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
@@ -22,7 +22,6 @@ const iconMap = {
   Analytics: <FaChartBar size={18} />,
   ShowAdmins: <FaUsers size={18} />,
   AddNewAdmins: <FaPlus size={18} />,
-  Analytics: <FaChartBar size={18} />,
   Track: <AiOutlineAim size={18} />,
   MyShipments: <FaShippingFast size={18} />
 };

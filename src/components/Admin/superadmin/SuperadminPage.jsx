@@ -1,68 +1,71 @@
 import { Button, Card, CardContent, MenuItem, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
+import Sidebar from "../SideBar";
 
 const SuperAdminPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-        <div className="min-h-screen p-4 md:p-8">
-            {/* Header */}
-            <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
-                <h1 className="text-3xl font-bold mb-2">🛠️ Admin Dashboard</h1>
-                <p className=" mb-4">Manage your platform efficiently.</p>
-                <div className="text-lg space-y-1">
-                    <p>
-                        <strong>Role:</strong> {user.role}
-                    </p>
-                    <p>
-                        <strong>Welcome,</strong> {user.name}
-                    </p>
+        <>
+            <div className="min-h-screen p-4 md:p-8">
+                {/* Header */}
+                <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
+                    <h1 className="text-3xl font-bold mb-2">🛠️ Admin Dashboard</h1>
+                    <p className=" mb-4">Manage your platform efficiently.</p>
+                    <div className="text-lg space-y-1">
+                        <p>
+                            <strong>Role:</strong> {user.role}
+                        </p>
+                        <p>
+                            <strong>Welcome,</strong> {user.name}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Dashboard Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Box 1 - Manage Users */}
+                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                        <h2 className="text-xl font-semibold mb-2">👥 Manage Users</h2>
+                        <p className=" mb-4">
+                            View, edit, or remove users from the system.
+                        </p>
+                        <Button variant="contained" color="primary">Go to Users</Button>
+                    </div>
+
+                    {/* Box 2 - Manage Content */}
+                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                        <h2 className="text-xl font-semibold mb-2">📝 Manage Content</h2>
+                        <p className=" mb-4">
+                            Add or edit website content like posts or updates.
+                        </p>
+                        <Button variant="contained" color="success">Manage Content</Button>
+                    </div>
+
+                    {/* Box 3 - Analytics */}
+                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                        <h2 className="text-xl font-semibold mb-2">📈 Analytics</h2>
+                        <p className=" mb-4">
+                            Check performance and activity reports.
+                        </p>
+                        <Button variant="contained" style={{ backgroundColor: "#7e22ce", color: "#fff" }}>
+                            View Analytics
+                        </Button>
+                    </div>
+
+                    {/* Box 4 - Settings */}
+                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                        <h2 className="text-xl font-semibold mb-2">⚙️ Settings</h2>
+                        <p className=" mb-4">
+                            Adjust system preferences and configurations.
+                        </p>
+                        <Button variant="contained" style={{ backgroundColor: "#374151", color: "#fff" }}>
+                            Open Settings
+                        </Button>
+                    </div>
                 </div>
             </div>
-
-            {/* Dashboard Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Box 1 - Manage Users */}
-                <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">👥 Manage Users</h2>
-                    <p className=" mb-4">
-                        View, edit, or remove users from the system.
-                    </p>
-                    <Button variant="contained" color="primary">Go to Users</Button>
-                </div>
-
-                {/* Box 2 - Manage Content */}
-                <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">📝 Manage Content</h2>
-                    <p className=" mb-4">
-                        Add or edit website content like posts or updates.
-                    </p>
-                    <Button variant="contained" color="success">Manage Content</Button>
-                </div>
-
-                {/* Box 3 - Analytics */}
-                <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">📈 Analytics</h2>
-                    <p className=" mb-4">
-                        Check performance and activity reports.
-                    </p>
-                    <Button variant="contained" style={{ backgroundColor: "#7e22ce", color: "#fff" }}>
-                        View Analytics
-                    </Button>
-                </div>
-
-                {/* Box 4 - Settings */}
-                <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">⚙️ Settings</h2>
-                    <p className=" mb-4">
-                        Adjust system preferences and configurations.
-                    </p>
-                    <Button variant="contained" style={{ backgroundColor: "#374151", color: "#fff" }}>
-                        Open Settings
-                    </Button>
-                </div>
-            </div>
-        </div>
+        </>
     );
 };
 

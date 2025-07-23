@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
 import { useForm } from 'react-hook-form';
 import AOS from 'aos'
 import axios from 'axios';
 import { toast } from "react-toastify";
+import ThemeContext from "../../context/Theme/ThemeContext";
+import { MenuItem, TextField } from "@mui/material";
 
 export default function RequestOfPickup({ isLayout = true }) {
     const ROPImg = './assets/ROP_2.png'; // Adjust the path as necessary
     const { register, handleSubmit, reset } = useForm();
     const [loading, setLoading] = useState(false)
+    const { theme } = useContext(ThemeContext);
 
     const backend_url = import.meta.env.VITE_BACKEND_URL;
 
@@ -38,6 +41,8 @@ export default function RequestOfPickup({ isLayout = true }) {
         AOS.init();
     }, []);
 
+    // const branches = ["ABU ROAD", "Ahmedabad", "Mumbai"]
+
     const content = (
         <section className="max-w-7xl mx-auto mb-5 grid grid-cols-1 md:grid-cols-2 items-center p-2 sm:p-5 py-12 px-4 md:px-10 w-full ">
             {/* Left Image */}
@@ -63,7 +68,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                             type="text"
                             {...register("full_name")}
                             placeholder="Enter your full name"
-                            className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
@@ -73,7 +78,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                             type="tel"
                             {...register("phone_number")}
                             placeholder="Enter your phone number"
-                            className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
@@ -83,7 +88,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                             type="number"
                             {...register("pincode")}
                             placeholder="Enter Pincode"
-                            className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
@@ -94,7 +99,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                                 type="text"
                                 {...register("goods_type")}
                                 placeholder="e.g. Documents, Parcel"
-                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
+                                className={`w-full border ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3`}
                             />
                         </div>
 
@@ -104,7 +109,7 @@ export default function RequestOfPickup({ isLayout = true }) {
                                 type="text"
                                 {...register("approx_weight")}
                                 placeholder="e.g. 2 KG"
-                                className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
+                                className={`w-full border ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3`}
                             />
                         </div>
                     </div>
@@ -114,13 +119,13 @@ export default function RequestOfPickup({ isLayout = true }) {
                         <textarea
                             {...register("address")}
                             placeholder="Enter full address" autoComplete='address'
-                            className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium">Nearest Branch *</label>
-                        <select className="w-full border bg-white/90 text-gray-800 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3" {...register("nearest_branch")}>
+                        <select className={`w-full border ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} border-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] rounded px-3 py-3`} {...register("nearest_branch")}>
                             <option>ABU ROAD</option>
                             <option>Ahmedabad</option>
                             <option>Mumbai</option>

@@ -60,6 +60,7 @@ const IntroSection = () => {
 
 const FranchiseeForm = () => {
     const { handleSubmit, register } = useForm();
+    const { theme } = useContext(ThemeContext);
 
     const onSubmit = (data) => {
         console.log(data);
@@ -75,7 +76,7 @@ const FranchiseeForm = () => {
                             type="text"
                             {...register("first_name")}
                             placeholder="First name"
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
@@ -85,7 +86,7 @@ const FranchiseeForm = () => {
                             type="text"
                             {...register("last_name")}
                             placeholder="Last name"
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
                 </div>
@@ -97,7 +98,7 @@ const FranchiseeForm = () => {
                             type="email"
                             {...register("email")}
                             placeholder="Email"
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
@@ -107,7 +108,7 @@ const FranchiseeForm = () => {
                             type="text"
                             {...register("phone")}
                             placeholder="Phone no."
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
                 </div>
@@ -119,7 +120,7 @@ const FranchiseeForm = () => {
                             type="text"
                             {...register("location")}
                             placeholder="Franchise Location"
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
@@ -129,7 +130,7 @@ const FranchiseeForm = () => {
                             type="text"
                             {...register("pincode")}
                             placeholder="Pincode"
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
                 </div>
@@ -141,7 +142,7 @@ const FranchiseeForm = () => {
                             type="text"
                             {...register("business")}
                             placeholder="Current Business / Courier"
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
@@ -151,7 +152,7 @@ const FranchiseeForm = () => {
                             type="text"
                             {...register("experience")}
                             placeholder="No. of Experience in Courier"
-                            className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
                 </div>
@@ -161,7 +162,7 @@ const FranchiseeForm = () => {
                     <textarea
                         {...register("message")}
                         placeholder="Enter your Subject"
-                        className="w-full border border-gray-300 bg-white/90 text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3"
+                        className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                     />
                 </div>
 

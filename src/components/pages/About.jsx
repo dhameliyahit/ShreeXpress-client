@@ -88,7 +88,7 @@ const AboutUs = () => {
 
 const directors = [
     { name: "BALAR CRENS", phone: 9825515123, email: "balarcrens@gmail.com" },
-    { name: "DHAMELIYA HEET", phone: 9638601192, email: "heetdhameliya@gmail.com" },
+    { name: "DHAMELIYA HEET", phone: 9638601192, email: "heetdhameliya59@gmail.com" },
     { name: "DHANANI HARSH", phone: 8905718200, email: "harshdhanani@gmail.com" }
 ];
 

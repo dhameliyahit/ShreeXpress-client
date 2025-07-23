@@ -301,7 +301,7 @@ export const SqlEditor = () => {
         setError('');
         setResponse(null);
         try {
-            const res = await axios.get('http://localhost:5000/sql/editor', {
+            const res = await axios.get(`${VITE_BACKEND_URL}/sql/editor`, {
                 params: { query },
             });
             setResponse(res.data);

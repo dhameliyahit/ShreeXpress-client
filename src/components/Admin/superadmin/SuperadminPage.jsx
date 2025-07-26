@@ -6,6 +6,7 @@ import Sidebar from "../SideBar";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Loading from '../../Loading';
 
 
 
@@ -79,182 +80,265 @@ const SuperAdminPage = () => {
     );
 };
 
-const token = localStorage.getItem("Authorization")
 
-export const ShowAdmins = () => {
-    const [admin, setAdmin] = useState([])
-    const getAllAdmin = async () => {
+export const Users = () => {
+    const token = localStorage.getItem("Authorization");
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [selectedRole, setSelectedRole] = useState("all");
+
+    const fetchUsers = async () => {
         try {
-            const res = await axios.get(`${VITE_BACKEND_URL}/api/auth/all/admin`, {
+            setLoading(true);
+
+            let url = `${VITE_BACKEND_URL}/api/auth/all/users`;
+            if (selectedRole !== "all") {
+                url += `?role=${selectedRole}`;
+            }
+
+            const res = await axios.get(url, {
                 headers: {
-                    Authorization: `${token}`
-                }
-            })
+                    Authorization: token,
+                },
+            });
 
-            console.log(res.data.admins)
-            setAdmin(res.data.admins)
-        } catch (error) {
-            console.log("error" + error.message)
-            toast.warn(`err ${error.message}`)
+            if (res.data.success) {
+                setUsers(res.data.users);
+            } else {
+                toast.error("Failed to fetch users");
+            }
+
+            setLoading(false);
+        } catch (err) {
+            console.error("Error:", err);
+            toast.error("Error fetching users");
+            setLoading(false);
         }
-    }
+    };
 
-    useEffect(() => { getAllAdmin() }, [])
+    useEffect(() => {
+        fetchUsers();
+    }, [selectedRole]);
 
     return (
-        <div className="sm:p-6 p-2">
-            {/* Header */}
-            <div className="mb-4 flex justify-between items-center">
-                <h2 className="text-2xl font-semibold">👥 All Admins</h2>
-                {/* add a search button PENDING... */}
-            </div>
+        <>
+            {loading && <Loading />}
+            <div className="sm:p-6 p-2">
+                {/* Header */}
+                <div className="mb-4 flex justify-between items-center">
+                    <h2 className="text-2xl font-semibold">👥 All Users</h2>
 
-            {/* Table */}
-            <div className="overflow-x-auto  rounded-xl shadow border border-gray-400">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-800 text-white">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">#</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Role</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Joined</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#1F242A]">
-                        {admin.map((admin, index) => (
-                            <tr key={admin.id}>
-                                <td className="px-6 py-4">{index + 1}</td>
-                                <td className="px-6 py-4 font-medium">{admin.name}</td>
-                                <td className="px-6 py-4 text-sm ">{admin.email}</td>
-                                <td className="px-6 py-4 text-sm">
-                                    <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                                        {admin.role}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 text-sm ">{admin.joined}</td>
+                    {/* Role Filter */}
+                    <div className="flex items-center gap-2">
+                        <label className="text-sm font-medium text-gray-700">Filter by Role:</label>
+                        <div className="relative w-48">
+                            <select
+                                value={selectedRole}
+                                onChange={(e) => setSelectedRole(e.target.value)}
+                                className="w-full cursor-pointer appearance-none border border-gray-300 bg-white text-gray-700 px-4 py-2 pr-8 rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="all">All</option>
+                                <option value="superadmin">Superadmin</option>
+                                <option value="admin">Admin</option>
+                                <option value="client">Client</option>
+                            </select>
+
+                            {/* Dropdown icon */}
+                            <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500">
+                                <svg
+                                    className="h-4 w-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p className="text-md text-gray-500 my-2">
+                    Total Users: {users.length}
+                </p>
+
+                {/* User Table */}
+                <div className="overflow-x-auto rounded-xl shadow border border-gray-400">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-800 text-white">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-sm font-semibold">SR No</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold">Role</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold">Joined</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="divide-y divide-gray-300">
+                            {users.map((user, index) => (
+                                <tr key={user.id}>
+                                    <td className="px-6 py-4">{index + 1}</td>
+                                    <td className="px-6 py-4 font-medium">{user.name}</td>
+                                    <td className="px-6 py-4 text-sm">{user.email}</td>
+                                    <td className="px-6 py-4 text-sm">
+                                        <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            {user.role}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm">
+                                        {new Date(user.created_at).toLocaleString("en-IN", {
+                                            dateStyle: "medium",
+                                            timeStyle: "short",
+                                        })}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </>
     );
+
 };
 
 export const AddNewAdmin = () => {
+    const token = localStorage.getItem("Authorization")
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm();
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
         console.log("Submitted Admin:", data);
-        console.log(typeof data)
+        console.log("Type of data:", typeof data);
+
         try {
+            setLoading(true);
 
-            const res = await axios.post(`${VITE_BACKEND_URL}/api/auth/new/admin`, data, {
-                headers: {
-                    "Authorization": `${token}`
+            const res = await axios.post(
+                `${VITE_BACKEND_URL}/api/auth/new/admin`,
+                data,
+                {
+                    headers: {
+                        Authorization: token,
+                    },
                 }
-            })
-            toast.success("Admin Created")
-            reset();
-        } catch (error) {
-            console.log(`${VITE_BACKEND_URL}api/auth/new/admin`)
-            console.log(`Error ${error.message}`)
-            toast.warn(`Error ${error.message}`)
-        }
+            );
 
+
+            if (res.status === 200 || res.status === 201) {
+                console.log("✅ Admin created successfully:", res.data);
+                toast.success(res.data?.message || "Admin created successfully");
+                reset(); // Clear form
+            } else {
+                // Just in case backend responds with unexpected code but no error thrown
+                toast.error(res.data?.message || "Failed to create admin");
+            }
+        } catch (error) {
+            console.error("Error creating admin:", error);
+            toast.error(`❌ Error: ${error?.response?.data?.message || error.message}`);
+        } finally {
+            setLoading(false); // Always reset loading
+        }
     };
 
+
     return (
-        <div className="max-w-2xl mx-auto  rounded-xl shadow-md border border-gray-400 p-3 sm:p-6">
-            <h2 className="text-2xl font-bold text-center my-8">
-                ➕ Add New Admin
-            </h2>
+        <>
+            {loading && <Loading />}
+            <div className="max-w-2xl mx-auto  rounded-xl shadow-md border border-gray-400 p-3 sm:p-6">
+                <h2 className="text-2xl font-bold text-center my-8">
+                    ➕ Add New Admin
+                </h2>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                {/* Name */}
-                <div>
-                    <label className="block font-mediummb-1">Name</label>
-                    <input
-                        type="text"
-                        placeholder="Enter name"
-                        {...register("name", { required: "Name is required" })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
-                    {errors.name && (
-                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                    )}
-                </div>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    {/* Name */}
+                    <div>
+                        <label className="block font-mediummb-1">Name</label>
+                        <input
+                            type="text"
+                            placeholder="Enter name"
+                            {...register("name", { required: "Name is required" })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                        {errors.name && (
+                            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                        )}
+                    </div>
 
-                {/* Email */}
-                <div>
-                    <label className="block font-medium mb-1">Email</label>
-                    <input
-                        type="email"
-                        placeholder="Enter email"
-                        {...register("email", {
-                            required: "Email is required",
-                            pattern: {
-                                value: /^\S+@\S+$/i,
-                                message: "Invalid email format",
-                            },
-                        })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
-                    {errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                    )}
-                </div>
+                    {/* Email */}
+                    <div>
+                        <label className="block font-medium mb-1">Email</label>
+                        <input
+                            type="email"
+                            placeholder="Enter email"
+                            {...register("email", {
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^\S+@\S+$/i,
+                                    message: "Invalid email format",
+                                },
+                            })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                        {errors.email && (
+                            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                        )}
+                    </div>
 
-                {/* Password */}
-                <div>
-                    <label className="block font-medium mb-1">Password</label>
-                    <input
-                        type="password"
-                        placeholder="Enter password"
-                        {...register("password", {
-                            required: "Password is required",
-                            minLength: {
-                                value: 6,
-                                message: "Minimum 6 characters required",
-                            },
-                        })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    />
-                    {errors.password && (
-                        <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-                    )}
-                </div>
+                    {/* Password */}
+                    <div>
+                        <label className="block font-medium mb-1">Password</label>
+                        <input
+                            type="password"
+                            placeholder="Enter password"
+                            {...register("password", {
+                                required: "Password is required",
+                                minLength: {
+                                    value: 6,
+                                    message: "Minimum 6 characters required",
+                                },
+                            })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                        {errors.password && (
+                            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                        )}
+                    </div>
 
-                {/* Role */}
-                <div>
-                    <label className="block font-medium mb-1">Role</label>
-                    <select
-                        {...register("role")}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    {/* Role */}
+                    <div>
+                        <label className="block font-medium mb-1">Role</label>
+                        <select
+                            {...register("role")}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        >
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Super Admin</option>
+                        </select>
+                    </div>
+
+                    {/* Submit Button */}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        className="w-full"
+                        sx={{ py: 1.5, fontWeight: 600, borderRadius: 2 }}
                     >
-                        <option value="admin">Admin</option>
-                        <option value="superadmin">Super Admin</option>
-                    </select>
-                </div>
-
-                {/* Submit Button */}
-                <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    className="w-full"
-                    sx={{ py: 1.5, fontWeight: 600, borderRadius: 2 }}
-                >
-                    Add Admin
-                </Button>
-            </form>
-        </div>
+                        Add Admin
+                    </Button>
+                </form>
+            </div>
+        </>
     );
 };
 

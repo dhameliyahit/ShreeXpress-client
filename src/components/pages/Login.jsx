@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import Loading from '../Loading';
+import { FaTimes } from 'react-icons/fa';
+
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,6 +16,8 @@ export default function Login() {
     const { handleSubmit, register } = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showForgotModal, setShowForgotModal] = useState(false);
+
 
     const togglePassword = () => setShowPassword(!showPassword);
 
@@ -35,7 +39,7 @@ export default function Login() {
             if (user.role === "admin") {
                 navigate("/admin");
             } else if (user.role === "superadmin") {
-                navigate("/superadmin");
+                navigate("/dashboard");
             } else if (user.role === "client") {
                 navigate("/client");
                 navigate("/dashboard");
@@ -103,7 +107,8 @@ export default function Login() {
                             </div>
 
                             <div className="text-right">
-                                <Link to="/forgot-password" className="text-sm text-[#383185] hover:underline underline-offset-5">
+                                <Link onClick={() => setShowForgotModal(true)}
+                                    className="text-sm text-[#383185] hover:underline underline-offset-5">
                                     Forgot Password?
                                 </Link>
                             </div>
@@ -127,7 +132,110 @@ export default function Login() {
                     </div>
                 </div>
             </Layout>
+            <ForgotPasswordModal isOpen={showForgotModal} onClose={() => setShowForgotModal(false)} />
         </>
     );
 }
 
+
+
+function ForgotPasswordModal({ isOpen, onClose }) {
+    const [step, setStep] = useState(1); // 1 = email, 2 = OTP, 3 = new password
+    const [email, setEmail] = useState('');
+    const [otp, setOtp] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const handleSendOtp = async () => {
+        try {
+            const res = await axios.post(`${API_URL}/api/auth/forgot-password`, { email });
+            toast.success(res.data.message);
+            setStep(2);
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        try {
+            const res = await axios.post(`${API_URL}/api/auth/verify-otp`, { email, otp });
+            toast.success(res.data.message);
+            setStep(3);
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Invalid OTP");
+        }
+    };
+
+    const handleResetPassword = async () => {
+        if (password !== confirmPassword) {
+            toast.error("Passwords do not match");
+            return;
+        }
+        try {
+            const res = await axios.post(`${API_URL}/api/auth/reset-password`, { email, password });
+            toast.success(res.data.message);
+            onClose(); // Close modal after success
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to reset password");
+        }
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg w-full max-w-sm relative">
+                <button className="absolute top-2 right-2 text-gray-600" onClick={onClose}><FaTimes /></button>
+
+                {step === 1 && (
+                    <>
+                        <h2 className="text-lg font-bold mb-4">Forgot Password</h2>
+                        <input
+                            type="email"
+                            className="w-full border p-2 rounded mb-3"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <button onClick={handleSendOtp} className="w-full bg-[#383185] text-white py-2 rounded">Send OTP</button>
+                    </>
+                )}
+
+                {step === 2 && (
+                    <>
+                        <h2 className="text-lg font-bold mb-4">Enter OTP</h2>
+                        <input
+                            type="text"
+                            className="w-full border p-2 rounded mb-3"
+                            placeholder="Enter OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                        />
+                        <button onClick={handleVerifyOtp} className="w-full bg-[#383185] text-white py-2 rounded">Verify OTP</button>
+                    </>
+                )}
+
+                {step === 3 && (
+                    <>
+                        <h2 className="text-lg font-bold mb-4">Reset Password</h2>
+                        <input
+                            type="password"
+                            className="w-full border p-2 rounded mb-3"
+                            placeholder="New Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            className="w-full border p-2 rounded mb-3"
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                        <button onClick={handleResetPassword} className="w-full bg-[#383185] text-white py-2 rounded">Reset Password</button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+}

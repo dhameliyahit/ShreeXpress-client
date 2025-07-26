@@ -12,9 +12,6 @@ import FranchiseeInquiry from './components/pages/FranchiseeInquiry'
 import Progress from './components/Progress'
 import ThemeContext from './context/Theme/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
-import AdminPage from './components/Admin/admin/AdminPage'
-import ClientPage from './components/Admin/client/ClientPage'
-import SuperadminPage from './components/Admin/superadmin/SuperadminPage'
 import DashboardMain from './components/Admin/DashboardMain'
 
 export default function App() {
@@ -33,53 +30,14 @@ export default function App() {
         <Route path='/franchisee-inquiry' element={<FranchiseeInquiry />} />
         <Route path='/login' element={<Login />} />
         <Route path='/*' element={<PageNotFound />} />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminPage />
-            </ProtectedRoute>
-          }
-        />
 
-        <Route
-          path="/superadmin"
-          element={
-            <ProtectedRoute allowedRoles={["superadmin"]}>
-              <SuperadminPage />
-            </ProtectedRoute>
-          }
-        />
 
-        <Route
-          path="/client"
-          element={
-            <ProtectedRoute allowedRoles={["client"]}>
-              <ClientPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/dashboard" element={<DashboardMain />} />
-        <Route path="/admin" element={
-          <ProtectedRoute allowedRoles={["admin"]}>
-            <AdminPage />
+
+        <Route path="/dashboard" element={
+          <ProtectedRoute allowedRoles={['admin', 'superadmin', 'client']}>
+            <DashboardMain />
           </ProtectedRoute>
-        }
-        />
-
-        <Route path="/superadmin" element={
-          <ProtectedRoute allowedRoles={["superadmin"]}>
-            <SuperadminPage />
-          </ProtectedRoute>
-        }
-        />
-
-        <Route path="/client" element={
-          <ProtectedRoute allowedRoles={["client"]}>
-            <ClientPage />
-          </ProtectedRoute>
-        }
-        />
+        } />
       </Routes>
     </div>
   )

@@ -373,7 +373,6 @@ export const Analytics = () => {
     );
 };
 
-
 export const SqlEditor = () => {
     const [query, setQuery] = useState('SELECT * FROM users;');
     const [response, setResponse] = useState(null);
@@ -460,7 +459,5 @@ export const SqlEditor = () => {
         </div>
     );
 };
-
-
 
 export default SuperAdminPage;

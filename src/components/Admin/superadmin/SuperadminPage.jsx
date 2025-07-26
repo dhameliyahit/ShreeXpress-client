@@ -81,7 +81,7 @@ const SuperAdminPage = () => {
 };
 
 
-export const Users = () => {
+const Users = () => {
     const token = localStorage.getItem("Authorization");
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -206,7 +206,7 @@ export const Users = () => {
 
 };
 
-export const AddNewAdmin = () => {
+const AddNewAdmin = () => {
     const token = localStorage.getItem("Authorization")
     const {
         register,
@@ -342,7 +342,7 @@ export const AddNewAdmin = () => {
     );
 };
 
-export const Analytics = () => {
+const Analytics = () => {
     return (
         <div className="p-6">
             <h2 className="text-2xl font-bold mb-4">📈 Analytics Dashboard</h2>
@@ -374,7 +374,7 @@ export const Analytics = () => {
 };
 
 
-export const SqlEditor = () => {
+const SqlEditor = () => {
     const [query, setQuery] = useState('SELECT * FROM users;');
     const [response, setResponse] = useState(null);
     const [error, setError] = useState('');
@@ -464,3 +464,4 @@ export const SqlEditor = () => {
 
 
 export default SuperAdminPage;
+export { AddNewAdmin, Users, Analytics, SqlEditor };

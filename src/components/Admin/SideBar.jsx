@@ -18,7 +18,7 @@ import { BiLogoPostgresql } from "react-icons/bi";
 
 const iconMap = {
   Dashboard: <FaTachometerAlt size={18} />,
-  Shipments: <FaShippingFast size={18} />,
+  AddNewClient: <FaPlus size={18} />,
   Clients: <FaUsers size={18} />,
   Admins: <FaUsers size={18} />,
   Analytics: <FaChartBar size={18} />,
@@ -26,15 +26,15 @@ const iconMap = {
   AddNewAdmins: <FaPlus size={18} />,
   Track: <AiOutlineAim size={18} />,
   MyShipments: <FaShippingFast size={18} />,
-  Editor: <BiLogoPostgresql size={18} />
-
+  Editor: <BiLogoPostgresql size={18} />,
+  CreateParcel: <FaPlus size={18}/>
 };
 
 const Sidebar = ({ role = 'admin', onItemClick, selected }) => {
   const [open, setOpen] = useState(true);
 
   const navItems = {
-    admin: ['Dashboard', 'Shipments', 'Clients'],
+    admin: ['Dashboard', 'AddNewClient', 'Clients', 'CreateParcel'],
     superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Editor'],
     client: ['Dashboard', 'Track', 'MyShipments']
   };

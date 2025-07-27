@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-    Button, Typography, Paper, Table, TableHead, TableBody, TableRow, TableCell,
-    TextField, CircularProgress, Alert
-} from '@mui/material'; import { useForm } from "react-hook-form";
+import { Button, CircularProgress } from '@mui/material';
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -126,7 +124,7 @@ export const Users = () => {
 
                     {/* Role Filter */}
                     <div className="flex items-center gap-2">
-                        <label className="text-sm font-medium text-gray-700">Filter by Role:</label>
+                        <label className="text-sm font-medium">Filter by Role:</label>
                         <div className="relative w-48">
                             <select
                                 value={selectedRole}
@@ -158,20 +156,20 @@ export const Users = () => {
                     </div>
                 </div>
 
-                <p className="text-md text-gray-500 my-2">
+                <p className="text-md  my-2">
                     Total Users: {users.length}
                 </p>
 
                 {/* User Table */}
-                <div className="overflow-x-auto rounded-xl shadow border border-gray-400">
+                <div className="overflow-x-auto rounded-xl">
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-800 text-white">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold">SR No</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold">Role</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold">Joined</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold">SR No</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold">Name</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold">Email</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold">Role</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold">Joined</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-300">
@@ -199,7 +197,6 @@ export const Users = () => {
             </div>
         </>
     );
-
 };
 
 export const AddNewAdmin = () => {
@@ -219,10 +216,7 @@ export const AddNewAdmin = () => {
         try {
             setLoading(true);
 
-            const res = await axios.post(
-                `${VITE_BACKEND_URL}/api/auth/new/admin`,
-                data,
-                {
+            const res = await axios.post(`${VITE_BACKEND_URL}/api/auth/new/admin`, data, {
                     headers: {
                         Authorization: token,
                     },
@@ -306,16 +300,23 @@ export const AddNewAdmin = () => {
                         </div>
 
                         {/* Role */}
-                        <div>
+                        <div className='relative'>
                             <label className="block text-sm text-black font-semibold mb-1">Role</label>
                             <select
                                 {...register("role")}
-                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                                className="w-full cursor-pointer appearance-none bg-gray-100 px-4 py-3 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
                             >
                                 <option disabled selected>-- Select Role --</option>
                                 <option value="admin">Admin</option>
                                 <option value="superadmin">Super Admin</option>
                             </select>
+
+                            {/* Dropdown icon */}
+                            <div className="pointer-events-none absolute inset-y-0 top-6 right-2 flex items-center text-gray-500">
+                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" >
+                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                </svg>
+                            </div>
                         </div>
 
                         {/* Submit Button */}
@@ -323,6 +324,7 @@ export const AddNewAdmin = () => {
                             type="submit"
                             fullWidth
                             variant="contained"
+                            disabled={loading}
                             sx={{
                                 backgroundColor: '#383185',
                                 textTransform: 'none',
@@ -335,7 +337,11 @@ export const AddNewAdmin = () => {
                                 },
                             }}
                         >
-                            Add Admin
+                            {loading ? (
+                                <CircularProgress size={24} sx={{ color: 'white' }} />
+                            ) : (
+                                "Add Admin"
+                            )}
                         </Button>
                     </form>
                 </div>
@@ -345,32 +351,95 @@ export const AddNewAdmin = () => {
 };
 
 export const Analytics = () => {
+    const token = localStorage.getItem("Authorization");
+    const [loading, setLoading] = useState(false);
+    const [analytics, setAnalytics] = useState({ admins: 0, parcels: 0, branches: 0, });
+
+    // Data Fetch
+    const fetchAnalytics = async () => {
+        try {
+            setLoading(true);
+            const adminsRes = await axios.get(`${VITE_BACKEND_URL}/api/auth/all/admin`, {
+                headers: { Authorization: token },
+            });
+
+            const parcelsRes = await axios.get(`${VITE_BACKEND_URL}/api/courier/all/courier`, {
+                headers: { Authorization: token },
+            });
+
+            const branchesRes = await axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, {
+                headers: { Authorization: token },
+            });
+
+            setAnalytics({
+                admins: adminsRes?.data?.admins.length || 0,
+                parcels: parcelsRes?.data.length || 0,
+                branches: branchesRes?.data.length || 0,
+            });
+        } catch (err) {
+            console.error("Error:", err);
+            toast.error("Error fetching analytics");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Function Call
+    useEffect(() => {
+        fetchAnalytics();
+    }, []);
+
     return (
-        <div className="p-6">
+        <div className="p-2 sm:p-4 md:p-6">
             <h2 className="text-2xl font-bold mb-4">📈 Analytics Dashboard</h2>
 
-            {/* Stat Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="shadow-md p-4 rounded-xl text-center">
-                    <h3 className="text-lg font-semibold">Total Admins</h3>
-                    <p className="text-3xl font-bold text-blue-600 mt-2">12</p>
-                </div>
+            {loading ? (
+                <Loading />
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="relative text-center bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
+                        <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
+                            <img
+                                src="https://demo.bootstrapdash.com/purple-admin-free/dist/themes/assets/images/dashboard/circle.svg"
+                                alt="circle-image"
+                                className="absolute right-0 top-0 h-full opacity-30 pointer-events-none"
+                            />
+                            <h4 className="text-lg font-semibold text-center">
+                                Total Admins
+                            </h4>
+                            <h2 className="text-3xl font-bold mt-2">{analytics.admins}</h2>
+                        </div>
+                    </div>
 
-                <div className="shadow-md p-4 rounded-xl text-center">
-                    <h3 className="text-lg font-semibold">Total Clients</h3>
-                    <p className="text-3xl font-bold text-green-600 mt-2">58</p>
-                </div>
+                    <div className="relative text-center bg-gradient-to-r from-pink-400 to-red-300 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
+                        <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
+                            <img
+                                src="https://demo.bootstrapdash.com/purple-admin-free/dist/themes/assets/images/dashboard/circle.svg"
+                                alt="circle-image"
+                                className="absolute right-0 top-0 h-full opacity-30 pointer-events-none"
+                            />
+                            <h4 className="text-lg font-semibold text-center">
+                                Parcels Issued
+                            </h4>
+                            <h2 className="text-3xl font-bold mt-2">{analytics.parcels}</h2>
+                        </div>
+                    </div>
 
-                <div className="shadow-md p-4 rounded-xl text-center">
-                    <h3 className="text-lg font-semibold">Parcels Issued</h3>
-                    <p className="text-3xl font-bold text-purple-600 mt-2">320</p>
+                    <div className="relative text-center sm:col-span-2 lg:col-span-1 bg-gradient-to-r from-teal-400 to-green-400 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
+                        <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
+                            <img
+                                src="https://demo.bootstrapdash.com/purple-admin-free/dist/themes/assets/images/dashboard/circle.svg"
+                                alt="circle-image"
+                                className="absolute right-0 top-0 h-full opacity-30 pointer-events-none"
+                            />
+                            <h4 className="text-lg font-semibold text-center">
+                                Branches
+                            </h4>
+                            <h2 className="text-3xl font-bold mt-2">{analytics.branches}</h2>
+                        </div>
+                    </div>
                 </div>
-
-                <div className="shadow-md p-4 rounded-xl text-center">
-                    <h3 className="text-lg font-semibold">Branches</h3>
-                    <p className="text-3xl font-bold text-yellow-600 mt-2">5</p>
-                </div>
-            </div>
+            )}
         </div>
     );
 };
@@ -380,6 +449,8 @@ export const SqlEditor = () => {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 10;
 
     const runQuery = async () => {
         setLoading(true);
@@ -397,21 +468,23 @@ export const SqlEditor = () => {
         }
     };
 
-    return (
-        <div className="max-w-5xl mx-auto p-6 space-y-6">
-            <Typography variant="h4" className="text-center font-bold">
-                🧠 SQL Editor
-            </Typography>
+    const paginatedRows = response?.rows?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+    const totalPages = Math.ceil((response?.rows?.length || 0) / rowsPerPage);
 
-            <TextField
-                label="Write SQL query"
-                multiline
-                rows={5}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                fullWidth
-                variant="outlined"
-            />
+    return (
+        <div className="mx-auto sm:p-3 md:p-6 space-y-6">
+            <h2 className="text-3xl font-bold text-center">🧠 SQL Editor</h2>
+
+            <div>
+                <label htmlFor="sql-query" className="block font-semibold mb-2">Write SQL query</label>
+                <textarea
+                    id="sql-query"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    rows={5}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                />
+            </div>
 
             <div className="flex justify-end">
                 <Button
@@ -425,38 +498,78 @@ export const SqlEditor = () => {
             </div>
 
             {error && (
-                <Alert severity="error" className="mt-4">{error}</Alert>
+                <div className="bg-red-100 text-red-800 border border-red-300 px-4 py-2 rounded-md">
+                    {error}
+                </div>
             )}
 
             {response && (
-                <Paper elevation={3} className="p-4">
-                    <Typography variant="h6" gutterBottom>
+                <div className="p-2 md:p-4 overflow-auto">
+                    <div className="mb-4 font-semibold">
                         ✅ Query Result: {response.command} | Rows: {response.rowCount}
-                    </Typography>
+                    </div>
 
                     {response.rows?.length > 0 ? (
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    {response.fields.map((field) => (
-                                        <TableCell key={field}><strong>{field}</strong></TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {response.rows.map((row, idx) => (
-                                    <TableRow key={idx}>
-                                        {response.fields.map((field) => (
-                                            <TableCell key={field}>{String(row[field])}</TableCell>
+                        <table className="min-w-full divide-y divide-gray-200 rounded-md overflow-hidden">
+                            <thead className="bg-gray-800 text-white">
+                                <tr>
+                                    {response.fields
+                                        .filter((field) => field.toLowerCase() !== 'password')
+                                        .map((field) => (
+                                            <th key={field} className="px-6 py-4 text-left font-semibold">
+                                                {field}
+                                            </th>
                                         ))}
-                                    </TableRow>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-300">
+                                {paginatedRows.map((row, idx) => (
+                                    <tr key={idx}>
+                                        {response.fields
+                                            .filter((field) => field.toLowerCase() !== 'password')
+                                            .map((field) => (
+                                                <td key={field} className="px-6 py-4">
+                                                    {String(row[field])}
+                                                </td>
+                                            ))}
+                                    </tr>
                                 ))}
-                            </TableBody>
-                        </Table>
+                            </tbody>
+                        </table>
                     ) : (
-                        <Typography className="mt-4">✅ Query executed. No rows returned.</Typography>
+                        <p className="text-green-600 mt-4">✅ Query executed. No rows returned.</p>
                     )}
-                </Paper>
+
+                    <div className="flex justify-center gap-2 sm:gap-4 items-center text-black mt-4">
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                            className="px-4 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        >
+                            Prev
+                        </button>
+
+                        <div className="space-x-2">
+                            {Array.from({ length: totalPages }, (_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setCurrentPage(i + 1)}
+                                    className={`px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                            className="px-4 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
             )}
         </div>
     );

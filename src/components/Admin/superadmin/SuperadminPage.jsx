@@ -1,15 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
     Button, Typography, Paper, Table, TableHead, TableBody, TableRow, TableCell,
     TextField, CircularProgress, Alert
 } from '@mui/material'; import { useForm } from "react-hook-form";
-import Sidebar from "../SideBar";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from '../../Loading';
-
-
-
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -21,7 +18,7 @@ const SuperAdminPage = () => {
             <div className="min-h-screen p-4 md:p-8">
                 {/* Header */}
                 <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
-                    <h1 className="text-3xl font-bold mb-2">🛠️ Admin Dashboard</h1>
+                    <h1 className="text-3xl font-bold mb-2">🛠️ SuperAdmin Dashboard</h1>
                     <p className=" mb-4">Manage your platform efficiently.</p>
                     <div className="text-lg space-y-1">
                         <p>
@@ -79,7 +76,6 @@ const SuperAdminPage = () => {
         </>
     );
 };
-
 
 export const Users = () => {
     const token = localStorage.getItem("Authorization");
@@ -254,89 +250,95 @@ export const AddNewAdmin = () => {
     return (
         <>
             {loading && <Loading />}
-            <div className="max-w-2xl mx-auto  rounded-xl shadow-md border border-gray-400 p-3 sm:p-6">
-                <h2 className="text-2xl font-bold text-center my-8">
-                    ➕ Add New Admin
-                </h2>
+            <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
+                <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
+                    <h2 className="text-4xl font-extrabold text-[#383185] text-center mb-10 tracking-tight">
+                        <span className="inline-block border-b-4 border-[#383185] pb-1">Add New Admin</span>
+                    </h2>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                    {/* Name */}
-                    <div>
-                        <label className="block font-mediummb-1">Name</label>
-                        <input
-                            type="text"
-                            placeholder="Enter name"
-                            {...register("name", { required: "Name is required" })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        {errors.name && (
-                            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                        )}
-                    </div>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        {/* Name */}
+                        <div>
+                            <label className="block text-sm text-black font-semibold mb-1">Name</label>
+                            <input
+                                type="text"
+                                placeholder="Enter name"
+                                {...register("name", { required: "Name is required" })}
+                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                            />
+                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+                        </div>
 
-                    {/* Email */}
-                    <div>
-                        <label className="block font-medium mb-1">Email</label>
-                        <input
-                            type="email"
-                            placeholder="Enter email"
-                            {...register("email", {
-                                required: "Email is required",
-                                pattern: {
-                                    value: /^\S+@\S+$/i,
-                                    message: "Invalid email format",
+                        {/* Email */}
+                        <div>
+                            <label className="block text-sm text-black font-semibold mb-1">Email</label>
+                            <input
+                                type="email"
+                                placeholder="Enter email"
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^\S+@\S+$/i,
+                                        message: "Invalid email format",
+                                    },
+                                })}
+                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                            />
+                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                        </div>
+
+                        {/* Password */}
+                        <div>
+                            <label className="block text-sm text-black font-semibold mb-1">Password</label>
+                            <input
+                                type="password"
+                                placeholder="Enter password"
+                                {...register("password", {
+                                    required: "Password is required",
+                                    minLength: {
+                                        value: 6,
+                                        message: "Minimum 6 characters required",
+                                    },
+                                })}
+                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                            />
+                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+                        </div>
+
+                        {/* Role */}
+                        <div>
+                            <label className="block text-sm text-black font-semibold mb-1">Role</label>
+                            <select
+                                {...register("role")}
+                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                            >
+                                <option disabled selected>-- Select Role --</option>
+                                <option value="admin">Admin</option>
+                                <option value="superadmin">Super Admin</option>
+                            </select>
+                        </div>
+
+                        {/* Submit Button */}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{
+                                backgroundColor: '#383185',
+                                textTransform: 'none',
+                                fontWeight: 600,
+                                fontSize: '16px',
+                                paddingY: 1.2,
+                                borderRadius: '0.5rem',
+                                '&:hover': {
+                                    backgroundColor: '#2e285e',
                                 },
-                            })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                        )}
-                    </div>
-
-                    {/* Password */}
-                    <div>
-                        <label className="block font-medium mb-1">Password</label>
-                        <input
-                            type="password"
-                            placeholder="Enter password"
-                            {...register("password", {
-                                required: "Password is required",
-                                minLength: {
-                                    value: 6,
-                                    message: "Minimum 6 characters required",
-                                },
-                            })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        {errors.password && (
-                            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-                        )}
-                    </div>
-
-                    {/* Role */}
-                    <div>
-                        <label className="block font-medium mb-1">Role</label>
-                        <select
-                            {...register("role")}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            }}
                         >
-                            <option value="admin">Admin</option>
-                            <option value="superadmin">Super Admin</option>
-                        </select>
-                    </div>
-
-                    {/* Submit Button */}
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        className="w-full"
-                        sx={{ py: 1.5, fontWeight: 600, borderRadius: 2 }}
-                    >
-                        Add Admin
-                    </Button>
-                </form>
+                            Add Admin
+                        </Button>
+                    </form>
+                </div>
             </div>
         </>
     );

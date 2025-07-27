@@ -10,7 +10,7 @@ import Loading from '../../Loading';
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-const SuperAdminPage = () => {
+const SuperadminPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
@@ -462,4 +462,4 @@ export const SqlEditor = () => {
     );
 };
 
-export default SuperAdminPage;
+export default SuperadminPage;

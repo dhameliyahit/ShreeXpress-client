@@ -36,16 +36,7 @@ export default function Login() {
 
             toast.success("Login Successful");
 
-            if (user.role === "admin") {
-                navigate("/admin");
-            } else if (user.role === "superadmin") {
-                navigate("/dashboard");
-            } else if (user.role === "client") {
-                navigate("/client");
-                navigate("/dashboard");
-            } else if (user.role === "superadmin") {
-                navigate("/dashboard");
-            } else if (user.role === "client") {
+            if (user.role) {
                 navigate("/dashboard");
             } else {
                 navigate("/login");

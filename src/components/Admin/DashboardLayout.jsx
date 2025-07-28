@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Sidebar from './SideBar';
 import AdminPage, { AddNewClient, Clients, CreateParcel } from '../Admin/admin/AdminPage';
 import ClientPage, { MyShipments, Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { Users , AddNewAdmin, Analytics, SqlEditor } from './superadmin/Superadmin';
+import SuperadminPage, { Users , AddNewAdmin, Analytics, SqlEditor } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
 const DashboardLayout = ({ role }) => {

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext } from 'react';;
 import { IoCall } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
@@ -8,10 +8,17 @@ import { Button, Stack, Tooltip } from '@mui/material';
 import { FaTachometerAlt } from 'react-icons/fa';
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 
+
 export const TopBar = () => {
     const { token, user } = useAuth();
     const navigate = useNavigate();
     const { theme, toggleTheme } = useContext(ThemeContext);
+
+    const handleLogout = () => {
+        localStorage.removeItem("Authorization");
+        localStorage.removeItem("user");
+        navigate("/login");
+    };
 
     return (
         <div className={`${theme === 'dark' ? 'bg-[#111317] border-b border-[#1F242A]' : 'bg-[#292929]'} text-white flex justify-between items-center flex-wrap shadow-lg py-2 px-4`}>

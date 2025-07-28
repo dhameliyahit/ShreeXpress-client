@@ -130,6 +130,9 @@ export const Users = () => {
 
                     {/* Role Filter */}
                     <div className="flex items-center gap-2">
+                        <Button variant="contained" color="primary" onClick={fetchUsers}>
+                            Refresh
+                        </Button>
                         <label className="text-sm font-medium text-gray-700">Filter by Role:</label>
                         <div className="relative w-48">
                             <select

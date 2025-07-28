@@ -185,85 +185,85 @@ function ForgotPasswordModal({ isOpen, onClose }) {
 
     return (
         <>
-        {loading && <Loading />}
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-            <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-xl w-full max-w-md relative transition-all duration-300 ease-in-out">
-                {/* Close Button */}
-                <button
-                    className="absolute top-3 right-3 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200"
-                    onClick={onClose}
-                >
-                    <FaTimes size={18} />
-                </button>
+            {loading && <Loading />}
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+                <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-xl w-full max-w-md relative transition-all duration-300 ease-in-out">
+                    {/* Close Button */}
+                    <button
+                        className="absolute top-3 right-3 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200"
+                        onClick={onClose}
+                    >
+                        <FaTimes size={18} />
+                    </button>
 
-                {/* Step 1 - Email */}
-                {step === 1 && (
-                    <>
-                        <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Forgot Password</h2>
-                        <input
-                            type="email"
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <button
-                            onClick={handleSendOtp}
-                            className="w-full bg-[#383185] hover:bg-[#2f296e] text-white font-semibold py-2.5 rounded-lg transition duration-300 cursor-pointer"
-                        >
-                            {loading ? "Sending..." : "Send OTP"}
-                        </button>
-                    </>
-                )}
+                    {/* Step 1 - Email */}
+                    {step === 1 && (
+                        <>
+                            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Forgot Password</h2>
+                            <input
+                                type="email"
+                                className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Enter your email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <button
+                                onClick={handleSendOtp}
+                                className="w-full bg-[#383185] hover:bg-[#2f296e] text-white font-semibold py-2.5 rounded-lg transition duration-300 cursor-pointer"
+                            >
+                                {loading ? "Sending..." : "Send OTP"}
+                            </button>
+                        </>
+                    )}
 
-                {/* Step 2 - OTP */}
-                {step === 2 && (
-                    <>
-                        <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Enter OTP</h2>
-                        <input
-                            type="text"
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Enter OTP"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                        />
-                        <button
-                            onClick={handleVerifyOtp}
-                            className="w-full bg-[#383185] hover:bg-[#2f296e] text-white font-semibold py-2.5 rounded-lg transition duration-300 cursor-pointer"
-                        >
-                            {loading ? "Verifying..." : "Verify OTP"}
-                        </button>
-                    </>
-                )}
+                    {/* Step 2 - OTP */}
+                    {step === 2 && (
+                        <>
+                            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Enter OTP</h2>
+                            <input
+                                type="text"
+                                className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Enter OTP"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                            />
+                            <button
+                                onClick={handleVerifyOtp}
+                                className="w-full bg-[#383185] hover:bg-[#2f296e] text-white font-semibold py-2.5 rounded-lg transition duration-300 cursor-pointer"
+                            >
+                                {loading ? "Verifying..." : "Verify OTP"}
+                            </button>
+                        </>
+                    )}
 
-                {/* Step 3 - Reset Password */}
-                {step === 3 && (
-                    <>
-                        <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Reset Password</h2>
-                        <input
-                            type="password"
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="New Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Confirm Password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                        <button
-                            onClick={handleResetPassword}
-                            className="w-full bg-[#383185] hover:bg-[#2f296e] text-white font-semibold py-2.5 rounded-lg transition duration-300 cursor-pointer"
-                        >
-                            {loading ? "Resetting..." : "Reset Password"}
-                        </button>
-                    </>
-                )}
+                    {/* Step 3 - Reset Password */}
+                    {step === 3 && (
+                        <>
+                            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Reset Password</h2>
+                            <input
+                                type="password"
+                                className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="New Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <input
+                                type="password"
+                                className="w-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white p-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Confirm Password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                            <button
+                                onClick={handleResetPassword}
+                                className="w-full bg-[#383185] hover:bg-[#2f296e] text-white font-semibold py-2.5 rounded-lg transition duration-300 cursor-pointer"
+                            >
+                                {loading ? "Resetting..." : "Reset Password"}
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
-        </div>
         </>
     );
 }

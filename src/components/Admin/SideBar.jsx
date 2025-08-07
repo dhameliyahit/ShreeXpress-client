@@ -27,7 +27,7 @@ const iconMap = {
   Editor: <BiLogoPostgresql size={18} />,
   Branches: <FaShippingFast size={18} />,
   OTP_Logs: <FcSms size={18} />,
-  black_email: <MdOutlineAppBlocking size={18} />
+  block_email: <MdOutlineAppBlocking size={18} />
 };
 
 const Sidebar = ({ role = 'client', onItemClick, selected }) => {
@@ -36,7 +36,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
 
   const navItems = {
     admin: ['Dashboard', 'Shipments', 'Clients'],
-    superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'black_email', 'Editor'],
+    superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'block_email', 'Editor'],
     client: ['Dashboard', 'Track', 'MyShipments']
   };
 

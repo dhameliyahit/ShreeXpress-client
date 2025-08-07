@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, CircularProgress } from '@mui/material';
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -162,7 +162,7 @@ export const Users = () => {
 
                 {/* User Table */}
                 <div className="overflow-x-auto rounded-xl">
-                    <table className="min-w-full divide-y divide-gray-200">
+                    <table className="min-w-full table-pin-cols divide-y divide-gray-200">
                         <thead className="bg-gray-800 text-white">
                             <tr>
                                 <th className="px-6 py-4 text-left text-sm font-semibold">SR No</th>
@@ -178,8 +178,9 @@ export const Users = () => {
                                     <td className="px-6 py-4">{index + 1}</td>
                                     <td className="px-6 py-4 font-medium">{user.name}</td>
                                     <td className="px-6 py-4 text-sm">{user.email}</td>
-                                    <td className="px-6 py-4 text-sm">
-                                        <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    <td className="px-6 py-4    text-sm">
+                                        <span className=" inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-500 text-white">
+                                            <div aria-label="success" className="status status-success mx-2"></div>
                                             {user.role}
                                         </span>
                                     </td>
@@ -217,10 +218,10 @@ export const AddNewAdmin = () => {
             setLoading(true);
 
             const res = await axios.post(`${VITE_BACKEND_URL}/api/auth/new/admin`, data, {
-                    headers: {
-                        Authorization: token,
-                    },
-                }
+                headers: {
+                    Authorization: token,
+                },
+            }
             );
 
 
@@ -443,6 +444,284 @@ export const Analytics = () => {
         </div>
     );
 };
+
+
+export const Branches = () => {
+    const [branches, setBranches] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const token = localStorage.getItem("Authorization");
+
+    const GetAllBranches = async () => {
+        try {
+            setLoading(true);
+            setBranches([]);
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, {
+                headers: {
+                    Authorization: `${token}`,
+                }
+            });
+            setBranches(res.data);
+        } catch (error) {
+            console.error("Error fetching branches:", error.message);
+            toast.error("Failed to fetch branches");
+        } finally {
+            setLoading(false);
+        }
+    }
+    useEffect(() => { GetAllBranches() }, [])
+    return (
+        <>
+            {loading && <Loading />}
+            <div className="p-4 sm:p-6 md:p-8">
+                <h2 className="text-2xl font-bold mb-4 text-shadow-md "><span className='text-[#C2221F]'>ShreeXpress Courier</span>  <span className='text-[#21294D]'>Service PVT LTD</span></h2>
+                <p className="mb-6 text-md font-bold">Our All Branches</p>
+                <div className='overflow-x-auto overflow-y-auto h-[80vh]'>
+                    <table className='table table-pin-rows table-pin-cols  bg-gray-900 text-white'>
+                        <thead>
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Branch Name</th>
+                                <th>Branch Address</th>
+                                <th>Contact No</th>
+                                <th>Pincode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {branches.map((branche, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{branche.branch_name}</td>
+                                    <td>{branche.address}</td>
+                                    <td>{branche.phone}</td>
+                                    <td>{branche.pincode}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </>
+    );
+}
+
+export const OTP_Logs = () => {
+    const [logs, setLogs] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const token = localStorage.getItem("Authorization");
+
+    const fetchLogs = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/otp-logs`, {
+                headers: {
+                    Authorization: token,
+                }
+            })
+
+            console.log("OTP Logs Response:", res.data);
+            setLogs(res.data);
+        } catch (error) {
+            console.log("Error fetching logs:", error.message);
+            toast.error("Failed to fetch logs");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchLogs();
+    }, []);
+
+    return (
+        <>
+            {loading && <Loading />}
+            <h1 className='text-md font-bold my-2'>All Logs from Forget Password Users</h1>
+            <div className='overflow-auto h-[80vh]'>
+                <table className='table table-sm table-pin-rows table-pin-cols'>
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>to_email</th>
+                            <th>from_email</th>
+                            <th>otp</th>
+                            <th>status</th>
+                            <th>ip_address</th>
+                            {/* <th>user_agent</th> */}
+                            <th>created_at</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            logs.map((log, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{log.to_email}</td>
+                                    <td>{log.from_email}</td>
+                                    <td>{log.otp}</td>
+                                    <td>
+                                        <span className={`inline-block px-3 py-1 text-xs font-semibold rounded
+                                            ${log.status === 'verified' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+                                            {log.status}
+                                        </span>
+                                    </td>
+                                    <td>{log.ip_address}</td>
+                                    {/* <td>{log.user_agent}</td> */}
+                                    <td>{new Date(log.created_at).toLocaleString("en-IN", {
+                                        dateStyle: "medium",
+                                        timeStyle: "short",
+                                    })}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </>
+    )
+}
+
+export const Black_email = () => {
+    const [blackEmails, setBlackEmails] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState('');
+    const [reason, setReason] = useState('');
+    const token = localStorage.getItem("Authorization");
+
+    //onclick call
+    const AddBloackEmail = async (e) => {
+        e.preventDefault();
+        if (!email || !reason) {
+            toast.error("Email and reason are required");
+            return;
+        }
+        try {
+            setLoading(true);
+            const res = await axios.post(`${VITE_BACKEND_URL}/api/block-email`, { email, reason }, {
+                headers: {
+                    Authorization: token,
+                },
+                body: JSON.stringify({ email, reason }),
+            });
+            console.log("Block Email Response:", res.data);
+            if (res.data) {
+                toast.success("Email blocked successfully");
+                setBlackEmails([...blackEmails, { email, reason }]);
+                setEmail('');
+                setReason('');
+            } else {
+                toast.error(res.data.message || "Failed to block email OR ALready Exist");
+            }
+        } catch (error) {
+            console.error("Error blocking email:", error);
+            toast.error("Error blocking email OR ALready Exist");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const GetAllBloackEmail = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/blocked-emails`, {
+                headers: {
+                    Authorization: token,
+                }
+            });
+            console.log("Blocked Emails Response:", res.data);
+            if (res.data) {
+                setBlackEmails(res.data);
+            } else {
+                toast.error(res.data || "Failed to fetch blocked emails");
+            }
+        } catch (error) {
+            console.error("Error fetching blocked emails:", error.message);
+            toast.error("Failed to fetch blocked emails");
+        } finally {
+            setLoading(false);
+        }
+    }
+    useEffect(() => {
+        GetAllBloackEmail();
+    }, []);
+
+    const handleDelete = async (id) => {
+        try {
+            setLoading(true);
+            const res = await axios.delete(`${VITE_BACKEND_URL}/api/block-email/${id}`, {
+                headers: {
+                    Authorization: token,
+                }
+            });
+            console.log("Delete Block Email Response:", res.data);
+            if (res.data) {
+                toast.success("Email unblocked successfully");
+                setBlackEmails(blackEmails.filter(email => email.id !== id));
+            } else {
+                toast.error(res.data || "Failed to unblock email");
+            }
+        } catch (error) {
+            console.error("Error unblocking email:", error);
+            toast.error("Error unblocking email");
+        } finally {
+            setLoading(false);
+        }
+    }
+    return (
+        <>
+            {loading && <Loading />}
+            <div className='flex justify-between border-b-2 py-2 items-center'>
+                <h1 className='text-md font-bold'>Block Emails</h1>
+                <button className="btn btn-primary" onClick={() => document.getElementById('addBEmail').showModal()}>Add Block Email</button>
+                {/* modal  */}
+                <dialog id="addBEmail" className="modal">
+                    <div className="modal-box text-white">
+                        <h3 className="font-bold text-lg">Enter Block Email Id</h3>
+                        <p className="py-4 text-sm">Press ESC key or click the button below to close</p>
+                        <div className="modal-action flex flex-col">
+                            <form method="dialog">
+                                {/* if there is a button in form, it will close the modal */}
+                                <label className="floating-label my-2">
+                                    <span>Your Email</span>
+                                    <input onChange={(e) => setEmail(e.target.value)} type="text" placeholder="mail@site.com" className="input input-md" />
+                                </label>
+                                <label className="floating-label my-2">
+                                    <span>reason</span>
+                                    <textarea type="text" onChange={(e) => setReason(e.target.value)} placeholder="Enter Reason" className="textarea" />
+                                </label>
+
+                                <button onClick={AddBloackEmail} className="btn btn-success">{loading ? "Loading ..." : "Submit"}</button>
+                                <button className="btn mx-2">close</button>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>
+            </div>
+
+            <div className='overflow-auto h-[80vh]'>
+                <table className='table table-pin-rows table-pin-cols'>
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Email</th>
+                            <th>Reason</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {blackEmails.map((email, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{email.email}</td>
+                                <td>{email.reason}</td>
+                                <td> <button onClick={() => handleDelete(email.id)} className='btn btn-error'>Delete</button> </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
+    )
+}
 
 export const SqlEditor = () => {
     const [query, setQuery] = useState('SELECT * FROM users;');

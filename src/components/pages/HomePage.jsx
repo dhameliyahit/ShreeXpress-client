@@ -24,18 +24,16 @@ const HomePage = () => {
     )
 }
 
-const HeroSection = () => {
-    const fallbackBG = "./assets/HomeBG.jpg";
+function HeroSection() {
+    const colorImage =
+        "https://images.unsplash.com/photo-1592838064575-70ed626d3a0e?q=80&w=1118&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
 
     return (
-        <div className="relative w-full h-[400px]">
-            <img
-                src={fallbackBG}
-                alt="Home Background"
-                className="w-full h-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-black/60"></div>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
+        <figure className="diff aspect-16/9 h-[80vh]" tabIndex={0}>
+            <div className="diff-item-1" role="img" tabIndex={0}>
+                <div style={{ backgroundImage: `url(${colorImage})` }} className={`bg-cover bg-center text-primary-content grid place-content-center text-9xl `}>
+                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
                 <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
                     <span className="text-1xl md:text-3xl block mb-1">Welcome,</span>
                     <span className="text-5xl md:text-7xl text-[#C52024] font-bold block">
@@ -54,9 +52,37 @@ const HeroSection = () => {
                     </span>
                 </h1>
             </div>
-        </div>
+                </div>
+            </div>
+            <div className="diff-item-2" role="img">
+                <div style={{ backgroundImage: `url(${colorImage})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" }} className="grid place-content-center bg-cover bg-center filter grayscale  text-9xl font-black">
+                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
+                <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
+                    <span className="text-1xl md:text-3xl block mb-1">Welcome,</span>
+                    <span className="text-5xl md:text-7xl text-[#C52024] font-bold block">
+                        ShreeXpress
+                    </span>
+                    <span className="text-1xl md:text-2xl mt-3 font-bold block">
+                        Courier Service pvt. ltd.
+                    </span>
+                    <span className="text-sm md:text-lg inline-flex items-center mt-1">
+                        {/* Added Typewriter Animation */}
+                        <span className='mr-2'>We Deliver — </span> <Typewriter options={{
+                            strings: [' Fast.', ' Safe.', ' Reliable.'],
+                            autoStart: true,
+                            loop: true,
+                        }} />
+                    </span>
+                </h1>
+            </div>
+                </div>
+            </div>
+            <div className="diff-resizer"></div>
+        </figure>
     );
-};
+}
+
+
 
 const QuickAccessSection = () => {
 

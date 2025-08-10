@@ -13,6 +13,8 @@ import { FcSms } from "react-icons/fc";
 import { MdOutlineAppBlocking } from "react-icons/md";
 import { BiLogoPostgresql } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
+import { IoMdPersonAdd } from "react-icons/io";
+import { FaBoxOpen } from "react-icons/fa";
 
 const iconMap = {
   Dashboard: <FaTachometerAlt size={18} />,
@@ -23,11 +25,13 @@ const iconMap = {
   Users: <FaUsers size={18} />,
   AddNewAdmins: <FaPlus size={18} />,
   Track: <AiOutlineAim size={18} />,
-  MyShipments: <FaShippingFast size={18} />,
+  Shipments: <FaShippingFast size={18} />,
   Editor: <BiLogoPostgresql size={18} />,
   Branches: <FaShippingFast size={18} />,
   OTP_Logs: <FcSms size={18} />,
-  block_email: <MdOutlineAppBlocking size={18} />
+  Block_email: <MdOutlineAppBlocking size={18} />,
+  CreateParcel:<FaBoxOpen size={18}/>,
+  AddNewClient: <IoMdPersonAdd size={18}/>
 };
 
 const Sidebar = ({ role = 'client', onItemClick, selected }) => {
@@ -35,8 +39,8 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
   const navigate = useNavigate();
 
   const navItems = {
-    admin: ['Dashboard', 'Shipments', 'Clients'],
-    superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'block_email', 'Editor'],
+    admin: ['Dashboard', 'Shipments','CreateParcel','AddNewClient', 'Clients'],
+    superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email', 'Editor'],
     client: ['Dashboard', 'Track', 'MyShipments']
   };
 
@@ -47,16 +51,21 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
   };
 
   return (
-    <div className={`h-screen bg-white border-r border-gray-200 transition-all duration-300 ${open ? 'w-60' : 'w-20'} flex flex-col`}>
+    <div className={`h-screen bg-white transition-all duration-300 ${open ? 'w-60' : 'w-20'} flex flex-col`}>
       {/* Toggle */}
-      <div className={`p-4 flex  ${open ? 'justify-end':"justify-center"}`}>
-        <button onClick={() => setOpen(!open)} className="text-black text-xl">
+      <div className={`p-4 flex   ${open ? 'justify-end':"justify-center"}`}>
+        <div onClick={() => setOpen(!open)} className='border cursor-pointer flex justify-center items-center border-gray-600 btn btn-accent  bg-white p-2 rounded-full my-0'>
+
+        <button onClick={() => setOpen(!open)} className=" text-black cursor-pointer text-xl font-bold">
           <FaBars />
         </button>
+        </div>
       </div>
 
       {/* Navigation */}
-      <ul className={`${open ? "flex-1" : "flex flex-col"} px-2 space-y-2`}>
+      <ul className={`flex flex-col ${
+    open ? 'items-start' : 'items-center'
+  } px-2 space-y-2`}>
         {navItems[role]?.map((label) => {
           const isActive = selected === label;
           const baseStyle = `flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 hover:bg-gray-100 cursor-pointer`;
@@ -66,7 +75,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
             <li
               key={label}
               onClick={() => onItemClick(label)}
-              className={`${baseStyle} ${activeStyle}`}
+              className={`${baseStyle} ${activeStyle} w-full`}
               data-tip={open ? '' : label}
             >
               <span className="text-lg">{iconMap[label]}</span>

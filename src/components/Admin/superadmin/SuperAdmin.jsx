@@ -580,7 +580,7 @@ export const OTP_Logs = () => {
     )
 }
 
-export const Black_email = () => {
+export const Block_email = () => {
     const [blackEmails, setBlackEmails] = useState([]);
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');

@@ -26,28 +26,29 @@ export default function Login() {
             setLoading(true);
             const res = await axios.post(`${API_URL}/api/auth/login`, {
                 email: data.email,
-                password: data.password
+                password: data.password,
             });
             setLoading(false);
             const { token, user } = res.data;
-
             localStorage.setItem("Authorization", `Bearer ${token}`);
             localStorage.setItem("user", JSON.stringify(user));
-
             toast.success("Login Successful");
-
-            if (user.role) {
-                navigate("/dashboard");
-            } else {
-                navigate("/login");
-            }
-
+            navigate("/dashboard");
         } catch (error) {
-            toast.error(error.response?.data?.message || "Login Failed");
             setLoading(false);
+            if (error.response) {
+                if (error.response.status === 400) {
+                    toast.error(error.response.data.message || "Invalid email or password");
+                } else if (error.response.status === 500) {
+                    toast.error("Server error, please try again later.");
+                } else {
+                    toast.error("An error occurred, please try again.");
+                }
+            } else {
+                toast.error("An error occurred, please try again.");
+            }
         }
     };
-
     return (
         <>
             {loading && <Loading />}

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Sidebar from './SideBar';
-import AdminPage, { AddNewClient, Clients, CreateParcel } from '../Admin/admin/AdminPage';
+import AdminPage, { AddNewClient,Shipments, Clients, CreateParcel } from '../Admin/admin/AdminPage';
 import ClientPage, { MyShipments, Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { Users , AddNewAdmin, Analytics, SqlEditor, Branches, OTP_Logs, Black_email } from './superadmin/SuperAdmin';
+import SuperadminPage, { Users , AddNewAdmin, Analytics, SqlEditor, Branches, OTP_Logs, Block_email } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
 const DashboardLayout = ({ role }) => {
@@ -14,6 +14,7 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'Clients') return <Clients />;
             if (selectedPage === 'AddNewClient') return <AddNewClient />;
             if (selectedPage === 'CreateParcel') return <CreateParcel />;
+            if(selectedPage === 'Shipments') return <Shipments/>
         }
 
         if (role === 'client') {
@@ -29,7 +30,7 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'Analytics') return <Analytics />;
             if (selectedPage === 'Branches') return <Branches/>;
             if (selectedPage === 'OTP_Logs') return <OTP_Logs />;
-            if( selectedPage === 'Block_email') return <Black_email/>;
+            if( selectedPage === 'Block_email') return <Block_email/>;
             if (selectedPage === 'Editor') return <SqlEditor />;
         }
 

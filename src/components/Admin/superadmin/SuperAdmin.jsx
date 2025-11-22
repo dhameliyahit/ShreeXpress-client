@@ -1,6 +1,7 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, CircularProgress } from '@mui/material';
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -179,8 +180,8 @@ export const Users = () => {
                                     <td className="px-6 py-4 font-medium">{user.name}</td>
                                     <td className="px-6 py-4 text-sm">{user.email}</td>
                                     <td className="px-6 py-4    text-sm">
-                                        <span className=" inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-500 text-white">
-                                            <div aria-label="success" className="status status-success mx-2"></div>
+                                        <span className="inline-block px-3 py-1 pb-1.5 text-xs font-semibold rounded-full bg-gray-500 text-white">
+                                            <div aria-label="success" className="status status-success mr-2"></div>
                                             {user.role}
                                         </span>
                                     </td>
@@ -445,7 +446,6 @@ export const Analytics = () => {
     );
 };
 
-
 export const Branches = () => {
     const [branches, setBranches] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -458,7 +458,7 @@ export const Branches = () => {
             const res = await axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, {
                 headers: {
                     Authorization: `${token}`,
-                }
+                },
             });
             setBranches(res.data);
         } catch (error) {
@@ -467,33 +467,43 @@ export const Branches = () => {
         } finally {
             setLoading(false);
         }
-    }
-    useEffect(() => { GetAllBranches() }, [])
+    };
+
+    useEffect(() => {
+        GetAllBranches();
+    }, []);
+
     return (
         <>
             {loading && <Loading />}
-            <div className="p-4 sm:p-6 md:p-8">
-                <h2 className="text-2xl font-bold mb-4 text-shadow-md "><span className='text-[#C2221F]'>ShreeXpress Courier</span>  <span className='text-[#21294D]'>Service PVT LTD</span></h2>
+            <div className="p-4 sm:p-6 md:p-8 bg-white text-black">
+                <h2 className="text-2xl font-bold mb-4">
+                    <span className="text-[#C2221F]">ShreeXpress Courier</span>{" "}
+                    <span className="text-[#21294D]">Service PVT LTD</span>
+                </h2>
                 <p className="mb-6 text-md font-bold">Our All Branches</p>
-                <div className='overflow-x-auto overflow-y-auto h-[80vh]'>
-                    <table className='table table-pin-rows table-pin-cols  bg-gray-900 text-white'>
-                        <thead>
+                <div className="overflow-x-auto overflow-y-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
+                    <table className="table table-pin-rows table-pin-cols w-full">
+                        <thead className='text-white'>
                             <tr>
-                                <th>Sr No.</th>
-                                <th>Branch Name</th>
-                                <th>Branch Address</th>
-                                <th>Contact No</th>
-                                <th>Pincode</th>
+                                <th className="px-4 py-2">Sr No.</th>
+                                <th className="px-4 py-2">Branch Name</th>
+                                <th className="px-4 py-2">Branch Address</th>
+                                <th className="px-4 py-2">Contact No</th>
+                                <th className="px-4 py-2">Pincode</th>
                             </tr>
                         </thead>
                         <tbody>
                             {branches.map((branche, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{branche.branch_name}</td>
-                                    <td>{branche.address}</td>
-                                    <td>{branche.phone}</td>
-                                    <td>{branche.pincode}</td>
+                                <tr
+                                    key={index}
+                                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}
+                                >
+                                    <td className="px-4 py-2">{index + 1}</td>
+                                    <td className="px-4 py-2">{branche.branch_name}</td>
+                                    <td className="px-4 py-2">{branche.address}</td>
+                                    <td className="px-4 py-2">{branche.phone}</td>
+                                    <td className="px-4 py-2">{branche.pincode}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -502,7 +512,7 @@ export const Branches = () => {
             </div>
         </>
     );
-}
+};
 
 export const OTP_Logs = () => {
     const [logs, setLogs] = useState([]);
@@ -699,7 +709,7 @@ export const Block_email = () => {
 
             <div className='overflow-auto h-[80vh]'>
                 <table className='table table-pin-rows table-pin-cols'>
-                    <thead>
+                    <thead className='text-white'>
                         <tr>
                             <th>Sr No.</th>
                             <th>Email</th>

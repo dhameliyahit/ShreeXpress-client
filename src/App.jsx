@@ -13,6 +13,7 @@ import Progress from './components/Progress'
 import ThemeContext from './context/Theme/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import DashboardMain from './components/Admin/DashboardMain'
+import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
   const context = useContext(ThemeContext);
@@ -20,6 +21,7 @@ export default function App() {
   return (
     <div className={`${theme === 'light' ? 'bg-white text-black' : 'dark:bg-[#05070A] dark:text-white'} transition-all duration-300`}>
       <Progress />
+      <ScrollToTop />
       <ToastContainer />
       <Routes>
         <Route path='/' element={<HomePage />} />

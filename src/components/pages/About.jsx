@@ -16,7 +16,6 @@ export default function About() {
             <Layout>
                 <AboutUs />
                 <CompanyDetails />
-                <Founders/>
             </Layout>
         </>
     )
@@ -34,7 +33,7 @@ const AboutUs = () => {
                     <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5">ABOUT</h1>
                     <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>ABOUT US</h2>
                     <p className="mb-6 leading-relaxed text-sm md:text-base z-10">
-                        ShreeXpress Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public. ShreeXpress Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
+                         Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public.  Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
                     </p>
 
                     <div className="space-y-4 flex flex-col z-10">
@@ -97,7 +96,7 @@ const CompanyDetails = () => {
     const { theme } = useContext(ThemeContext);
     return (
         <div className={`max-w-7xl mx-auto gap-10 my-5 items-center py-12 px-4 md:px-10 border-t-1 ${theme === 'dark' ? 'border-[#1F242A]' : 'border-[#393187]'}`}>
-            <h2 className="text-xl font-bold uppercase mb-4">Directors of ShreeXpress Courier Service</h2>
+            <h2 className="text-xl font-bold uppercase mb-4">Directors of  Courier Service</h2>
             <ul className="mb-6 space-y-4">
                 {directors.map((director, idx) => (
                     <details key={idx} className="group rounded-lg border border-[#1F242A] p-4 transition-all duration-300 hover:shadow-md" >
@@ -124,9 +123,9 @@ const CompanyDetails = () => {
 
 
             <p className="mb-12 text-[15px] leading-relaxed 0">
-                <span className="font-bold">ShreeXpress Courier Service</span> is managed by some of the efficient and
+                <span className="font-bold"> Courier Service</span> is managed by some of the efficient and
                 dedicated members with over 20 years of experienced personnel from the same industry.{" "}
-                <span className="font-bold">ShreeXpress Courier Service</span> was started by 4 directors with the vast
+                <span className="font-bold"> Courier Service</span> was started by 4 directors with the vast
                 experience of the Courier Industry and now it is spread across India.
             </p>
 
@@ -154,7 +153,7 @@ const CompanyDetails = () => {
                     <div className="relative z-10 group-hover:text-white m-0 transition-all">
                         <h3 className="text-md font-bold uppercase mb-2">Mission</h3>
                         <p className="text-sm leading-relaxed">
-                            At <span className="font-bold">ShreeXpress Courier Service</span> it is our obligation to provide our clients
+                            At <span className="font-bold"> Courier Service</span> it is our obligation to provide our clients
                             with the most advanced high-quality delivery solutions available in the courier industry today. The
                             operations model represents some of the best value to our clients and customers.
                         </p>
@@ -169,76 +168,13 @@ const CompanyDetails = () => {
                     <div className="relative z-10 group-hover:text-white m-0 transition-all">
                         <h3 className="text-md font-bold uppercase mb-2">Values</h3>
                         <p className="text-sm leading-relaxed">
-                            <span className="font-bold">ShreeXpress Courier Service</span> is a fair employer who employs people from
+                            <span className="font-bold"> Courier Service</span> is a fair employer who employs people from
                             various cultures and regions. Built on the values that define the way they do business,
-                            ShreeXpress believes in empowering people to ensure accountability and responsiveness.
+                             believes in empowering people to ensure accountability and responsiveness.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     );
-};
-
-
-const Founders = () => {
-    const founders = [
-      {
-        name: "John Doe",
-        title: "Co-Founder & CEO",
-        imageGray: "https://plus.unsplash.com/premium_photo-1726862586698-4404605ac267?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fGZvdW5kZXJ8ZW58MHx8MHx8fDA%3D",
-        imageColor: "https://via.placeholder.com/300x300?text=Founder+1+Color",
-      },
-      {
-        name: "Jane Smith",
-        title: "Co-Founder & CTO",
-        imageGray: "https://via.placeholder.com/300x300?text=Founder+2+Gray",
-        imageColor: "https://via.placeholder.com/300x300?text=Founder+2+Color",
-      },
-      {
-        name: "Alex Johnson",
-        title: "Co-Founder & CMO",
-        imageGray: "https://via.placeholder.com/300x300?text=Founder+3+Gray",
-        imageColor: "https://via.placeholder.com/300x300?text=Founder+3+Color",
-      },
-    ];
- 
-    return (
-    <section className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black py-16 px-6 text-white font-[Poppins]">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-wide">
-          Meet Our Founders
-        </h2>
-        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-          Visionaries behind the brand – passionate, innovative, and driven.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
-        {founders.map((founder, idx) => (
-          <div
-            key={idx}
-            className="group bg-gray-800 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-500 relative"
-          >
-            <div className="relative w-full h-80 overflow-hidden">
-              <img
-                src={founder.imageGray}
-                alt={founder.name}
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500 group-hover:scale-105"
-              />
-              <img
-                src={founder.imageColor}
-                alt={founder.name}
-                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-500 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-6 text-center">
-              <h3 className="text-2xl font-semibold mb-2">{founder.name}</h3>
-              <p className="text-sm text-gray-400">{founder.title}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
 };

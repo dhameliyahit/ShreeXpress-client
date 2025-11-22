@@ -63,9 +63,9 @@ const ContactForm = () => {
                         <img src={ContactUsImg} alt="" className='max-w-full sm:max-w-[400px]' />
                     </div>
                     <ul className='flex-1 flex flex-col justify-center gap-1'>
-                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Phone numbers:</span> <p className=" w-full wrap-anywhere"> +91-9825515123 </p> </li>
+                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Phone numbers:</span> <p className=" w-full wrap-anywhere"> +91-0000000000 </p> </li>
 
-                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Email address:</span> <p className=" w-full wrap-anywhere"> info@shreexpresscourier.co.in <br /> service@shreexpresscourier.co.in </p> </li>
+                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Email address:</span> <p className=" w-full wrap-anywhere"> info@courier.co.in <br /> service@courier.co.in </p> </li>
                     </ul>
                 </div>
 

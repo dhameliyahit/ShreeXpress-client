@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from 'react';;
 import { IoCall } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
@@ -26,7 +27,16 @@ export const TopBar = () => {
             <div className="flex items-center gap-2">
                 <IoCall className="text-lg" />
                 <span className="text-sm font-bold">CALL US NOW :</span>
-                <a href="tel:+919638601192" className="text-sm font-bold text-[#D8262D] hover:underline">+91-9638601192</a>
+                <a href="tel:+919638601192" className="text-sm font-bold text-[#D8262D] hover:underline">+91-0000000000</a>
+            </div>
+
+            <div className='flex flex-col gap-2 text-center ml-auto'>
+                <div className='text-xl sm:text-4xl font-bold'>
+                    !! THIS IS A DEMO PROJECT !!
+                </div>
+                <div className='text-xl text-[#EF4444] underline decoration-wavy'>
+                    || श्री गणेशाय नमः ||
+                </div>
             </div>
 
             {/* Right - Theme, Links & Buttons */}

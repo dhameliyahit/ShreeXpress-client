@@ -33,48 +33,48 @@ function HeroSection() {
         <figure className="diff aspect-16/9 h-[80vh]" tabIndex={0}>
             <div className="diff-item-1" role="img" tabIndex={0}>
                 <div style={{ backgroundImage: `url(${colorImage})` }} className={`bg-cover bg-center text-primary-content grid place-content-center text-9xl `}>
-                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
-                <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
-                    <span className="text-1xl md:text-3xl block mb-1">Welcome,</span>
-                    <span className="text-5xl md:text-7xl text-[#C52024] font-bold block">
-                        ShreeXpress
-                    </span>
-                    <span className="text-1xl md:text-2xl mt-3 font-bold block">
-                        Courier Service pvt. ltd.
-                    </span>
-                    <span className="text-sm md:text-lg inline-flex items-center mt-1">
-                        {/* Added Typewriter Animation */}
-                        <span className='mr-2'>We Deliver — </span> <Typewriter options={{
-                            strings: [' Fast.', ' Safe.', ' Reliable.'],
-                            autoStart: true,
-                            loop: true,
-                        }} />
-                    </span>
-                </h1>
-            </div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
+                        <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
+                            <span className="text-1xl md:text-3xl block mb-1">Welcome,</span>
+                            <span className="text-5xl md:text-7xl text-[#C52024] font-bold block">
+                                ShreeXpress
+                            </span>
+                            <span className="text-1xl md:text-2xl mt-3 font-bold block">
+                                Courier Service pvt. ltd.
+                            </span>
+                            <span className="text-sm md:text-lg inline-flex items-center mt-1">
+                                {/* Added Typewriter Animation */}
+                                <span className='mr-2'>We Deliver — </span> <Typewriter options={{
+                                    strings: [' Fast.', ' Safe.', ' Reliable.'],
+                                    autoStart: true,
+                                    loop: true,
+                                }} />
+                            </span>
+                        </h1>
+                    </div>
                 </div>
             </div>
             <div className="diff-item-2" role="img">
                 <div style={{ backgroundImage: `url(${colorImage})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" }} className="grid place-content-center bg-cover bg-center filter grayscale  text-9xl font-black">
-                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
-                <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
-                    <span className="text-1xl md:text-3xl block mb-1">Welcome,</span>
-                    <span className="text-5xl md:text-7xl text-[#C52024] font-bold block">
-                        ShreeXpress
-                    </span>
-                    <span className="text-1xl md:text-2xl mt-3 font-bold block">
-                        Courier Service pvt. ltd.
-                    </span>
-                    <span className="text-sm md:text-lg inline-flex items-center mt-1">
-                        {/* Added Typewriter Animation */}
-                        <span className='mr-2'>We Deliver — </span> <Typewriter options={{
-                            strings: [' Fast.', ' Safe.', ' Reliable.'],
-                            autoStart: true,
-                            loop: true,
-                        }} />
-                    </span>
-                </h1>
-            </div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 text-left">
+                        <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
+                            <span className="text-1xl md:text-3xl block mb-1">Welcome,</span>
+                            <span className="text-5xl md:text-7xl text-[#C52024] font-bold block">
+                                ShreeXpress
+                            </span>
+                            <span className="text-1xl md:text-2xl mt-3 font-bold block">
+                                Courier Service pvt. ltd.
+                            </span>
+                            <span className="text-sm md:text-lg inline-flex items-center mt-1">
+                                {/* Added Typewriter Animation */}
+                                <span className='mr-2'>We Deliver — </span> <Typewriter options={{
+                                    strings: [' Fast.', ' Safe.', ' Reliable.'],
+                                    autoStart: true,
+                                    loop: true,
+                                }} />
+                            </span>
+                        </h1>
+                    </div>
                 </div>
             </div>
             <div className="diff-resizer"></div>

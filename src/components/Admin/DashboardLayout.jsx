@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Sidebar from './SideBar';
 import AdminPage, { AddNewClient,Shipments, Clients, CreateParcel } from '../Admin/admin/AdminPage';
-import ClientPage, { MyShipments, Track } from '../Admin/client/ClientPage';
+import ClientPage, { Track } from '../Admin/client/ClientPage';
 import SuperadminPage, { Users , AddNewAdmin, Analytics, SqlEditor, Branches, OTP_Logs, Block_email } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
@@ -20,7 +20,6 @@ const DashboardLayout = ({ role }) => {
         if (role === 'client') {
             if (selectedPage === 'Dashboard') return <ClientPage />;
             if (selectedPage === 'Track') return <Track />;
-            if (selectedPage === 'My Shipments') return <MyShipments />;
         }
 
         if (role === 'superadmin') {

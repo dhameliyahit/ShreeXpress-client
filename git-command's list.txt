@@ -1,0 +1,7 @@
+1. git fetch --all
+2. git checkout balar-codebase
+3. git pull / and run & check changes
+4. git checkout main
+
+6. git merge balar-codebase
+7. git push origin main

@@ -19,7 +19,7 @@ export default function RequestOfPickup({ isLayout = true }) {
         // console.log(data);
         try {
             setLoading(true)
-            const res = await axios.post(`${backend_url}/api/v1/lead/pickup`, data)
+            const res = await axios.post(`${backend_url}/api/pickups`, data)
             console.log("Server Response:", res.data);
             setLoading(false)
             reset();

@@ -118,8 +118,25 @@ export const Shipments = () => {
         fetchShipments();
     }, []);
 
+    const updateStatus = async (id, status) => {
+        try {
+            // setShipments(prev => prev.map(p => (p.id === id ? { ...p, current_status: status } : p)));
+
+            await axios.put(`${API_BASE}/api/courier/${id}/status`, { status },
+                { headers: { Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}` } }
+            );
+
+            toast.success("Status updated successfully");
+            fetchShipments();
+        } catch (err) {
+            console.error("Error updating status:", err.response?.data || err.message);
+            toast.error("Error updating status");
+        }
+    };
+
+
     return (
-        <div className="max-w-7xl mx-auto p-6 bg-white text-black rounded-xl shadow-lg">
+        <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-white text-black rounded-xl shadow-lg">
             <h1 className="text-3xl font-bold mb-6 text-center">📦 My Shipments</h1>
 
             {loading ? (
@@ -130,56 +147,53 @@ export const Shipments = () => {
                 <div className="text-center py-10 text-gray-500">No shipments found.</div>
             ) : (
                 <div className="overflow-x-auto">
-                    <table className="table w-full bg-white text-black">
-                        <thead className="bg-white text-black">
+                    <table className="min-w-[1000px] table-auto border-collapse border border-gray-200">
+                        <thead className="bg-gray-100 text-black">
                             <tr>
-                                <th>Tracking No.</th>
-                                <th>Sender</th>
-                                <th>Receiver</th>
-                                <th>From Branch</th>
-                                <th>To Branch</th>
-                                <th>Weight</th>
-                                <th>Status</th>
-                                <th>Payment Method</th>
-                                <th>Payment Status</th>
-                                <th>Actions</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Tracking No.</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Sender</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Receiver</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">From Branch</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">To Branch</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Weight</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Status</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Payment Method</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Payment Status</th>
+                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white text-black">
+                        <tbody>
                             {shipments.map((parcel) => (
-                                <tr key={parcel.id} className="bg-white text-black border-b">
-                                    <td className="font-semibold">{parcel.tracking_number}</td>
-                                    <td>
-                                        {parcel.sender_name}
-                                        <br />
+                                <tr key={parcel.id} className="border-b border-gray-200">
+                                    <td className="px-3 py-2 whitespace-nowrap font-semibold">{parcel.tracking_number}</td>
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                        {parcel.sender_name}<br />
                                         <span className="text-sm">{parcel.sender_phone}</span>
                                     </td>
-                                    <td>
-                                        {parcel.receiver_name}
-                                        <br />
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                        {parcel.receiver_name}<br />
                                         <span className="text-sm">{parcel.receiver_phone}</span>
                                     </td>
-                                    <td>{parcel.from_branch_name}</td>
-                                    <td>{parcel.to_branch_name}</td>
-                                    <td>{parcel.weight} g</td>
-                                    <td>
-                                        <span
-                                            className={`badge badge-sm ${parcel.current_status === "created"
-                                                ? "bg-blue-200 text-black"
-                                                : "bg-green-200 text-black"
-                                                }`}
+                                    <td className="px-3 py-2 whitespace-nowrap">{parcel.from_branch_name}</td>
+                                    <td className="px-3 py-2 whitespace-nowrap">{parcel.to_branch_name}</td>
+                                    <td className="px-3 py-2 whitespace-nowrap">{parcel.weight} g</td>
+                                    <td className="px-1 py-2 whitespace-nowrap">
+                                        <select className="select select-bordered select-sm bg-white text-black" name={`status-${parcel.id}`}
+                                            value={parcel.current_status || "created"}
+                                            onChange={(e) => updateStatus(parcel.id, e.target.value)}
                                         >
-                                            {parcel.current_status}
-                                        </span>
+                                            <option value="created">Created</option>
+                                            <option value="in-transit">In Transit</option>
+                                            <option value="delivered">Delivered</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </select>
                                     </td>
-                                    <td>
-                                        <select
-                                            className="select select-bordered select-sm bg-white text-black"
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                        <select className="select select-bordered select-sm bg-white text-black" name={`status-${parcel.payment_method}`}
                                             value={parcel.payment_method || ""}
                                             onChange={(e) =>
                                                 updatePayment(parcel.id, parcel.payment_status, e.target.value)
-                                            }
-                                        >
+                                            } >
                                             <option value="">Select Method</option>
                                             <option value="Cash">Cash</option>
                                             <option value="Card">Card</option>
@@ -187,9 +201,9 @@ export const Shipments = () => {
                                             <option value="NetBanking">NetBanking</option>
                                         </select>
                                     </td>
-                                    <td>
+                                    <td className="px-3 py-2 whitespace-nowrap">
                                         <select
-                                            className="select select-bordered select-sm bg-white text-black"
+                                            className="select select-bordered select-sm bg-white text-black" name={`status-${parcel.payment_status}`}
                                             value={parcel.payment_status || ""}
                                             onChange={(e) =>
                                                 updatePayment(parcel.id, e.target.value, parcel.payment_method)
@@ -201,19 +215,11 @@ export const Shipments = () => {
                                             <option value="cancelled">Cancelled</option>
                                         </select>
                                     </td>
-                                    <td>
+                                    <td className="px-3 py-2 whitespace-nowrap">
                                         <button
-                                            onClick={() =>
-                                                updatePayment(
-                                                    parcel.id,
-                                                    parcel.payment_status,
-                                                    parcel.payment_method
-                                                )
-                                            }
+                                            onClick={() => updatePayment(parcel.id, parcel.payment_status, parcel.payment_method)}
                                             className="btn btn-sm bg-primary text-white hover:bg-primary-focus"
-                                        >
-                                            Save
-                                        </button>
+                                        > Save </button>
                                     </td>
                                 </tr>
                             ))}
@@ -535,24 +541,17 @@ export const AddNewClient = () => {
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
-        console.log("Submitted Admin:", data);
-        console.log("Type of data:", typeof data);
-
         try {
             setLoading(true);
 
-            const res = await axios.post(
-                `${import.meta.env.API_BASE}/api/auth/new/client`,
-                data,
-                {
-                    headers: {
-                        Authorization: token,
-                    },
-                }
-            );
+            const res = await axios.post(`${API_BASE}/api/auth/new/client`, data, {
+                headers: {
+                    Authorization: token,
+                },
+            });
 
             if (res.status === 200 || res.status === 201) {
-                console.log("✅ Admin created successfully:", res.data);
+                console.log("Admin created successfully:", res.data);
                 toast.success(res.data?.message || "Client created successfully");
                 reset();
             } else {
@@ -561,7 +560,7 @@ export const AddNewClient = () => {
         } catch (error) {
             console.error("Error creating admin:", error);
             toast.error(
-                `❌ Error: ${error?.response?.data?.message || error.message}`
+                `Error: ${error?.response?.data?.message || error.message}`
             );
         } finally {
             setLoading(false);
@@ -677,10 +676,8 @@ export const Clients = () => {
                 return;
             }
 
-            const authHeader = token.startsWith("Bearer ")
-                ? token
-                : `Bearer ${token}`;
-            console.log(authHeader);
+            const authHeader = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+            // console.log(authHeader);
 
             const res = await axios.get("http://localhost:5000/api/auth/all/client", {
                 headers: { Authorization: authHeader }
@@ -706,10 +703,31 @@ export const Clients = () => {
         }
     };
 
-
     useEffect(() => {
         fetchClient();
     }, []);
+
+    const handleDelete = async (clientId) => {
+        if (!window.confirm("Are you sure you want to delete this client?")) return;
+
+        try {
+            const authHeader = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+
+            const res = await axios.delete(`http://localhost:5000/api/auth/delete/client/${clientId}`,
+                { headers: { Authorization: authHeader } }
+            );
+
+            toast.success(res.data.message || "Client deleted successfully");
+
+            setClients(prev => prev.filter(client => client.id !== clientId));
+
+        } catch (error) {
+            console.error("Delete client error:", error);
+            toast.error(
+                error.response?.data?.message || "Error deleting client"
+            );
+        }
+    };
 
     return (
         <>
@@ -729,6 +747,7 @@ export const Clients = () => {
                                 <th className="px-6 py-4 text-left text-sm font-semibold">Name</th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold">Email</th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold">Joined</th>
+                                <th className="px-6 py-4 text-sm font-semibold">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-300">
@@ -742,6 +761,12 @@ export const Clients = () => {
                                             dateStyle: "medium",
                                             timeStyle: "short",
                                         })}
+                                    </td>
+                                    <td className="px-6 py-4 flex justify-center items-center">
+                                        <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                                            onClick={() => handleDelete(client.id)}>
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

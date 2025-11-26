@@ -85,27 +85,16 @@ export const Users = () => {
     const fetchUsers = async () => {
         try {
             setLoading(true);
-
             let url = `${VITE_BACKEND_URL}/api/auth/all/users`;
-            if (selectedRole !== "all") {
-                url += `?role=${selectedRole}`;
-            }
+            if (selectedRole !== "all") url += `?role=${selectedRole}`;
 
-            const res = await axios.get(url, {
-                headers: {
-                    Authorization: token,
-                },
-            });
-
-            if (res.data.success) {
-                setUsers(res.data.users);
-            } else {
-                toast.error("Failed to fetch users");
-            }
+            const res = await axios.get(url, { headers: { Authorization: token } });
+            if (res.data.success) setUsers(res.data.users);
+            else toast.error("Failed to fetch users");
 
             setLoading(false);
         } catch (err) {
-            console.error("Error:", err);
+            console.error(err);
             toast.error("Error fetching users");
             setLoading(false);
         }
@@ -115,77 +104,76 @@ export const Users = () => {
         fetchUsers();
     }, [selectedRole]);
 
+    const roleColor = (role) => {
+        switch (role) {
+            case "superadmin":
+                return "bg-red-100 text-red-800 border border-red-200";
+            case "admin":
+                return "bg-blue-100 text-blue-800 border border-blue-200";
+            case "client":
+                return "bg-green-100 text-green-800 border border-green-200";
+            default:
+                return "bg-gray-100 text-gray-800 border border-gray-200";
+        }
+    };
+
     return (
         <>
             {loading && <Loading />}
             <div className="sm:p-6 p-2">
                 {/* Header */}
-                <div className="mb-4 flex justify-between items-center">
-                    <h2 className="text-2xl font-semibold">👥 All Users</h2>
+                <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h2 className="text-2xl font-semibold text-gray-800">👥 All Users</h2>
 
                     {/* Role Filter */}
                     <div className="flex items-center gap-2">
-                        <label className="text-sm font-medium">Filter by Role:</label>
+                        <label className="text-sm font-medium text-gray-700">Filter by Role:</label>
                         <div className="relative w-48">
                             <select
                                 value={selectedRole}
                                 onChange={(e) => setSelectedRole(e.target.value)}
-                                className="w-full cursor-pointer appearance-none border border-gray-300 bg-white text-gray-700 px-4 py-2 pr-8 rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full cursor-pointer border border-gray-300 bg-white text-gray-700 px-4 py-2 pr-8 rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             >
                                 <option value="all">All</option>
                                 <option value="superadmin">Superadmin</option>
                                 <option value="admin">Admin</option>
                                 <option value="client">Client</option>
                             </select>
-
-                            {/* Dropdown icon */}
                             <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500">
-                                <svg
-                                    className="h-4 w-4"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                        clipRule="evenodd"
-                                    />
+                                <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                                 </svg>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <p className="text-md  my-2">
-                    Total Users: {users.length}
-                </p>
+                <p className="text-md my-2 text-gray-600">Total Users: {users.length}</p>
 
                 {/* User Table */}
-                <div className="overflow-x-auto rounded-xl">
-                    <table className="min-w-full table-pin-cols divide-y divide-gray-200">
+                <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-200">
+                    <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-800 text-white">
                             <tr>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">SR No</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Name</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Email</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Role</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Joined</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">SR No</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Name</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Email</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Role</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Joined</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-300">
+                        <tbody className="bg-white divide-y divide-gray-200">
                             {users.map((user, index) => (
-                                <tr key={user.id}>
-                                    <td className="px-6 py-4">{index + 1}</td>
-                                    <td className="px-6 py-4 font-medium">{user.name}</td>
-                                    <td className="px-6 py-4 text-sm">{user.email}</td>
-                                    <td className="px-6 py-4    text-sm">
-                                        <span className="inline-block px-3 py-1 pb-1.5 text-xs font-semibold rounded-full bg-gray-500 text-white">
-                                            <div aria-label="success" className="status status-success mr-2"></div>
-                                            {user.role}
+                                <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-200">
+                                    <td className="px-6 py-4 text-sm text-gray-700">{index + 1}</td>
+                                    <td className="px-6 py-4 font-medium text-gray-800">{user.name}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">{user.email}</td>
+                                    <td className="px-6 py-4 text-sm">
+                                        <span className={`inline-block px-2 py-1 rounded-md text-xs font-medium shadow-sm ${roleColor(user.role)}`}>
+                                            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-sm">
+                                    <td className="px-6 py-4 text-sm text-gray-500">
                                         {new Date(user.created_at).toLocaleString("en-IN", {
                                             dateStyle: "medium",
                                             timeStyle: "short",
@@ -200,6 +188,7 @@ export const Users = () => {
         </>
     );
 };
+
 
 export const AddNewAdmin = () => {
     const token = localStorage.getItem("Authorization")
@@ -222,23 +211,20 @@ export const AddNewAdmin = () => {
                 headers: {
                     Authorization: token,
                 },
-            }
-            );
-
+            });
 
             if (res.status === 200 || res.status === 201) {
-                console.log("✅ Admin created successfully:", res.data);
+                console.log("Admin created successfully:", res.data);
                 toast.success(res.data?.message || "Admin created successfully");
-                reset(); // Clear form
+                reset();
             } else {
-                // Just in case backend responds with unexpected code but no error thrown
                 toast.error(res.data?.message || "Failed to create admin");
             }
         } catch (error) {
             console.error("Error creating admin:", error);
-            toast.error(`❌ Error: ${error?.response?.data?.message || error.message}`);
+            toast.error(`Error: ${error?.response?.data?.message || error.message}`);
         } finally {
-            setLoading(false); // Always reset loading
+            setLoading(false);
         }
     };
 

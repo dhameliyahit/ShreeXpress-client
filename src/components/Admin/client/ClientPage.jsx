@@ -14,13 +14,10 @@ import {
     FaSearch,
     FaTruck,
     FaUser,
+    FaRegCalendarAlt,
 } from "react-icons/fa";
-import {
-    MdLocationOn,
-    MdPayment,
-} from "react-icons/md";
+import { MdLocationOn, MdPayment } from "react-icons/md";
 import { AiOutlineFileText } from "react-icons/ai";
-import { FaRegCalendarAlt } from "react-icons/fa";
 
 const ClientPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -28,8 +25,8 @@ const ClientPage = () => {
     return (
         <div className="min-h-screen p-4 md:p-8">
             {/* Header */}
-            <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
-                <h1 className="text-3xl font-bold mb-2">👨🏻‍💼 Client Dashboard</h1>
+            <div className="rounded-xl shadow-md border border-gray-300 p-6 mb-8">
+                <h1 className="text-3xl  font-bold mb-2">👨🏻‍💼 Client Dashboard</h1>
                 <p className="mb-4">Welcome to your Client panel.</p>
                 <div className="text-lg space-y-1">
                     <p>
@@ -43,45 +40,53 @@ const ClientPage = () => {
 
             {/* Dashboard Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Box 1 - View Orders */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                {/* Orders */}
+                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
                     <h2 className="text-xl font-semibold mb-2">📦 View Orders</h2>
                     <p className="mb-4">Track, update, and manage customer orders.</p>
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" color="primary" className="rounded-lg">
                         Go to Orders
                     </Button>
                 </div>
 
-                {/* Box 2 - track order */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                {/* Track */}
+                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
                     <h2 className="text-xl font-semibold mb-2">🚚 Track Orders</h2>
-                    <p className="mb-4">track their delivery progress.</p>
-                    <Button variant="contained" color="success">
+                    <p className="mb-4">Check delivery progress in real-time.</p>
+                    <Button variant="contained" color="success" className="rounded-lg">
                         Track Panel
                     </Button>
                 </div>
 
-                {/* Box 3 - shipment */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                {/* Shipment */}
+                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
                     <h2 className="text-xl font-semibold mb-2">My Shipment</h2>
-                    <p className="mb-4">View all Shipment.</p>
-                    <Button variant="contained" style={{ backgroundColor: "#7e22ce", color: "#fff" }}>
+                    <p className="mb-4">View all your shipments.</p>
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#7e22ce", color: "#fff" }}
+                        className="rounded-lg"
+                    >
                         My Shipment
                     </Button>
                 </div>
 
-                {/* Box 4 - client Settings */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                {/* Settings */}
+                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
                     <h2 className="text-xl font-semibold mb-2">⚙️ Client Settings</h2>
-                    <p className="mb-4">Configure your dashboard or update your profile.</p>
-                    <Button variant="contained" style={{ backgroundColor: "#374151", color: "#fff" }}>
+                    <p className="mb-4">Update your profile and dashboard preferences.</p>
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#374151", color: "#fff" }}
+                        className="rounded-lg"
+                    >
                         Settings
                     </Button>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export const Track = () => {
     const [trackingId, setTrackingId] = useState("");
@@ -90,7 +95,7 @@ export const Track = () => {
 
     const handleTrack = async () => {
         if (!trackingId.trim()) {
-            toast.error("⚠️ Please enter a Tracking ID");
+            toast.error("Please enter a Tracking ID");
             return;
         }
 
@@ -101,14 +106,14 @@ export const Track = () => {
             const token = localStorage.getItem("Authorization");
             const res = await axios.get(
                 `http://localhost:5000/api/courier/track/${trackingId}`,
-                { headers: { Authorization: token } }
+                { headers: { Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}` } }
             );
             setResult(res.data);
 
-            if (!res.data.parcel) toast.error("❌ Parcel not found");
+            if (!res.data.parcel) toast.error("Parcel not found");
         } catch (err) {
             console.error(err);
-            toast.error(err.response?.data?.error || "❌ Unable to fetch tracking info");
+            toast.error(err.response?.data?.error || "Unable to fetch tracking info");
         } finally {
             setLoading(false);
         }
@@ -122,21 +127,18 @@ export const Track = () => {
 
             {/* Search */}
             <div className="flex flex-col md:flex-row gap-4 mb-8 items-center">
-                <div className="flex-1 relative w-full">
-                    <TextField fullWidth label="Enter Tracking ID" variant="outlined" value={trackingId} onChange={(e) => setTrackingId(e.target.value)} className="bg-white rounded-xl shadow-md" InputProps={{
-                            startAdornment: (
-                                <div className="px-3 text-gray-400 flex items-center">
-                                    <FaSearch />
-                                </div>
-                            ),
-                        }}
-                    />
-                </div>
-                <Button variant="contained" color="primary" size="large" className="rounded-xl px-8 py-3 shadow-lg hover:scale-105 transition-transform duration-300" onClick={handleTrack} disabled={loading}>
+                <TextField label="Enter Tracking ID" variant="outlined" value={trackingId} onChange={(e) => setTrackingId(e.target.value)} fullWidth name="trackingId" className="bg-white rounded-xl shadow-md"
+                    InputProps={{
+                        startAdornment: (
+                            <div className="px-3 text-gray-400 flex items-center">
+                                <FaSearch />
+                            </div>
+                        ),
+                    }} />
+                <Button variant="contained" color="primary" size="small" className="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300" onClick={handleTrack} disabled={loading} >
                     {loading ? "Tracking..." : "Track Parcel"}
                 </Button>
             </div>
-
 
             {/* Result */}
             {result && result.parcel && (
@@ -147,12 +149,7 @@ export const Track = () => {
                             <h2 className="text-2xl font-bold flex items-center gap-2 text-indigo-700">
                                 <FaBox className="text-indigo-600" /> Parcel Information
                             </h2>
-                            <Chip
-                                label={result.parcel.current_status}
-                                color="success"
-                                variant="outlined"
-                                className="font-semibold"
-                            />
+                            <Chip label={result.parcel.current_status} color="success" variant="outlined" className="font-semibold" />
                         </div>
 
                         <Divider className="mb-6" />
@@ -161,39 +158,23 @@ export const Track = () => {
                         <div className="grid md:grid-cols-2 gap-6 mb-8">
                             <div className="flex items-center gap-2">
                                 <FaBox className="text-blue-600" />
-                                <p>
-                                    <strong>Tracking ID:</strong> {result.trackingId}
-                                </p>
+                                <p><strong>Tracking ID:</strong> {result.trackingId}</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FaTruck className="text-green-600" />
-                                <p>
-                                    <strong>Status:</strong>{" "}
-                                    <span className="text-green-600 font-semibold">
-                                        {result.parcel.current_status}
-                                    </span>
-                                </p>
+                                <p><strong>Status:</strong> {result.parcel.current_status}</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <MdLocationOn className="text-red-500" />
-                                <p>
-                                    <strong>Current Location:</strong> {result.currentLocation}
-                                </p>
+                                <p><strong>Current Location:</strong> {result.currentLocation}</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FaRegCalendarAlt className="text-gray-600" />
-                                <p>
-                                    <strong>Created At:</strong>{" "}
-                                    {new Date(result.parcel.created_at).toLocaleString()}
-                                </p>
+                                <p><strong>Created At:</strong> {new Date(result.parcel.created_at).toLocaleString()}</p>
                             </div>
                             <div className="flex items-center gap-2 col-span-2">
                                 <MdLocationOn className="text-purple-600" />
-                                <p>
-                                    <strong>From → To:</strong>{" "}
-                                    {result.parcel.from_branch_name} →{" "}
-                                    {result.parcel.to_branch_name}
-                                </p>
+                                <p><strong>From → To:</strong> {result.parcel.from_branch_name} → {result.parcel.to_branch_name}</p>
                             </div>
                         </div>
 
@@ -205,18 +186,14 @@ export const Track = () => {
                                 <h3 className="text-lg font-semibold flex items-center gap-2 text-indigo-600">
                                     <FaUser /> Sender
                                 </h3>
-                                <p className="mt-1">
-                                    {result.parcel.sender_name} ({result.parcel.sender_phone})
-                                </p>
+                                <p className="mt-1">{result.parcel.sender_name} ({result.parcel.sender_phone})</p>
                                 <p className="text-gray-600 text-sm">{result.parcel.sender_address}</p>
                             </div>
                             <div className="bg-gray-50 p-4 rounded-xl shadow-inner">
                                 <h3 className="text-lg font-semibold flex items-center gap-2 text-green-600">
                                     <FaUser /> Receiver
                                 </h3>
-                                <p className="mt-1">
-                                    {result.parcel.receiver_name} ({result.parcel.receiver_phone})
-                                </p>
+                                <p className="mt-1">{result.parcel.receiver_name} ({result.parcel.receiver_phone})</p>
                                 <p className="text-gray-600 text-sm">{result.parcel.receiver_address}</p>
                             </div>
                         </div>
@@ -246,11 +223,7 @@ export const Track = () => {
                                 <p><strong>Method:</strong> {result.parcel.payment_method}</p>
                                 <div className="flex items-center gap-2">
                                     <strong>Status:</strong>
-                                    <Chip
-                                        label={result.parcel.payment_status}
-                                        color={result.parcel.payment_status === "success" ? "success" : "error"}
-                                        size="small"
-                                        className="font-semibold"
+                                    <Chip label={result.parcel.payment_status} color={result.parcel.payment_status === "success" ? "success" : "error"} size="small" className="font-semibold"
                                     />
                                 </div>
                             </div>
@@ -259,12 +232,10 @@ export const Track = () => {
                         {/* Notes */}
                         {result.parcel.delivery_notes && (
                             <div className="mb-6">
-                                <h3 className="text-lg font-semibold flex items-center gap-2 text-gray-700">
+                                <h3 className="text-lg font-semibold flex items-center gap-2">
                                     <AiOutlineFileText /> Delivery Notes
                                 </h3>
-                                <p className="text-gray-700 ml-7 mt-1 text-sm">
-                                    {result.parcel.delivery_notes}
-                                </p>
+                                <p className="text-gray-700 ml-7 mt-1 text-sm">{result.parcel.delivery_notes}</p>
                             </div>
                         )}
                     </CardContent>

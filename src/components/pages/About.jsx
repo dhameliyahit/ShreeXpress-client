@@ -33,7 +33,7 @@ const AboutUs = () => {
                     <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5">ABOUT</h1>
                     <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>ABOUT US</h2>
                     <p className="mb-6 leading-relaxed text-sm md:text-base z-10">
-                         Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public.  Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
+                        Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public.  Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
                     </p>
 
                     <div className="space-y-4 flex flex-col z-10">
@@ -89,7 +89,7 @@ const AboutUs = () => {
 const directors = [
     { name: "BALAR CRENS", phone: 9825515123, email: "balarcrens@gmail.com" },
     { name: "DHAMELIYA HEET", phone: 9638601192, email: "heetdhameliya@gmail.com" },
-    { name: "DHANANI HARSH", phone: 8905718200, email: "harshdhanani@gmail.com" }
+    { name: "CHAUHAN JAYDIP", phone: 9624983883, email: "jatinchauhan2004@gmail.com" }
 ];
 
 const CompanyDetails = () => {
@@ -170,7 +170,7 @@ const CompanyDetails = () => {
                         <p className="text-sm leading-relaxed">
                             <span className="font-bold"> Courier Service</span> is a fair employer who employs people from
                             various cultures and regions. Built on the values that define the way they do business,
-                             believes in empowering people to ensure accountability and responsiveness.
+                            believes in empowering people to ensure accountability and responsiveness.
                         </p>
                     </div>
                 </div>

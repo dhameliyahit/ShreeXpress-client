@@ -88,14 +88,19 @@ export const Users = () => {
             let url = `${VITE_BACKEND_URL}/api/auth/all/users`;
             if (selectedRole !== "all") url += `?role=${selectedRole}`;
 
-            const res = await axios.get(url, { headers: { Authorization: token } });
-            if (res.data.success) setUsers(res.data.users);
-            else toast.error("Failed to fetch users");
+            const res = await axios.get(url, {
+                headers: { Authorization: token },
+            });
 
-            setLoading(false);
+            if (res.data?.users) {
+                setUsers(res.data.users);
+            } else {
+                toast.error("Failed to fetch users");
+            }
         } catch (err) {
             console.error(err);
             toast.error("Error fetching users");
+        } finally {
             setLoading(false);
         }
     };
@@ -124,26 +129,22 @@ export const Users = () => {
                 {/* Header */}
                 <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <h2 className="text-2xl font-semibold text-gray-800">👥 All Users</h2>
-
                     {/* Role Filter */}
-                    <div className="flex items-center gap-2">
-                        <label className="text-sm font-medium text-gray-700">Filter by Role:</label>
-                        <div className="relative w-48">
-                            <select
-                                value={selectedRole}
-                                onChange={(e) => setSelectedRole(e.target.value)}
-                                className="w-full cursor-pointer border border-gray-300 bg-white text-gray-700 px-4 py-2 pr-8 rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            >
-                                <option value="all">All</option>
-                                <option value="superadmin">Superadmin</option>
-                                <option value="admin">Admin</option>
-                                <option value="client">Client</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500">
-                                <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                </svg>
-                            </div>
+                    <div className="relative w-48">
+                        <select value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}
+                            className="w-full cursor-pointer appearance-none border border-gray-300 bg-white text-gray-700 px-4 py-2 pr-8 rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            <option value="all">All</option>
+                            <option value="superadmin">Superadmin</option>
+                            <option value="admin">Admin</option>
+                            <option value="client">Client</option>
+                        </select>
+
+                        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500">
+                            <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor" >
+                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -164,7 +165,7 @@ export const Users = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {users.map((user, index) => (
-                                <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-200">
+                                <tr key={user._id} className="hover:bg-gray-50 transition-colors duration-200">
                                     <td className="px-6 py-4 text-sm text-gray-700">{index + 1}</td>
                                     <td className="px-6 py-4 font-medium text-gray-800">{user.name}</td>
                                     <td className="px-6 py-4 text-sm text-gray-600">{user.email}</td>
@@ -174,7 +175,7 @@ export const Users = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-500">
-                                        {new Date(user.created_at).toLocaleString("en-IN", {
+                                        {new Date(user.createdAt).toLocaleString("en-IN", {
                                             dateStyle: "medium",
                                             timeStyle: "short",
                                         })}
@@ -188,7 +189,6 @@ export const Users = () => {
         </>
     );
 };
-
 
 export const AddNewAdmin = () => {
     const token = localStorage.getItem("Authorization")
@@ -719,134 +719,157 @@ export const Block_email = () => {
     )
 }
 
-export const SqlEditor = () => {
-    const [query, setQuery] = useState('SELECT * FROM users;');
-    const [response, setResponse] = useState(null);
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 10;
+export const AddBranch = () => {
+    const token = localStorage.getItem("Authorization");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    const runQuery = async () => {
-        setLoading(true);
-        setError('');
-        setResponse(null);
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm();
+
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit = async (data) => {
         try {
-            const res = await axios.get(`${VITE_BACKEND_URL}/sql/editor`, {
-                params: { query },
-            });
-            setResponse(res.data);
+            setLoading(true);
+
+            const payload = { ...data, created_by: user?._id };
+
+            await axios.post(`${VITE_BACKEND_URL}/api/branches/new/branch`, payload,
+                { headers: { Authorization: token } }
+            );
+
+            toast.success("Branch added successfully");
+            reset();
         } catch (err) {
-            setError(err.response?.data?.message || 'Unknown Error');
+            console.error(err);
+            toast.error(err.response?.data?.error);
         } finally {
             setLoading(false);
         }
     };
 
-    const paginatedRows = response?.rows?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
-    const totalPages = Math.ceil((response?.rows?.length || 0) / rowsPerPage);
-
     return (
-        <div className="mx-auto sm:p-3 md:p-6 space-y-6">
-            <h2 className="text-3xl font-bold text-center">🧠 SQL Editor</h2>
+        <>
+            {loading && <Loading />}
 
-            <div>
-                <label htmlFor="sql-query" className="block font-semibold mb-2">Write SQL query</label>
-                <textarea
-                    id="sql-query"
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    rows={5}
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-            </div>
+            <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
+                <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
+                    <h2 className="text-4xl font-extrabold text-[#383185] text-center mb-10 tracking-tight">
+                        <span className="inline-block border-b-4 border-[#383185] pb-1">
+                            Add New Branch
+                        </span>
+                    </h2>
 
-            <div className="flex justify-end">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={runQuery}
-                    disabled={loading}
-                >
-                    {loading ? <CircularProgress size={24} /> : '▶️ Run'}
-                </Button>
-            </div>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
-            {error && (
-                <div className="bg-red-100 text-red-800 border border-red-300 px-4 py-2 rounded-md">
-                    {error}
-                </div>
-            )}
-
-            {response && (
-                <div className="p-2 md:p-4 overflow-auto">
-                    <div className="mb-4 font-semibold">
-                        ✅ Query Result: {response.command} | Rows: {response.rowCount}
-                    </div>
-
-                    {response.rows?.length > 0 ? (
-                        <table className="min-w-full divide-y divide-gray-200 rounded-md overflow-hidden">
-                            <thead className="bg-gray-800 text-white">
-                                <tr>
-                                    {response.fields
-                                        .filter((field) => field.toLowerCase() !== 'password')
-                                        .map((field) => (
-                                            <th key={field} className="px-6 py-4 text-left font-semibold">
-                                                {field}
-                                            </th>
-                                        ))}
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-300">
-                                {paginatedRows.map((row, idx) => (
-                                    <tr key={idx}>
-                                        {response.fields
-                                            .filter((field) => field.toLowerCase() !== 'password')
-                                            .map((field) => (
-                                                <td key={field} className="px-6 py-4">
-                                                    {String(row[field])}
-                                                </td>
-                                            ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p className="text-green-600 mt-4">✅ Query executed. No rows returned.</p>
-                    )}
-
-                    <div className="flex justify-center gap-2 sm:gap-4 items-center text-black mt-4">
-                        <button
-                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                            disabled={currentPage === 1}
-                            className="px-4 py-1 bg-gray-200 rounded disabled:opacity-50"
-                        >
-                            Prev
-                        </button>
-
-                        <div className="space-x-2">
-                            {Array.from({ length: totalPages }, (_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => setCurrentPage(i + 1)}
-                                    className={`px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-                                >
-                                    {i + 1}
-                                </button>
-                            ))}
+                        {/* Branch Name */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">
+                                Branch Name
+                            </label>
+                            <input
+                                {...register("branch_name", { required: "Branch name is required" })}
+                                placeholder="Enter branch name"
+                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                            />
+                            {errors.branch_name && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.branch_name.message}
+                                </p>
+                            )}
                         </div>
 
-                        <button
-                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                            disabled={currentPage === totalPages}
-                            className="px-4 py-1 bg-gray-200 rounded disabled:opacity-50"
-                        >
-                            Next
-                        </button>
-                    </div>
+                        {/* Address */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">
+                                Branch Address
+                            </label>
+                            <textarea
+                                {...register("address", { required: "Address is required" })}
+                                placeholder="Enter branch address"
+                                rows={3}
+                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                            />
+                            {errors.address && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.address.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Phone */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">
+                                Contact Number
+                            </label>
+                            <input
+                                {...register("phone", {
+                                    required: "Phone number is required",
+                                    pattern: {
+                                        value: /^[0-9]{10}$/,
+                                        message: "Phone must be 10 digits",
+                                    },
+                                })}
+                                placeholder="Enter 10 digit number"
+                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                            />
+                            {errors.phone && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.phone.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Pincode */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">
+                                Pincode
+                            </label>
+                            <input
+                                {...register("pincode", {
+                                    required: "Pincode is required",
+                                    pattern: {
+                                        value: /^[0-9]{6}$/,
+                                        message: "Pincode must be 6 digits",
+                                    },
+                                })}
+                                placeholder="Enter 6 digit pincode"
+                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                            />
+                            {errors.pincode && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.pincode.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Submit */}
+                        <Button type="submit" fullWidth variant="contained" disabled={loading} sx={{
+                            backgroundColor: "#383185",
+                            textTransform: "none",
+                            fontWeight: 600,
+                            fontSize: "16px",
+                            paddingY: 1.2,
+                            borderRadius: "0.5rem",
+                            "&:hover": {
+                                backgroundColor: "#2e285e",
+                            },
+                        }} >
+                            {loading ? (
+                                <CircularProgress size={24} sx={{ color: "#fff" }} />
+                            ) : (
+                                "Add Branch"
+                            )}
+                        </Button>
+
+                    </form>
                 </div>
-            )}
-        </div>
+            </div>
+        </>
     );
 };
 

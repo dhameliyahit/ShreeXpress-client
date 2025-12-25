@@ -11,10 +11,10 @@ import { AiOutlineAim } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
 import { FcSms } from "react-icons/fc";
 import { MdOutlineAppBlocking } from "react-icons/md";
-import { BiLogoPostgresql } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import { IoMdPersonAdd } from "react-icons/io";
 import { FaBoxOpen } from "react-icons/fa";
+import { FaCodeBranch } from "react-icons/fa";
 
 const iconMap = {
     Dashboard: <FaTachometerAlt size={18} />,
@@ -25,12 +25,12 @@ const iconMap = {
     Users: <FaUsers size={18} />,
     AddNewAdmins: <FaPlus size={18} />,
     Track: <AiOutlineAim size={18} />,
-    Editor: <BiLogoPostgresql size={18} />,
     Branches: <FaShippingFast size={18} />,
     OTP_Logs: <FcSms size={18} />,
     Block_email: <MdOutlineAppBlocking size={18} />,
+    AddBranch: <FaCodeBranch size={16} />,
     CreateParcel: <FaBoxOpen size={18} />,
-    AddNewClient: <IoMdPersonAdd size={18} />
+    AddNewClient: <IoMdPersonAdd size={18} />,
 };
 
 const Sidebar = ({ role = 'client', onItemClick, selected }) => {
@@ -39,7 +39,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
 
     const navItems = {
         admin: ['Dashboard', 'Shipments', 'CreateParcel', 'AddNewClient', 'Clients'],
-        superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email', 'Editor'],
+        superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email', 'AddBranch'],
         client: ['Dashboard', 'Track']
     };
 
@@ -62,8 +62,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
             </div>
 
             {/* Navigation */}
-            <ul className={`flex flex-col ${open ? 'items-start' : 'items-center'
-                } px-2 space-y-2`}>
+            <ul className={`flex flex-col ${open ? 'items-start' : 'items-center'} px-2 space-y-2`}>
                 {navItems[role]?.map((label) => {
                     const isActive = selected === label;
                     const baseStyle = `flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 hover:bg-gray-100 cursor-pointer`;
@@ -76,7 +75,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
                         </li>
                     );
 
-                    return open ? ( content ) : (
+                    return open ? (content) : (
                         <div className="tooltip tooltip-right" key={label} data-tip={label}>
                             {content}
                         </div>

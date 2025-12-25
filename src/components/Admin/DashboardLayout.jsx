@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Sidebar from './SideBar';
 import AdminPage, { AddNewClient,Shipments, Clients, CreateParcel } from '../Admin/admin/AdminPage';
 import ClientPage, { Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { Users , AddNewAdmin, Analytics, SqlEditor, Branches, OTP_Logs, Block_email } from './superadmin/SuperAdmin';
+import SuperadminPage, { Users , AddNewAdmin, Analytics, Branches, OTP_Logs, Block_email, AddBranch } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
 const DashboardLayout = ({ role }) => {
@@ -29,8 +29,8 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'Analytics') return <Analytics />;
             if (selectedPage === 'Branches') return <Branches/>;
             if (selectedPage === 'OTP_Logs') return <OTP_Logs />;
-            if( selectedPage === 'Block_email') return <Block_email/>;
-            if (selectedPage === 'Editor') return <SqlEditor />;
+            if (selectedPage === 'Block_email') return <Block_email/>;
+            if (selectedPage === 'AddBranch') return <AddBranch />;
         }
 
         return <div>Page not found</div>;

@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Loading from "../../Loading";
+import { HiUsers, HiTruck } from "react-icons/hi2";
+import { ShieldCheck, Package, Truck, DollarSign, Settings, PackagePlus, UserPlus } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
@@ -15,15 +17,28 @@ const AdminPage = () => {
     return (
         <div className="min-h-screen p-4 md:p-8">
             {/* Header */}
-            <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
-                <h1 className="text-3xl font-bold mb-2">🛡️ Admin Dashboard</h1>
-                <p className="mb-4">Welcome to your admin panel.</p>
-                <div className="text-lg space-y-1">
+            <div className="rounded-xl shadow-md border border-gray-300 p-6 mb-8">
+                <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary">
+                        <ShieldCheck className="w-7 h-7" />
+                    </div>
+
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            Admin Dashboard
+                        </h1>
+                        <p className="text-sm text-gray-500 mt-1">
+                            Centralized control panel for system management
+                        </p>
+                    </div>
+                </div>
+
+                <div className="mt-4 text-sm text-gray-700 space-y-1">
                     <p>
-                        <strong>Role:</strong> {user.role}
+                        <span className="font-semibold">Role:</span> {user.role}
                     </p>
                     <p>
-                        <strong>Welcome,</strong> {user.name}
+                        <span className="font-semibold">Welcome:</span> {user.name}
                     </p>
                 </div>
             </div>
@@ -32,7 +47,10 @@ const AdminPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Box 1 - View Orders */}
                 <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">📦 View Orders</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
+                        <Package className="w-5 h-5 text-primary" />
+                        View Orders
+                    </h2>
                     <p className="mb-4">Track, update, and manage customer orders.</p>
                     <Button variant="contained" color="primary">
                         Go to Orders
@@ -41,7 +59,10 @@ const AdminPage = () => {
 
                 {/* Box 2 - Manage Couriers */}
                 <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">🚚 Manage Couriers</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
+                        <Truck className="w-5 h-5 text-green-600" />
+                        Manage Couriers
+                    </h2>
                     <p className="mb-4">Assign or remove couriers and track their delivery progress.</p>
                     <Button variant="contained" color="success">
                         Courier Panel
@@ -50,7 +71,10 @@ const AdminPage = () => {
 
                 {/* Box 3 - Revenue */}
                 <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">💰 Revenue</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
+                        <DollarSign className="w-5 h-5 text-purple-600" />
+                        Revenue
+                    </h2>
                     <p className="mb-4">View daily or monthly revenue and profits.</p>
                     <Button variant="contained" style={{ backgroundColor: "#7e22ce", color: "#fff" }}>
                         View Revenue
@@ -59,7 +83,10 @@ const AdminPage = () => {
 
                 {/* Box 4 - Admin Settings */}
                 <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">⚙️ Admin Settings</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
+                        <Settings className="w-5 h-5 text-gray-700" />
+                        Admin Settings
+                    </h2>
                     <p className="mb-4">Configure your dashboard or update your profile.</p>
                     <Button variant="contained" style={{ backgroundColor: "#374151", color: "#fff" }}>
                         Settings
@@ -74,12 +101,11 @@ export const Shipments = () => {
     const [shipments, setShipments] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const token = localStorage.getItem("Authorization"); // JWT token
+    const token = localStorage.getItem("Authorization");
 
     const fetchShipments = async () => {
         try {
-            const res = await axios.get(
-                `${API_BASE}/api/courier/my/courier`,
+            const res = await axios.get(`${API_BASE}/api/courier/my/courier`,
                 { headers: { Authorization: `${token}` } }
             );
             setShipments(res.data.parcels || []);
@@ -91,26 +117,22 @@ export const Shipments = () => {
     };
 
     const updatePayment = async (id, payment_status, payment_method) => {
-        // Optimistic state update
         setShipments((prev) =>
             prev.map((parcel) =>
-                parcel.id === id
-                    ? { ...parcel, payment_status, payment_method }
-                    : parcel
+                parcel.id === id ? { ...parcel, payment_status, payment_method } : parcel
             )
         );
 
         try {
-            await axios.patch(
-                `${API_BASE}/api/courier/payment/status`,
+            await axios.patch(`${API_BASE}/api/courier/payment/status`,
                 { id, payment_status, payment_method },
                 { headers: { Authorization: `${token}` } }
             );
-            toast.success("Update Successfully");
-            fetchShipments(); // refresh after update
+            toast.success("Updated Successfully");
+            fetchShipments();
         } catch (err) {
             console.error("Error updating payment:", err);
-            toast.error("Error while updating..");
+            toast.error("Error while updating");
         }
     };
 
@@ -120,8 +142,6 @@ export const Shipments = () => {
 
     const updateStatus = async (id, status) => {
         try {
-            // setShipments(prev => prev.map(p => (p.id === id ? { ...p, current_status: status } : p)));
-
             await axios.put(`${API_BASE}/api/courier/${id}/status`, { status },
                 { headers: { Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}` } }
             );
@@ -134,37 +154,68 @@ export const Shipments = () => {
         }
     };
 
-
     return (
-        <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-white text-black rounded-xl shadow-lg">
-            <h1 className="text-3xl font-bold mb-6 text-center">📦 My Shipments</h1>
+        <div className="max-w-7xl p-2 mx-auto bg-white text-black rounded-2xl">
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <HiTruck className="text-2xl" />
+                    </div>
+
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            Shipment Management
+                        </h1>
+                        <p className="text-sm text-gray-500 mt-1">
+                            Track, manage, and update all shipment orders
+                        </p>
+                    </div>
+                </div>
+
+                {!loading && (
+                    <div className="text-sm font-medium text-gray-600">
+                        Total Shipments:
+                        <span className="ml-1 text-gray-900 font-semibold">
+                            {shipments.length}
+                        </span>
+                    </div>
+                )}
+            </div>
 
             {loading ? (
                 <div className="flex justify-center items-center h-40">
                     <span className="loading loading-spinner loading-lg text-primary"></span>
                 </div>
             ) : shipments.length === 0 ? (
-                <div className="text-center py-10 text-gray-500">No shipments found.</div>
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <h2 className="text-2xl font-semibold text-gray-700">
+                        No Shipments Found
+                    </h2>
+                    <p className="text-gray-500 mt-2 max-w-md">
+                        You don’t have any shipments yet. Once a parcel is created, it will
+                        appear here for tracking and management.
+                    </p>
+                </div>
             ) : (
-                <div className="overflow-x-auto">
-                    <table className="min-w-[1000px] table-auto border-collapse border border-gray-200">
-                        <thead className="bg-gray-100 text-black">
+                <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                    <table className="min-w-[1000px] w-full text-sm text-left table-auto">
+                        <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Tracking No.</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Sender</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Receiver</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">From Branch</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">To Branch</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Weight</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Status</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Payment Method</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Payment Status</th>
-                                <th className="px-3 py-2 text-left text-sm font-semibold whitespace-nowrap">Actions</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Tracking No.</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Sender</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Receiver</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">From Branch</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">To Branch</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Weight</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Payment Method</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Payment Status</th>
+                                <th className="px-3 py-2 text-left font-semibold whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {shipments.map((parcel) => (
-                                <tr key={parcel.id} className="border-b border-gray-200">
+                                <tr key={parcel._id} className="border-b border-gray-200 hover:bg-gray-50 transition">
                                     <td className="px-3 py-2 whitespace-nowrap font-semibold">{parcel.tracking_number}</td>
                                     <td className="px-3 py-2 whitespace-nowrap">
                                         {parcel.sender_name}<br />
@@ -174,14 +225,17 @@ export const Shipments = () => {
                                         {parcel.receiver_name}<br />
                                         <span className="text-sm">{parcel.receiver_phone}</span>
                                     </td>
-                                    <td className="px-3 py-2 whitespace-nowrap">{parcel.from_branch_name}</td>
-                                    <td className="px-3 py-2 whitespace-nowrap">{parcel.to_branch_name}</td>
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                        {parcel.from_branch?.branch_name || "—"}
+                                    </td>
+
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                        {parcel.to_branch?.branch_name || "—"}
+                                    </td>
                                     <td className="px-3 py-2 whitespace-nowrap">{parcel.weight} g</td>
                                     <td className="px-1 py-2 whitespace-nowrap">
-                                        <select className="select select-bordered select-sm bg-white text-black" name={`status-${parcel.id}`}
-                                            value={parcel.current_status || "created"}
-                                            onChange={(e) => updateStatus(parcel.id, e.target.value)}
-                                        >
+                                        <select className="select select-bordered select-sm bg-white text-black focus:border-blue-500 focus:outline-none" value={parcel.current_status || "created"}
+                                            onChange={(e) => updateStatus(parcel._id, e.target.value)} >
                                             <option value="created">Created</option>
                                             <option value="in-transit">In Transit</option>
                                             <option value="delivered">Delivered</option>
@@ -189,10 +243,9 @@ export const Shipments = () => {
                                         </select>
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap">
-                                        <select className="select select-bordered select-sm bg-white text-black" name={`status-${parcel.payment_method}`}
-                                            value={parcel.payment_method || ""}
-                                            onChange={(e) =>
-                                                updatePayment(parcel.id, parcel.payment_status, e.target.value)
+                                        <select className="select select-bordered select-sm bg-white text-black"
+                                            value={parcel.payment_method || ""} onChange={(e) =>
+                                                updatePayment(parcel._id, parcel.payment_status, e.target.value)
                                             } >
                                             <option value="">Select Method</option>
                                             <option value="Cash">Cash</option>
@@ -202,13 +255,10 @@ export const Shipments = () => {
                                         </select>
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap">
-                                        <select
-                                            className="select select-bordered select-sm bg-white text-black" name={`status-${parcel.payment_status}`}
-                                            value={parcel.payment_status || ""}
-                                            onChange={(e) =>
-                                                updatePayment(parcel.id, e.target.value, parcel.payment_method)
-                                            }
-                                        >
+                                        <select className="select select-bordered select-sm bg-white text-black"
+                                            value={parcel.payment_status || ""} onChange={(e) =>
+                                                updatePayment(parcel._id, e.target.value, parcel.payment_method)
+                                            } >
                                             <option value="success">Success</option>
                                             <option value="pending">Pending</option>
                                             <option value="failed">Failed</option>
@@ -217,7 +267,7 @@ export const Shipments = () => {
                                     </td>
                                     <td className="px-3 py-2 whitespace-nowrap">
                                         <button
-                                            onClick={() => updatePayment(parcel.id, parcel.payment_status, parcel.payment_method)}
+                                            onClick={() => updatePayment(parcel._id, parcel.payment_status, parcel.payment_method)}
                                             className="btn btn-sm bg-primary text-white hover:bg-primary-focus"
                                         > Save </button>
                                     </td>
@@ -237,9 +287,9 @@ export const CreateParcel = () => {
     const [previewData, setPreviewData] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleSelectBranch = (id) => {
-        setValue("to_branch", id);
-        setIsOpen(false); // close dropdown after selecting
+    const handleSelectBranch = (branch) => {
+        setValue("to_branch", branch._id);
+        setIsOpen(false);
     };
 
     const {
@@ -268,8 +318,13 @@ export const CreateParcel = () => {
         fetchBranches();
     }, [token]);
 
+    useEffect(() => {
+        if (branches.length > 0) {
+            setValue("from_branch", branches[0]._id);
+        }
+    }, [branches, setValue]);
+
     const handlePreview = (data) => {
-        console.log("Form Data to Send Backend:", data);
         if (!data.to_branch) {
             toast.error("Please select a branch before previewing.");
             return;
@@ -279,13 +334,9 @@ export const CreateParcel = () => {
 
     const handleConfirm = async () => {
         try {
-            const res = await axios.post(
-                `${API_BASE}/api/courier/new/courier`,
-                previewData,
-                {
-                    headers: { Authorization: token },
-                }
-            );
+            const res = await axios.post(`${API_BASE}/api/courier/new/courier`, previewData, {
+                headers: { Authorization: token }
+            });
             toast.success("Parcel created successfully!");
             reset();
             setPreviewData(null);
@@ -301,14 +352,24 @@ export const CreateParcel = () => {
 
     return (
         <div className="max-w-5xl mx-auto p-6 rounded-xl shadow-xl bg-white text-black border border-gray-300">
-            <h2 className="text-3xl font-bold mb-6 text-center border-b border-gray-200 pb-3">
-                Create Parcel
-            </h2>
+            <div className="mb-6 pb-4 border-b border-gray-200">
+                <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary">
+                        <PackagePlus className="w-7 h-7" />
+                    </div>
 
-            <form
-                onSubmit={handleSubmit(handlePreview)}
-                className="grid grid-cols-1 md:grid-cols-2 gap-5"
-            >
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-800">
+                            Create New Parcel
+                        </h2>
+                        <p className="text-sm text-gray-500 mt-1">
+                            Enter sender, receiver, and shipment details to generate a new parcel
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <form onSubmit={handleSubmit(handlePreview)} className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* Sender Section */}
                 <h3 className="md:col-span-2 font-semibold text-lg border-b border-gray-200 pb-2">
                     Sender Details
@@ -363,25 +424,20 @@ export const CreateParcel = () => {
                     className="input input-bordered w-full md:col-span-2 bg-white text-black border border-gray-300 focus:border-blue-500"
                 />
 
+                <input type="hidden" {...register("from_branch", { required: true })} />
+
                 {/* Branch Dropdown */}
                 <div className="md:col-span-2">
                     <label className="block mb-2 font-semibold">Select Branch</label>
 
                     <div className="relative w-full">
                         {/* Toggle Button */}
-                        <button
-                            type="button"
-                            onClick={() => setIsOpen((prev) => !prev)}
+                        <button type="button" onClick={() => setIsOpen((prev) => !prev)}
                             className="btn w-full justify-between bg-white text-black border border-gray-300 hover:border-blue-500"
                         >
-                            {branches.find((b) => b.id === watch("to_branch"))?.branch_name || "Select Branch"}
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className={`h-5 w-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
+                            {branches.find((b) => b._id === watch("to_branch"))?.branch_name || "Select Branch"}
+                            <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
@@ -402,12 +458,9 @@ export const CreateParcel = () => {
 
                                 {filteredBranches.length > 0 ? (
                                     filteredBranches.map((branch) => (
-                                        <li key={branch.id}>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleSelectBranch(branch.id)}
-                                                className={`w-full text-left px-4 py-2 hover:bg-blue-50 ${watch("to_branch") === branch.id ? "bg-blue-100 font-semibold" : ""
-                                                    }`}
+                                        <li key={branch._id}>
+                                            <button type="button" onClick={() => handleSelectBranch(branch)}
+                                                className={`w-full text-left px-4 py-2 hover:bg-blue-50 ${watch("to_branch") === branch._id ? "bg-blue-100 font-semibold" : ""}`}
                                             >
                                                 {branch.branch_name}
                                             </button>
@@ -570,11 +623,22 @@ export const AddNewClient = () => {
     return (
         <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
             <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
-                <h2 className="text-4xl font-extrabold text-[#383185] text-center mb-10 tracking-tight">
-                    <span className="inline-block border-b-4 border-[#383185] pb-1">
-                        Add New Client
-                    </span>
-                </h2>
+                <div className="mb-8 pb-4 border-b border-gray-200">
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 rounded-lg bg-[#383185]/10 text-[#383185]">
+                            <UserPlus className="w-7 h-7" />
+                        </div>
+
+                        <div>
+                            <h2 className="text-3xl font-bold text-gray-800">
+                                Add New Client
+                            </h2>
+                            <p className="text-sm text-gray-500 mt-1">
+                                Create a client account with login credentials
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     {/* Name */}
@@ -582,11 +646,9 @@ export const AddNewClient = () => {
                         <label className="block text-sm text-black font-semibold mb-1">
                             Name
                         </label>
-                        <input
-                            type="text"
-                            placeholder="Enter name"
+                        <input type="text" placeholder="Enter name"
                             {...register("name", { required: "Name is required" })}
-                            className="input bg-white text-black input-bordered w-full"
+                            className="border border-gray-200 input bg-white text-black input-bordered w-full"
                         />
                         {errors.name && (
                             <p className="text-red-500 text-sm mt-1">
@@ -600,9 +662,7 @@ export const AddNewClient = () => {
                         <label className="block text-sm bg-white text-black font-semibold mb-1">
                             Email
                         </label>
-                        <input
-                            type="email"
-                            placeholder="Enter email"
+                        <input type="email" placeholder="Enter email"
                             {...register("email", {
                                 required: "Email is required",
                                 pattern: {
@@ -610,7 +670,7 @@ export const AddNewClient = () => {
                                     message: "Invalid email format",
                                 },
                             })}
-                            className="input bg-white text-black input-bordered w-full"
+                            className="border border-gray-200 input bg-white text-black input-bordered w-full"
                         />
                         {errors.email && (
                             <p className="text-red-500 text-sm mt-1">
@@ -624,9 +684,7 @@ export const AddNewClient = () => {
                         <label className="block text-sm text-black font-semibold mb-1">
                             Password
                         </label>
-                        <input
-                            type="password"
-                            placeholder="Enter password"
+                        <input type="password" placeholder="Enter password"
                             {...register("password", {
                                 required: "Password is required",
                                 minLength: {
@@ -634,7 +692,7 @@ export const AddNewClient = () => {
                                     message: "Minimum 6 characters required",
                                 },
                             })}
-                            className="input bg-white text-black input-bordered w-full"
+                            className="border border-gray-200 input bg-white text-black input-bordered w-full"
                         />
                         {errors.password && (
                             <p className="text-red-500 text-sm mt-1">
@@ -677,7 +735,6 @@ export const Clients = () => {
             }
 
             const authHeader = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
-            // console.log(authHeader);
 
             const res = await axios.get("http://localhost:5000/api/auth/all/client", {
                 headers: { Authorization: authHeader }
@@ -733,38 +790,82 @@ export const Clients = () => {
         <>
             {loading && <Loading />}
             <div className="sm:p-6 p-2">
-                <div className="mb-4 flex justify-between items-center">
-                    <h2 className="text-2xl font-semibold">👥 All Clients</h2>
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-start gap-3">
+                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                            <HiUsers className="text-2xl" />
+                        </div>
+
+                        <div>
+                            <h2 className="text-3xl font-bold text-gray-800">
+                                Client Management
+                            </h2>
+                            <p className="text-sm text-gray-500 mt-1">
+                                Manage and monitor all registered clients
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="text-sm font-medium text-gray-600">
+                        Total Clients:
+                        <span className="ml-1 text-gray-900 font-semibold">
+                            {clients.length}
+                        </span>
+                    </div>
                 </div>
 
-                <p className="text-md my-2">Total Users: {clients.length}</p>
-
-                <div className="overflow-x-auto h-[80vh] rounded-xl">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead>
+                <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                    <table className="min-w-[900px] w-full text-sm text-left table-auto">
+                        <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">SR No</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Name</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Email</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Joined</th>
-                                <th className="px-6 py-4 text-sm font-semibold">Action</th>
+                                <th className="px-3 py-2 font-semibold whitespace-nowrap">SR No.</th>
+                                <th className="px-3 py-2 font-semibold whitespace-nowrap">Client</th>
+                                <th className="px-3 py-2 font-semibold whitespace-nowrap">Email</th>
+                                <th className="px-3 py-2 font-semibold whitespace-nowrap">Joined</th>
+                                <th className="px-3 py-2 font-semibold whitespace-nowrap text-center">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-300">
+
+                        <tbody>
                             {clients.map((client, index) => (
-                                <tr key={client.id}>
-                                    <td className="px-6 py-4">{index + 1}</td>
-                                    <td className="px-6 py-4 font-medium">{client.name}</td>
-                                    <td className="px-6 py-4 text-sm">{client.email}</td>
-                                    <td className="px-6 py-4 text-sm">
-                                        {new Date(client.created_at).toLocaleString("en-IN", {
-                                            dateStyle: "medium",
-                                            timeStyle: "short",
-                                        })}
+                                <tr
+                                    key={client._id || index}
+                                    className="border-b border-gray-200 hover:bg-gray-50 transition"
+                                >
+                                    <td className="px-3 py-2 whitespace-nowrap font-medium">
+                                        {index + 1}
                                     </td>
-                                    <td className="px-6 py-4 flex justify-center items-center">
-                                        <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition"
-                                            onClick={() => handleDelete(client.id)}>
+
+                                    <td className="px-3 py-2 whitespace-nowrap">
+                                        <div className="font-semibold">{client.name}</div>
+                                    </td>
+
+                                    <td className="px-3 py-2 break-all text-sm">
+                                        {client.email}
+                                    </td>
+
+                                    <td className="px-3 py-2 whitespace-nowrap text-sm">
+                                        {client.createdAt ? (() => {
+                                            const date = new Date(client.createdAt);
+                                            return isNaN(date.getTime())
+                                                ? "—"
+                                                : date.toLocaleString("en-IN", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                });
+                                        })() : "—"}
+                                    </td>
+
+                                    <td className="px-3 py-2 whitespace-nowrap text-center">
+                                        <button
+                                            onClick={() => handleDelete(client._id)}
+                                            className="btn btn-sm bg-red-500 text-white hover:bg-red-600"
+                                        >
                                             Delete
                                         </button>
                                     </td>

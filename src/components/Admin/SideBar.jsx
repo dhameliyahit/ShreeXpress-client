@@ -22,7 +22,7 @@ const iconMap = {
     Clients: <FaUsers size={18} />,
     Admins: <FaUsers size={18} />,
     Analytics: <FaChartBar size={18} />,
-    Users: <FaUsers size={18} />,
+    User: <FaUsers size={18} />,
     AddNewAdmins: <FaPlus size={18} />,
     Track: <AiOutlineAim size={18} />,
     Branches: <FaShippingFast size={18} />,
@@ -39,7 +39,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
 
     const navItems = {
         admin: ['Dashboard', 'Shipments', 'CreateParcel', 'AddNewClient', 'Clients'],
-        superadmin: ['Dashboard', 'Users', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email', 'AddBranch'],
+        superadmin: ['Dashboard', 'User', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email', 'AddBranch'],
         client: ['Dashboard', 'Track']
     };
 

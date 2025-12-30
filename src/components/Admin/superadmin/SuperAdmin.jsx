@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from '../../Loading';
+import { Users, FileText, BarChart2, Settings, UserPlus } from "lucide-react";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -13,70 +14,75 @@ const SuperadminPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-        <>
-            <div className="min-h-screen p-4 md:p-8">
-                {/* Header */}
-                <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
-                    <h1 className="text-3xl font-bold mb-2">🛠️ SuperAdmin Dashboard</h1>
-                    <p className=" mb-4">Manage your platform efficiently.</p>
-                    <div className="text-lg space-y-1">
-                        <p>
-                            <strong>Role:</strong> {user.role}
-                        </p>
-                        <p>
-                            <strong>Welcome,</strong> {user.name}
-                        </p>
+        <div className="min-h-screen p-4 md:p-8">
+            {/* Header */}
+            <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
+                <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-purple-100 text-purple-700">
+                        <Settings className="w-7 h-7" />
                     </div>
-                </div>
-
-                {/* Dashboard Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Box 1 - Manage Users */}
-                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                        <h2 className="text-xl font-semibold mb-2">👥 Manage Users</h2>
-                        <p className=" mb-4">
-                            View, edit, or remove users from the system.
-                        </p>
-                        <Button variant="contained" color="primary">Go to Users</Button>
-                    </div>
-
-                    {/* Box 2 - Manage Content */}
-                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                        <h2 className="text-xl font-semibold mb-2">📝 Manage Content</h2>
-                        <p className=" mb-4">
-                            Add or edit website content like posts or updates.
-                        </p>
-                        <Button variant="contained" color="success">Manage Content</Button>
-                    </div>
-
-                    {/* Box 3 - Analytics */}
-                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                        <h2 className="text-xl font-semibold mb-2">📈 Analytics</h2>
-                        <p className=" mb-4">
-                            Check performance and activity reports.
-                        </p>
-                        <Button variant="contained" style={{ backgroundColor: "#7e22ce", color: "#fff" }}>
-                            View Analytics
-                        </Button>
-                    </div>
-
-                    {/* Box 4 - Settings */}
-                    <div className=" p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                        <h2 className="text-xl font-semibold mb-2">⚙️ Settings</h2>
-                        <p className=" mb-4">
-                            Adjust system preferences and configurations.
-                        </p>
-                        <Button variant="contained" style={{ backgroundColor: "#374151", color: "#fff" }}>
-                            Open Settings
-                        </Button>
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">SuperAdmin Dashboard</h1>
+                        <p className="text-gray-500 mt-1">Manage your platform efficiently.</p>
+                        <div className="text-lg space-y-1 mt-2">
+                            <p><strong>Role:</strong> {user.role}</p>
+                            <p><strong>Welcome,</strong> {user.name}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </>
+
+            {/* Dashboard Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Box 1 - Manage Users */}
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                    <div className="flex items-center gap-2 mb-2">
+                        <Users className="w-5 h-5 text-blue-600" />
+                        <h2 className="text-xl font-semibold">Manage Users</h2>
+                    </div>
+                    <p className="mb-4 text-gray-600">View, edit, or remove users from the system.</p>
+                    <Button variant="contained" color="primary">Go to Users</Button>
+                </div>
+
+                {/* Box 2 - Manage Content */}
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                    <div className="flex items-center gap-2 mb-2">
+                        <FileText className="w-5 h-5 text-green-600" />
+                        <h2 className="text-xl font-semibold">Manage Content</h2>
+                    </div>
+                    <p className="mb-4 text-gray-600">Add or edit website content like posts or updates.</p>
+                    <Button variant="contained" color="success">Manage Content</Button>
+                </div>
+
+                {/* Box 3 - Analytics */}
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                    <div className="flex items-center gap-2 mb-2">
+                        <BarChart2 className="w-5 h-5 text-purple-600" />
+                        <h2 className="text-xl font-semibold">Analytics</h2>
+                    </div>
+                    <p className="mb-4 text-gray-600">Check performance and activity reports.</p>
+                    <Button variant="contained" style={{ backgroundColor: "#7e22ce", color: "#fff" }}>
+                        View Analytics
+                    </Button>
+                </div>
+
+                {/* Box 4 - Settings */}
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
+                    <div className="flex items-center gap-2 mb-2">
+                        <Settings className="w-5 h-5 text-gray-700" />
+                        <h2 className="text-xl font-semibold">Settings</h2>
+                    </div>
+                    <p className="mb-4 text-gray-600">Adjust system preferences and configurations.</p>
+                    <Button variant="contained" style={{ backgroundColor: "#374151", color: "#fff" }}>
+                        Open Settings
+                    </Button>
+                </div>
+            </div>
+        </div>
     );
 };
 
-export const Users = () => {
+export const User = () => {
     const token = localStorage.getItem("Authorization");
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -128,7 +134,16 @@ export const Users = () => {
             <div className="sm:p-6 p-2">
                 {/* Header */}
                 <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <h2 className="text-2xl font-semibold text-gray-800">👥 All Users</h2>
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-blue-100 text-blue-600">
+                            <Users className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-800">All Users</h2>
+                            <p className="text-gray-500 mt-1">Manage and filter users by role.</p>
+                        </div>
+                    </div>
+
                     {/* Role Filter */}
                     <div className="relative w-48">
                         <select value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}
@@ -191,7 +206,7 @@ export const Users = () => {
 };
 
 export const AddNewAdmin = () => {
-    const token = localStorage.getItem("Authorization")
+    const token = localStorage.getItem("Authorization");
     const {
         register,
         handleSubmit,
@@ -201,20 +216,12 @@ export const AddNewAdmin = () => {
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
-        console.log("Submitted Admin:", data);
-        console.log("Type of data:", typeof data);
-
         try {
             setLoading(true);
-
             const res = await axios.post(`${VITE_BACKEND_URL}/api/auth/new/admin`, data, {
-                headers: {
-                    Authorization: token,
-                },
+                headers: { Authorization: token },
             });
-
             if (res.status === 200 || res.status === 201) {
-                console.log("Admin created successfully:", res.data);
                 toast.success(res.data?.message || "Admin created successfully");
                 reset();
             } else {
@@ -228,16 +235,22 @@ export const AddNewAdmin = () => {
         }
     };
 
-
     return (
         <>
             {loading && <Loading />}
             <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
-                <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
-                    <h2 className="text-4xl font-extrabold text-[#383185] text-center mb-10 tracking-tight">
-                        <span className="inline-block border-b-4 border-[#383185] pb-1">Add New Admin</span>
-                    </h2>
+                {/* Header */}
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
+                        <UserPlus className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-800">Add New Admin</h2>
+                        <p className="text-gray-500 mt-1">Create admins with proper roles and access.</p>
+                    </div>
+                </div>
 
+                <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Name */}
                         <div>
@@ -246,7 +259,7 @@ export const AddNewAdmin = () => {
                                 type="text"
                                 placeholder="Enter name"
                                 {...register("name", { required: "Name is required" })}
-                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
                             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
                         </div>
@@ -264,7 +277,7 @@ export const AddNewAdmin = () => {
                                         message: "Invalid email format",
                                     },
                                 })}
-                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
                             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
                         </div>
@@ -282,26 +295,24 @@ export const AddNewAdmin = () => {
                                         message: "Minimum 6 characters required",
                                     },
                                 })}
-                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
                             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                         </div>
 
                         {/* Role */}
-                        <div className='relative'>
+                        <div className="relative">
                             <label className="block text-sm text-black font-semibold mb-1">Role</label>
                             <select
                                 {...register("role")}
-                                className="w-full cursor-pointer appearance-none bg-gray-100 px-4 py-3 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#383185] text-gray-800"
+                                className="w-full cursor-pointer appearance-none bg-gray-100 px-4 py-3 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             >
                                 <option disabled selected>-- Select Role --</option>
                                 <option value="admin">Admin</option>
                                 <option value="superadmin">Super Admin</option>
                             </select>
-
-                            {/* Dropdown icon */}
                             <div className="pointer-events-none absolute inset-y-0 top-6 right-2 flex items-center text-gray-500">
-                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" >
+                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                                 </svg>
                             </div>
@@ -320,16 +331,10 @@ export const AddNewAdmin = () => {
                                 fontSize: '16px',
                                 paddingY: 1.2,
                                 borderRadius: '0.5rem',
-                                '&:hover': {
-                                    backgroundColor: '#2e285e',
-                                },
+                                '&:hover': { backgroundColor: '#2e285e' },
                             }}
                         >
-                            {loading ? (
-                                <CircularProgress size={24} sx={{ color: 'white' }} />
-                            ) : (
-                                "Add Admin"
-                            )}
+                            {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : "Add Admin"}
                         </Button>
                     </form>
                 </div>
@@ -341,23 +346,16 @@ export const AddNewAdmin = () => {
 export const Analytics = () => {
     const token = localStorage.getItem("Authorization");
     const [loading, setLoading] = useState(false);
-    const [analytics, setAnalytics] = useState({ admins: 0, parcels: 0, branches: 0, });
+    const [analytics, setAnalytics] = useState({ admins: 0, parcels: 0, branches: 0 });
 
-    // Data Fetch
     const fetchAnalytics = async () => {
         try {
             setLoading(true);
-            const adminsRes = await axios.get(`${VITE_BACKEND_URL}/api/auth/all/admin`, {
-                headers: { Authorization: token },
-            });
-
-            const parcelsRes = await axios.get(`${VITE_BACKEND_URL}/api/courier/all/courier`, {
-                headers: { Authorization: token },
-            });
-
-            const branchesRes = await axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, {
-                headers: { Authorization: token },
-            });
+            const [adminsRes, parcelsRes, branchesRes] = await Promise.all([
+                axios.get(`${VITE_BACKEND_URL}/api/auth/all/admin`, { headers: { Authorization: token } }),
+                axios.get(`${VITE_BACKEND_URL}/api/courier/all/courier`, { headers: { Authorization: token } }),
+                axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, { headers: { Authorization: token } }),
+            ]);
 
             setAnalytics({
                 admins: adminsRes?.data?.admins.length || 0,
@@ -372,57 +370,45 @@ export const Analytics = () => {
         }
     };
 
-    // Function Call
-    useEffect(() => {
-        fetchAnalytics();
-    }, []);
+    useEffect(() => { fetchAnalytics(); }, []);
 
     return (
         <div className="p-2 sm:p-4 md:p-6">
-            <h2 className="text-2xl font-bold mb-4">📈 Analytics Dashboard</h2>
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-lg bg-teal-100 text-teal-600">
+                    <BarChart2 className="w-6 h-6" />
+                </div>
+                <div>
+                    <h2 className="text-3xl font-bold text-gray-800">Analytics Dashboard</h2>
+                    <p className="text-gray-500 mt-1">Overview of system admins, parcels, and branches.</p>
+                </div>
+            </div>
 
             {loading ? (
                 <Loading />
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/* Total Admins */}
                     <div className="relative text-center bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
                         <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
-                            <img
-                                src="https://demo.bootstrapdash.com/purple-admin-free/dist/themes/assets/images/dashboard/circle.svg"
-                                alt="circle-image"
-                                className="absolute right-0 top-0 h-full opacity-30 pointer-events-none"
-                            />
-                            <h4 className="text-lg font-semibold text-center">
-                                Total Admins
-                            </h4>
+                            <h4 className="text-lg font-semibold">Total Admins</h4>
                             <h2 className="text-3xl font-bold mt-2">{analytics.admins}</h2>
                         </div>
                     </div>
 
+                    {/* Parcels Issued */}
                     <div className="relative text-center bg-gradient-to-r from-pink-400 to-red-300 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
                         <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
-                            <img
-                                src="https://demo.bootstrapdash.com/purple-admin-free/dist/themes/assets/images/dashboard/circle.svg"
-                                alt="circle-image"
-                                className="absolute right-0 top-0 h-full opacity-30 pointer-events-none"
-                            />
-                            <h4 className="text-lg font-semibold text-center">
-                                Parcels Issued
-                            </h4>
+                            <h4 className="text-lg font-semibold">Parcels Issued</h4>
                             <h2 className="text-3xl font-bold mt-2">{analytics.parcels}</h2>
                         </div>
                     </div>
 
+                    {/* Branches */}
                     <div className="relative text-center sm:col-span-2 lg:col-span-1 bg-gradient-to-r from-teal-400 to-green-400 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
                         <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
-                            <img
-                                src="https://demo.bootstrapdash.com/purple-admin-free/dist/themes/assets/images/dashboard/circle.svg"
-                                alt="circle-image"
-                                className="absolute right-0 top-0 h-full opacity-30 pointer-events-none"
-                            />
-                            <h4 className="text-lg font-semibold text-center">
-                                Branches
-                            </h4>
+                            <h4 className="text-lg font-semibold">Branches</h4>
                             <h2 className="text-3xl font-bold mt-2">{analytics.branches}</h2>
                         </div>
                     </div>

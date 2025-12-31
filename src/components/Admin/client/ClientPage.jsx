@@ -1,23 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {
-    Card,
-    CardContent,
-    Button,
-    TextField,
-    Chip,
-    Divider,
-} from "@mui/material";
-import {
-    FaBox,
-    FaSearch,
-    FaTruck,
-    FaUser,
-    FaRegCalendarAlt,
-} from "react-icons/fa";
+import { Card, CardContent, Button, TextField, Chip, Divider } from "@mui/material";
+import { FaBox, FaSearch, FaTruck, FaUser, FaRegCalendarAlt } from "react-icons/fa";
 import { MdLocationOn, MdPayment } from "react-icons/md";
-import { AiOutlineFileText } from "react-icons/ai";
 
 const ClientPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -25,16 +11,21 @@ const ClientPage = () => {
     return (
         <div className="min-h-screen p-4 md:p-8">
             {/* Header */}
-            <div className="rounded-xl shadow-md border border-gray-300 p-6 mb-8">
-                <h1 className="text-3xl  font-bold mb-2">👨🏻‍💼 Client Dashboard</h1>
-                <p className="mb-4">Welcome to your Client panel.</p>
-                <div className="text-lg space-y-1">
-                    <p>
-                        <strong>Role:</strong> {user.role}
-                    </p>
-                    <p>
-                        <strong>Welcome,</strong> {user.name}
-                    </p>
+            <div className="rounded-xl shadow-md border border-gray-300 p-6 mb-8 flex items-center gap-3">
+                <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
+                    <User className="w-6 h-6" />
+                </div>
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-800">Client Dashboard</h1>
+                    <p className="text-gray-500 mt-1">Welcome to your Client panel.</p>
+                    <div className="text-lg space-y-1 mt-2">
+                        <p>
+                            <strong>Role:</strong> {user.role}
+                        </p>
+                        <p>
+                            <strong>Welcome,</strong> {user.name}
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -42,7 +33,9 @@ const ClientPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Orders */}
                 <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">📦 View Orders</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-indigo-700">
+                        <FaBox /> View Orders
+                    </h2>
                     <p className="mb-4">Track, update, and manage customer orders.</p>
                     <Button variant="contained" color="primary" className="rounded-lg">
                         Go to Orders
@@ -51,7 +44,9 @@ const ClientPage = () => {
 
                 {/* Track */}
                 <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">🚚 Track Orders</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-green-600">
+                        <FaTruck /> Track Orders
+                    </h2>
                     <p className="mb-4">Check delivery progress in real-time.</p>
                     <Button variant="contained" color="success" className="rounded-lg">
                         Track Panel
@@ -60,7 +55,9 @@ const ClientPage = () => {
 
                 {/* Shipment */}
                 <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">My Shipment</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-purple-600">
+                        <Package /> My Shipment
+                    </h2>
                     <p className="mb-4">View all your shipments.</p>
                     <Button
                         variant="contained"
@@ -73,7 +70,9 @@ const ClientPage = () => {
 
                 {/* Settings */}
                 <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2">⚙️ Client Settings</h2>
+                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-gray-700">
+                        <Settings /> Client Settings
+                    </h2>
                     <p className="mb-4">Update your profile and dashboard preferences.</p>
                     <Button
                         variant="contained"
@@ -121,128 +120,113 @@ export const Track = () => {
 
     return (
         <div className="min-h-screen p-6 bg-gradient-to-br from-gray-50 to-gray-100">
-            <h1 className="text-3xl font-bold mb-6 flex items-center gap-2 text-indigo-700">
-                Track Your Parcel
-            </h1>
+            {/* Header */}
+            <div className="bg-indigo-600 text-white rounded-2xl p-6 flex items-center gap-4 shadow-lg mb-8">
+                <div className="bg-indigo-500 p-3 rounded-full shadow">
+                    <FaBox className="w-6 h-6" />
+                </div>
+                <div>
+                    <h1 className="text-3xl font-bold tracking-wide">Track Your Parcel</h1>
+                    <p className="text-indigo-200 mt-1">Enter your tracking ID to see parcel details instantly.</p>
+                </div>
+            </div>
 
             {/* Search */}
             <div className="flex flex-col md:flex-row gap-4 mb-8 items-center">
-                <TextField label="Enter Tracking ID" variant="outlined" value={trackingId} onChange={(e) => setTrackingId(e.target.value)} fullWidth name="trackingId" className="bg-white rounded-xl shadow-md"
+                <TextField
+                    label="Enter Tracking ID"
+                    variant="outlined"
+                    value={trackingId}
+                    onChange={(e) => setTrackingId(e.target.value)}
+                    fullWidth
+                    name="trackingId"
+                    className="bg-white rounded-2xl shadow-lg"
                     InputProps={{
                         startAdornment: (
                             <div className="px-3 text-gray-400 flex items-center">
                                 <FaSearch />
                             </div>
                         ),
-                    }} />
-                <Button variant="contained" color="primary" size="small" className="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300" onClick={handleTrack} disabled={loading} >
+                    }}
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    className="rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+                    onClick={handleTrack}
+                    disabled={loading}
+                >
                     {loading ? "Tracking..." : "Track Parcel"}
                 </Button>
             </div>
 
             {/* Result */}
             {result && result.parcel && (
-                <Card className="shadow-2xl border border-gray-200 rounded-2xl hover:shadow-3xl transition">
-                    <CardContent className="p-6">
-                        {/* Header */}
+                <Card className="shadow-2xl border border-gray-200 rounded-3xl hover:shadow-3xl transition p-1">
+                    <CardContent className="p-8">
+                        {/* Parcel Header */}
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-bold flex items-center gap-2 text-indigo-700">
+                            <h2 className="text-2xl font-bold flex items-center gap-3 text-indigo-700">
                                 <FaBox className="text-indigo-600" /> Parcel Information
                             </h2>
-                            <Chip label={result.parcel.current_status} color="success" variant="outlined" className="font-semibold" />
+                            <Chip
+                                label={result.status.toUpperCase()}
+                                color="success"
+                                variant="filled"
+                                className="font-semibold px-4 py-1 rounded-full"
+                            />
                         </div>
 
                         <Divider className="mb-6" />
 
-                        {/* Status Section */}
+                        {/* Parcel Details */}
                         <div className="grid md:grid-cols-2 gap-6 mb-8">
-                            <div className="flex items-center gap-2">
-                                <FaBox className="text-blue-600" />
-                                <p><strong>Tracking ID:</strong> {result.trackingId}</p>
+                            <div className="flex items-center gap-3 p-4 bg-indigo-50 rounded-xl shadow-inner">
+                                <FaBox className="text-blue-600 text-xl" />
+                                <p className="text-gray-700"><strong>Tracking ID:</strong> {result.trackingId}</p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <FaTruck className="text-green-600" />
-                                <p><strong>Status:</strong> {result.parcel.current_status}</p>
+                            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl shadow-inner">
+                                <FaTruck className="text-green-600 text-xl" />
+                                <p className="text-gray-700"><strong>Status:</strong> {result.status}</p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <MdLocationOn className="text-red-500" />
-                                <p><strong>Current Location:</strong> {result.currentLocation}</p>
+                            <div className="flex items-center gap-3 p-4 bg-red-50 rounded-xl shadow-inner">
+                                <MdLocationOn className="text-red-500 text-xl" />
+                                <p className="text-gray-700"><strong>Current Location:</strong> {result.parcel.currentLocation}</p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <FaRegCalendarAlt className="text-gray-600" />
-                                <p><strong>Created At:</strong> {new Date(result.parcel.created_at).toLocaleString()}</p>
+                            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl shadow-inner">
+                                <FaRegCalendarAlt className="text-gray-600 text-xl" />
+                                <p className="text-gray-700"><strong>Created At:</strong> {new Date(result.parcel.created_at).toLocaleString()}</p>
                             </div>
-                            <div className="flex items-center gap-2 col-span-2">
-                                <MdLocationOn className="text-purple-600" />
-                                <p><strong>From → To:</strong> {result.parcel.from_branch_name} → {result.parcel.to_branch_name}</p>
+                            <div className="flex items-center gap-3 col-span-2 p-4 bg-purple-50 rounded-xl shadow-inner">
+                                <MdLocationOn className="text-purple-600 text-xl" />
+                                <p className="text-gray-700"><strong>From → To:</strong> {result.parcel.from_branch_name} → {result.parcel.to_branch_name}</p>
                             </div>
                         </div>
-
-                        <Divider className="mb-6" />
 
                         {/* Sender & Receiver */}
                         <div className="grid md:grid-cols-2 gap-6 mb-8">
-                            <div className="bg-gray-50 p-4 rounded-xl shadow-inner">
+                            <div className="bg-indigo-50 p-6 rounded-2xl shadow-inner hover:shadow-md transition cursor-pointer">
                                 <h3 className="text-lg font-semibold flex items-center gap-2 text-indigo-600">
                                     <FaUser /> Sender
                                 </h3>
-                                <p className="mt-1">{result.parcel.sender_name} ({result.parcel.sender_phone})</p>
-                                <p className="text-gray-600 text-sm">{result.parcel.sender_address}</p>
+                                <p className="mt-2 text-gray-700">{result.parcel.sender_name} ({result.parcel.sender_phone})</p>
+                                <p className="text-gray-500 text-sm">{result.parcel.sender_address}</p>
                             </div>
-                            <div className="bg-gray-50 p-4 rounded-xl shadow-inner">
+                            <div className="bg-green-50 p-6 rounded-2xl shadow-inner hover:shadow-md transition cursor-pointer">
                                 <h3 className="text-lg font-semibold flex items-center gap-2 text-green-600">
                                     <FaUser /> Receiver
                                 </h3>
-                                <p className="mt-1">{result.parcel.receiver_name} ({result.parcel.receiver_phone})</p>
-                                <p className="text-gray-600 text-sm">{result.parcel.receiver_address}</p>
+                                <p className="mt-2 text-gray-700">{result.parcel.receiver_name} ({result.parcel.receiver_phone})</p>
+                                <p className="text-gray-500 text-sm">{result.parcel.receiver_address}</p>
                             </div>
                         </div>
-
-                        <Divider className="mb-6" />
-
-                        {/* Package Details */}
-                        <div className="mb-8">
-                            <h3 className="text-lg font-semibold flex items-center gap-2 text-orange-500">
-                                <FaBox /> Package Details
-                            </h3>
-                            <div className="ml-7 mt-2 space-y-1 text-sm">
-                                <p><strong>Weight:</strong> {result.parcel.weight} kg</p>
-                                <p><strong>Dimensions:</strong> {result.parcel.dimensions}</p>
-                                <p><strong>Type:</strong> {result.parcel.package_type}</p>
-                            </div>
-                        </div>
-
-                        <Divider className="mb-6" />
-
-                        {/* Payment */}
-                        <div className="mb-8">
-                            <h3 className="text-lg font-semibold flex items-center gap-2 text-teal-600">
-                                <MdPayment /> Payment
-                            </h3>
-                            <div className="ml-7 mt-2 space-y-1 text-sm">
-                                <p><strong>Method:</strong> {result.parcel.payment_method}</p>
-                                <div className="flex items-center gap-2">
-                                    <strong>Status:</strong>
-                                    <Chip label={result.parcel.payment_status} color={result.parcel.payment_status === "success" ? "success" : "error"} size="small" className="font-semibold"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Notes */}
-                        {result.parcel.delivery_notes && (
-                            <div className="mb-6">
-                                <h3 className="text-lg font-semibold flex items-center gap-2">
-                                    <AiOutlineFileText /> Delivery Notes
-                                </h3>
-                                <p className="text-gray-700 ml-7 mt-1 text-sm">{result.parcel.delivery_notes}</p>
-                            </div>
-                        )}
                     </CardContent>
                 </Card>
             )}
         </div>
     );
 };
+
 
 export default ClientPage;

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from '../../Loading';
-import { Users, FileText, BarChart2, Settings, UserPlus } from "lucide-react";
+import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Building2 } from "lucide-react";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -239,27 +239,25 @@ export const AddNewAdmin = () => {
         <>
             {loading && <Loading />}
             <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
-                {/* Header */}
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
-                        <UserPlus className="w-6 h-6" />
-                    </div>
-                    <div>
-                        <h2 className="text-3xl font-bold text-gray-800">Add New Admin</h2>
-                        <p className="text-gray-500 mt-1">Create admins with proper roles and access.</p>
-                    </div>
-                </div>
-
                 <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
+                    {/* Header */}
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
+                            <UserPlus className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-bold text-gray-800">Add New Admin</h2>
+                            <p className="text-gray-500 mt-1">Create admins with proper roles and access.</p>
+                        </div>
+                    </div>
+
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Name */}
                         <div>
                             <label className="block text-sm text-black font-semibold mb-1">Name</label>
-                            <input
-                                type="text"
-                                placeholder="Enter name"
+                            <input type="text" placeholder="Enter name"
                                 {...register("name", { required: "Name is required" })}
-                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
                             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
                         </div>
@@ -267,9 +265,7 @@ export const AddNewAdmin = () => {
                         {/* Email */}
                         <div>
                             <label className="block text-sm text-black font-semibold mb-1">Email</label>
-                            <input
-                                type="email"
-                                placeholder="Enter email"
+                            <input type="email" placeholder="Enter email"
                                 {...register("email", {
                                     required: "Email is required",
                                     pattern: {
@@ -277,7 +273,7 @@ export const AddNewAdmin = () => {
                                         message: "Invalid email format",
                                     },
                                 })}
-                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
                             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
                         </div>
@@ -285,9 +281,7 @@ export const AddNewAdmin = () => {
                         {/* Password */}
                         <div>
                             <label className="block text-sm text-black font-semibold mb-1">Password</label>
-                            <input
-                                type="password"
-                                placeholder="Enter password"
+                            <input type="password" placeholder="Enter password"
                                 {...register("password", {
                                     required: "Password is required",
                                     minLength: {
@@ -295,7 +289,7 @@ export const AddNewAdmin = () => {
                                         message: "Minimum 6 characters required",
                                     },
                                 })}
-                                className="w-full bg-gray-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
                             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                         </div>
@@ -305,7 +299,7 @@ export const AddNewAdmin = () => {
                             <label className="block text-sm text-black font-semibold mb-1">Role</label>
                             <select
                                 {...register("role")}
-                                className="w-full cursor-pointer appearance-none bg-gray-100 px-4 py-3 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                                className="w-full cursor-pointer appearance-none border border-gray-200 px-4 py-3 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             >
                                 <option disabled selected>-- Select Role --</option>
                                 <option value="admin">Admin</option>
@@ -428,9 +422,7 @@ export const Branches = () => {
             setLoading(true);
             setBranches([]);
             const res = await axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, {
-                headers: {
-                    Authorization: `${token}`,
-                },
+                headers: { Authorization: token },
             });
             setBranches(res.data);
         } catch (error) {
@@ -449,14 +441,28 @@ export const Branches = () => {
         <>
             {loading && <Loading />}
             <div className="p-4 sm:p-6 md:p-8 bg-white text-black">
-                <h2 className="text-2xl font-bold mb-4">
-                    <span className="text-[#C2221F]">ShreeXpress Courier</span>{" "}
-                    <span className="text-[#21294D]">Service PVT LTD</span>
-                </h2>
-                <p className="mb-6 text-md font-bold">Our All Branches</p>
+                {/* Header */}
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-3 rounded-lg bg-red-100 text-red-600">
+                        <MapPin className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-800">
+                            ShreeXpress Courier Service
+                        </h2>
+                        <p className="text-gray-500 mt-1">
+                            View all our active branches and contact details.
+                        </p>
+                    </div>
+                </div>
+
+                <p className="mb-4 text-md font-semibold text-gray-700">
+                    Our All Branches
+                </p>
+
                 <div className="overflow-x-auto overflow-y-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
                     <table className="table table-pin-rows table-pin-cols w-full">
-                        <thead className='text-white'>
+                        <thead className="bg-gray-800 text-white">
                             <tr>
                                 <th className="px-4 py-2">Sr No.</th>
                                 <th className="px-4 py-2">Branch Name</th>
@@ -466,16 +472,16 @@ export const Branches = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {branches.map((branche, index) => (
+                            {branches.map((branch, index) => (
                                 <tr
                                     key={index}
                                     className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}
                                 >
                                     <td className="px-4 py-2">{index + 1}</td>
-                                    <td className="px-4 py-2">{branche.branch_name}</td>
-                                    <td className="px-4 py-2">{branche.address}</td>
-                                    <td className="px-4 py-2">{branche.phone}</td>
-                                    <td className="px-4 py-2">{branche.pincode}</td>
+                                    <td className="px-4 py-2">{branch.branch_name}</td>
+                                    <td className="px-4 py-2">{branch.address}</td>
+                                    <td className="px-4 py-2">{branch.phone}</td>
+                                    <td className="px-4 py-2">{branch.pincode}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -495,20 +501,16 @@ export const OTP_Logs = () => {
         try {
             setLoading(true);
             const res = await axios.get(`${VITE_BACKEND_URL}/api/otp-logs`, {
-                headers: {
-                    Authorization: token,
-                }
-            })
-
-            console.log("OTP Logs Response:", res.data);
+                headers: { Authorization: token },
+            });
             setLogs(res.data);
         } catch (error) {
-            console.log("Error fetching logs:", error.message);
-            toast.error("Failed to fetch logs");
+            console.error("Error fetching logs:", error.message);
+            toast.error("Failed to fetch OTP logs");
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         fetchLogs();
@@ -517,50 +519,67 @@ export const OTP_Logs = () => {
     return (
         <>
             {loading && <Loading />}
-            <h1 className='text-md font-bold my-2'>All Logs from Forget Password Users</h1>
-            <div className='overflow-auto h-[80vh]'>
-                <table className='table table-sm table-pin-rows table-pin-cols'>
-                    <thead>
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
+                    <ShieldAlert className="w-6 h-6" />
+                </div>
+                <div>
+                    <h2 className="text-2xl font-bold text-gray-800">
+                        OTP Logs
+                    </h2>
+                    <p className="text-gray-500 text-sm">
+                        All logs from users who requested password resets
+                    </p>
+                </div>
+            </div>
+
+            <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
+                <table className="table table-pin-rows table-pin-cols w-full">
+                    <thead className="bg-gray-800 text-white">
                         <tr>
                             <th>Sr No.</th>
-                            <th>to_email</th>
-                            <th>from_email</th>
-                            <th>otp</th>
-                            <th>status</th>
-                            <th>ip_address</th>
-                            {/* <th>user_agent</th> */}
-                            <th>created_at</th>
+                            <th>To Email</th>
+                            <th>From Email</th>
+                            <th>OTP</th>
+                            <th>Status</th>
+                            <th>IP Address</th>
+                            <th>Created At</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            logs.map((log, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{log.to_email}</td>
-                                    <td>{log.from_email}</td>
-                                    <td>{log.otp}</td>
-                                    <td>
-                                        <span className={`inline-block px-3 py-1 text-xs font-semibold rounded
-                                            ${log.status === 'verified' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-                                            {log.status}
-                                        </span>
-                                    </td>
-                                    <td>{log.ip_address}</td>
-                                    {/* <td>{log.user_agent}</td> */}
-                                    <td>{new Date(log.created_at).toLocaleString("en-IN", {
+                        {logs.map((log, index) => (
+                            <tr
+                                key={index}
+                                className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}
+                            >
+                                <td className="px-4 py-2">{index + 1}</td>
+                                <td className="px-4 py-2">{log.to_email}</td>
+                                <td className="px-4 py-2">{log.from_email}</td>
+                                <td className="px-4 py-2">{log.otp}</td>
+                                <td className="px-4 py-2">
+                                    <span className={`inline-block px-3 py-1 text-xs font-semibold rounded ${log.status === 'verified'
+                                        ? 'bg-green-500 text-white'
+                                        : 'bg-red-500 text-white'
+                                        }`}>
+                                        {log.status}
+                                    </span>
+                                </td>
+                                <td className="px-4 py-2">{log.ip_address}</td>
+                                <td className="px-4 py-2">
+                                    {new Date(log.created_at).toLocaleString("en-IN", {
                                         dateStyle: "medium",
                                         timeStyle: "short",
-                                    })}</td>
-                                </tr>
-                            ))
-                        }
+                                    })}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
         </>
-    )
-}
+    );
+};
 
 export const Block_email = () => {
     const [blackEmails, setBlackEmails] = useState([]);
@@ -569,8 +588,27 @@ export const Block_email = () => {
     const [reason, setReason] = useState('');
     const token = localStorage.getItem("Authorization");
 
-    //onclick call
-    const AddBloackEmail = async (e) => {
+    // Fetch all blocked emails
+    const GetAllBlockedEmails = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/blocked-emails`, {
+                headers: { Authorization: token },
+            });
+            setBlackEmails(res.data || []);
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to fetch blocked emails");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        GetAllBlockedEmails();
+    }, []);
+
+    const AddBlockEmail = async (e) => {
         e.preventDefault();
         if (!email || !reason) {
             toast.error("Email and reason are required");
@@ -578,132 +616,124 @@ export const Block_email = () => {
         }
         try {
             setLoading(true);
-            const res = await axios.post(`${VITE_BACKEND_URL}/api/block-email`, { email, reason }, {
-                headers: {
-                    Authorization: token,
-                },
-                body: JSON.stringify({ email, reason }),
-            });
-            console.log("Block Email Response:", res.data);
+            const res = await axios.post(
+                `${VITE_BACKEND_URL}/api/block-email`,
+                { email, reason },
+                { headers: { Authorization: token } }
+            );
             if (res.data) {
                 toast.success("Email blocked successfully");
-                setBlackEmails([...blackEmails, { email, reason }]);
+                setBlackEmails([...blackEmails, { email, reason, id: res.data.id }]);
                 setEmail('');
                 setReason('');
-            } else {
-                toast.error(res.data.message || "Failed to block email OR ALready Exist");
             }
         } catch (error) {
-            console.error("Error blocking email:", error);
-            toast.error("Error blocking email OR ALready Exist");
+            console.error(error);
+            toast.error("Failed to block email");
         } finally {
             setLoading(false);
         }
-    }
-
-    const GetAllBloackEmail = async () => {
-        try {
-            setLoading(true);
-            const res = await axios.get(`${VITE_BACKEND_URL}/api/blocked-emails`, {
-                headers: {
-                    Authorization: token,
-                }
-            });
-            console.log("Blocked Emails Response:", res.data);
-            if (res.data) {
-                setBlackEmails(res.data);
-            } else {
-                toast.error(res.data || "Failed to fetch blocked emails");
-            }
-        } catch (error) {
-            console.error("Error fetching blocked emails:", error.message);
-            toast.error("Failed to fetch blocked emails");
-        } finally {
-            setLoading(false);
-        }
-    }
-    useEffect(() => {
-        GetAllBloackEmail();
-    }, []);
+    };
 
     const handleDelete = async (id) => {
         try {
             setLoading(true);
-            const res = await axios.delete(`${VITE_BACKEND_URL}/api/block-email/${id}`, {
-                headers: {
-                    Authorization: token,
-                }
+            await axios.delete(`${VITE_BACKEND_URL}/api/block-email/${id}`, {
+                headers: { Authorization: token },
             });
-            console.log("Delete Block Email Response:", res.data);
-            if (res.data) {
-                toast.success("Email unblocked successfully");
-                setBlackEmails(blackEmails.filter(email => email.id !== id));
-            } else {
-                toast.error(res.data || "Failed to unblock email");
-            }
+            setBlackEmails(blackEmails.filter((item) => item.id !== id));
+            toast.success("Email unblocked successfully");
         } catch (error) {
-            console.error("Error unblocking email:", error);
-            toast.error("Error unblocking email");
+            console.error(error);
+            toast.error("Failed to unblock email");
         } finally {
             setLoading(false);
         }
-    }
+    };
+
     return (
         <>
             {loading && <Loading />}
-            <div className='flex justify-between border-b-2 py-2 items-center'>
-                <h1 className='text-md font-bold'>Block Emails</h1>
-                <button className="btn btn-primary" onClick={() => document.getElementById('addBEmail').showModal()}>Add Block Email</button>
-                {/* modal  */}
-                <dialog id="addBEmail" className="modal">
-                    <div className="modal-box text-white">
-                        <h3 className="font-bold text-lg">Enter Block Email Id</h3>
-                        <p className="py-4 text-sm">Press ESC key or click the button below to close</p>
-                        <div className="modal-action flex flex-col">
-                            <form method="dialog">
-                                {/* if there is a button in form, it will close the modal */}
-                                <label className="floating-label my-2">
-                                    <span>Your Email</span>
-                                    <input onChange={(e) => setEmail(e.target.value)} type="text" placeholder="mail@site.com" className="input input-md" />
-                                </label>
-                                <label className="floating-label my-2">
-                                    <span>reason</span>
-                                    <textarea type="text" onChange={(e) => setReason(e.target.value)} placeholder="Enter Reason" className="textarea" />
-                                </label>
-
-                                <button onClick={AddBloackEmail} className="btn btn-success">{loading ? "Loading ..." : "Submit"}</button>
-                                <button className="btn mx-2">close</button>
-                            </form>
-                        </div>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                    <div className="p-3 rounded-lg bg-red-100 text-red-600">
+                        <Mail className="w-6 h-6" />
                     </div>
-                </dialog>
+                    <div>
+                        <h2 className="text-2xl font-bold text-gray-800">Blocked Emails</h2>
+                        <p className="text-gray-500 text-sm">Manage blacklisted emails and reasons</p>
+                    </div>
+                </div>
+                <button
+                    className="btn btn-primary"
+                    onClick={() => document.getElementById('addBEmail').showModal()}
+                >
+                    Add Block Email
+                </button>
             </div>
 
-            <div className='overflow-auto h-[80vh]'>
-                <table className='table table-pin-rows table-pin-cols'>
-                    <thead className='text-white'>
+            {/* Modal */}
+            <dialog id="addBEmail" className="modal">
+                <div className="modal-box text-white">
+                    <h3 className="font-bold text-lg">Enter Block Email</h3>
+                    <p className="py-2 text-sm">Press ESC or click close to exit</p>
+                    <form className="flex flex-col gap-2">
+                        <input
+                            type="text"
+                            placeholder="Email"
+                            className="input input-bordered w-full"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <textarea
+                            placeholder="Reason"
+                            className="textarea textarea-bordered w-full"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                        />
+                        <div className="flex gap-2 mt-2">
+                            <button onClick={AddBlockEmail} className="btn btn-success">
+                                {loading ? "Loading..." : "Submit"}
+                            </button>
+                            <button type="button" className="btn" onClick={() => document.getElementById('addBEmail').close()}>
+                                Close
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
+
+            {/* Table */}
+            <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
+                <table className="table table-pin-rows table-pin-cols w-full">
+                    <thead className="bg-gray-800 text-white">
                         <tr>
                             <th>Sr No.</th>
                             <th>Email</th>
                             <th>Reason</th>
-                            <th>Delete</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {blackEmails.map((email, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{email.email}</td>
-                                <td>{email.reason}</td>
-                                <td> <button onClick={() => handleDelete(email.id)} className='btn btn-error'>Delete</button> </td>
+                        {blackEmails.map((item, index) => (
+                            <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
+                                <td className="px-4 py-2">{index + 1}</td>
+                                <td className="px-4 py-2">{item.email}</td>
+                                <td className="px-4 py-2">{item.reason}</td>
+                                <td className="px-4 py-2">
+                                    <button onClick={() => handleDelete(item.id)} className="btn btn-error btn-sm">
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
         </>
-    )
-}
+    );
+};
 
 export const AddBranch = () => {
     const token = localStorage.getItem("Authorization");
@@ -721,18 +751,15 @@ export const AddBranch = () => {
     const onSubmit = async (data) => {
         try {
             setLoading(true);
-
             const payload = { ...data, created_by: user?._id };
-
-            await axios.post(`${VITE_BACKEND_URL}/api/branches/new/branch`, payload,
-                { headers: { Authorization: token } }
-            );
-
+            await axios.post(`${VITE_BACKEND_URL}/api/branches/new/branch`, payload, {
+                headers: { Authorization: token },
+            });
             toast.success("Branch added successfully");
             reset();
         } catch (err) {
             console.error(err);
-            toast.error(err.response?.data?.error);
+            toast.error(err.response?.data?.error || "Failed to add branch");
         } finally {
             setLoading(false);
         }
@@ -741,117 +768,89 @@ export const AddBranch = () => {
     return (
         <>
             {loading && <Loading />}
-
             <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
                 <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
-                    <h2 className="text-4xl font-extrabold text-[#383185] text-center mb-10 tracking-tight">
-                        <span className="inline-block border-b-4 border-[#383185] pb-1">
-                            Add New Branch
-                        </span>
-                    </h2>
+                    {/* Header like AddNewAdmin */}
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
+                            <Building2 className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-bold text-gray-800">Add New Branch</h2>
+                            <p className="text-gray-500 mt-1">Add branch details to your courier system.</p>
+                        </div>
+                    </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
                         {/* Branch Name */}
                         <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">
-                                Branch Name
-                            </label>
+                            <label className="block text-sm font-semibold mb-1 text-black">Branch Name</label>
                             <input
                                 {...register("branch_name", { required: "Branch name is required" })}
                                 placeholder="Enter branch name"
-                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
-                            {errors.branch_name && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.branch_name.message}
-                                </p>
-                            )}
+                            {errors.branch_name && <p className="text-red-500 text-sm mt-1">{errors.branch_name.message}</p>}
                         </div>
 
                         {/* Address */}
                         <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">
-                                Branch Address
-                            </label>
+                            <label className="block text-sm font-semibold mb-1 text-black">Branch Address</label>
                             <textarea
                                 {...register("address", { required: "Address is required" })}
                                 placeholder="Enter branch address"
                                 rows={3}
-                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
-                            {errors.address && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.address.message}
-                                </p>
-                            )}
+                            {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
                         </div>
 
                         {/* Phone */}
                         <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">
-                                Contact Number
-                            </label>
+                            <label className="block text-sm font-semibold mb-1 text-black">Contact Number</label>
                             <input
                                 {...register("phone", {
                                     required: "Phone number is required",
-                                    pattern: {
-                                        value: /^[0-9]{10}$/,
-                                        message: "Phone must be 10 digits",
-                                    },
+                                    pattern: { value: /^[0-9]{10}$/, message: "Phone must be 10 digits" },
                                 })}
                                 placeholder="Enter 10 digit number"
-                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
-                            {errors.phone && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.phone.message}
-                                </p>
-                            )}
+                            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
                         </div>
 
                         {/* Pincode */}
                         <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">
-                                Pincode
-                            </label>
+                            <label className="block text-sm font-semibold mb-1 text-black">Pincode</label>
                             <input
                                 {...register("pincode", {
                                     required: "Pincode is required",
-                                    pattern: {
-                                        value: /^[0-9]{6}$/,
-                                        message: "Pincode must be 6 digits",
-                                    },
+                                    pattern: { value: /^[0-9]{6}$/, message: "Pincode must be 6 digits" },
                                 })}
                                 placeholder="Enter 6 digit pincode"
-                                className=" w-full bg-gray-100  px-4 py-3 rounded-lg text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#383185] "
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
                             />
-                            {errors.pincode && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.pincode.message}
-                                </p>
-                            )}
+                            {errors.pincode && <p className="text-red-500 text-sm mt-1">{errors.pincode.message}</p>}
                         </div>
 
                         {/* Submit */}
-                        <Button type="submit" fullWidth variant="contained" disabled={loading} sx={{
-                            backgroundColor: "#383185",
-                            textTransform: "none",
-                            fontWeight: 600,
-                            fontSize: "16px",
-                            paddingY: 1.2,
-                            borderRadius: "0.5rem",
-                            "&:hover": {
-                                backgroundColor: "#2e285e",
-                            },
-                        }} >
-                            {loading ? (
-                                <CircularProgress size={24} sx={{ color: "#fff" }} />
-                            ) : (
-                                "Add Branch"
-                            )}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            disabled={loading}
+                            sx={{
+                                backgroundColor: "#383185",
+                                textTransform: "none",
+                                fontWeight: 600,
+                                fontSize: "16px",
+                                paddingY: 1.2,
+                                borderRadius: "0.5rem",
+                                "&:hover": { backgroundColor: "#2e285e" },
+                            }}
+                        >
+                            {loading ? <CircularProgress size={24} sx={{ color: "#fff" }} /> : "Add Branch"}
                         </Button>
-
                     </form>
                 </div>
             </div>

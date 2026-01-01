@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Sidebar from './SideBar';
-import AdminPage, { AddNewClient,Shipments, Clients, CreateParcel } from '../Admin/admin/AdminPage';
+import AdminPage, { AddNewClient, Shipments, Clients, CreateParcel, AddBranch } from '../Admin/admin/AdminPage';
 import ClientPage, { Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { User, AddNewAdmin, Analytics, Branches, OTP_Logs, Block_email, AddBranch } from './superadmin/SuperAdmin';
+import SuperadminPage, { User, AddNewAdmin, Analytics, Branches, OTP_Logs, Block_email } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
 const DashboardLayout = ({ role }) => {
@@ -14,7 +14,8 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'Clients') return <Clients />;
             if (selectedPage === 'AddNewClient') return <AddNewClient />;
             if (selectedPage === 'CreateParcel') return <CreateParcel />;
-            if(selectedPage === 'Shipments') return <Shipments/>
+            if (selectedPage === 'Shipments') return <Shipments />
+            if (selectedPage === 'AddBranch') return <AddBranch />;
         }
 
         if (role === 'client') {
@@ -27,10 +28,9 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'User') return <User />;
             if (selectedPage === 'AddNewAdmins') return <AddNewAdmin />;
             if (selectedPage === 'Analytics') return <Analytics />;
-            if (selectedPage === 'Branches') return <Branches/>;
+            if (selectedPage === 'Branches') return <Branches />;
             if (selectedPage === 'OTP_Logs') return <OTP_Logs />;
-            if (selectedPage === 'Block_email') return <Block_email/>;
-            if (selectedPage === 'AddBranch') return <AddBranch />;
+            if (selectedPage === 'Block_email') return <Block_email />;
         }
 
         return <div>Page not found</div>;

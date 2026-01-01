@@ -129,8 +129,6 @@ export default function Login() {
     );
 }
 
-
-
 function ForgotPasswordModal({ isOpen, onClose }) {
     const [step, setStep] = useState(1); // 1 = email, 2 = OTP, 3 = new password
     const [email, setEmail] = useState('');

@@ -38,8 +38,8 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
     const navigate = useNavigate();
 
     const navItems = {
-        admin: ['Dashboard', 'Shipments', 'CreateParcel', 'AddNewClient', 'Clients'],
-        superadmin: ['Dashboard', 'User', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email', 'AddBranch'],
+        admin: ['Dashboard', 'Shipments', 'CreateParcel', 'AddNewClient', 'Clients', 'AddBranch'],
+        superadmin: ['Dashboard', 'User', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email'],
         client: ['Dashboard', 'Track']
     };
 

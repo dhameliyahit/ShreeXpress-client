@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Loading from "../../Loading";
 import { HiUsers, HiTruck } from "react-icons/hi2";
-import { ShieldCheck, Package, Truck, DollarSign, Settings, PackagePlus, UserPlus } from "lucide-react";
+import { ShieldCheck, Package, Truck, DollarSign, Settings, PackagePlus, UserPlus, Building2 } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
@@ -873,6 +873,129 @@ export const Clients = () => {
                             ))}
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export const AddBranch = () => {
+    const token = localStorage.getItem("Authorization");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm();
+
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit = async (data) => {
+        try {
+            setLoading(true);
+            const payload = { ...data, created_by: user?._id };
+            await axios.post(`${API_BASE}/api/branches/new/branch`, payload, {
+                headers: { Authorization: token },
+            });
+            toast.success("Branch added successfully");
+            reset();
+        } catch (err) {
+            console.error(err);
+            toast.error(err.response?.data?.error || "Failed to add branch");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <>
+            {loading && <Loading />}
+            <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
+                <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
+                    {/* Header like AddNewAdmin */}
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
+                            <Building2 className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-bold text-gray-800">Add New Branch</h2>
+                            <p className="text-gray-500 mt-1">Add branch details to your courier system.</p>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        {/* Branch Name */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">Branch Name</label>
+                            <input
+                                {...register("branch_name", { required: "Branch name is required" })}
+                                placeholder="Enter branch name"
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                            />
+                            {errors.branch_name && <p className="text-red-500 text-sm mt-1">{errors.branch_name.message}</p>}
+                        </div>
+
+                        {/* Address */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">Branch Address</label>
+                            <textarea
+                                {...register("address", { required: "Address is required" })}
+                                placeholder="Enter branch address"
+                                rows={3}
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                            />
+                            {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
+                        </div>
+
+                        {/* Phone */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">Contact Number</label>
+                            <input
+                                {...register("phone", {
+                                    required: "Phone number is required",
+                                    pattern: { value: /^[0-9]{10}$/, message: "Phone must be 10 digits" },
+                                })}
+                                placeholder="Enter 10 digit number"
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                            />
+                            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
+                        </div>
+
+                        {/* Pincode */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1 text-black">Pincode</label>
+                            <input
+                                {...register("pincode", {
+                                    required: "Pincode is required",
+                                    pattern: { value: /^[0-9]{6}$/, message: "Pincode must be 6 digits" },
+                                })}
+                                placeholder="Enter 6 digit pincode"
+                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
+                            />
+                            {errors.pincode && <p className="text-red-500 text-sm mt-1">{errors.pincode.message}</p>}
+                        </div>
+
+                        {/* Submit */}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            disabled={loading}
+                            sx={{
+                                backgroundColor: "#383185",
+                                textTransform: "none",
+                                fontWeight: 600,
+                                fontSize: "16px",
+                                paddingY: 1.2,
+                                borderRadius: "0.5rem",
+                                "&:hover": { backgroundColor: "#2e285e" },
+                            }}
+                        >
+                            {loading ? <CircularProgress size={24} sx={{ color: "#fff" }} /> : "Add Branch"}
+                        </Button>
+                    </form>
                 </div>
             </div>
         </>

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from '../../Loading';
-import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Building2 } from "lucide-react";
+import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Phone, Hash, Shield, Trash2, X } from "lucide-react";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -412,22 +412,49 @@ export const Analytics = () => {
     );
 };
 
+const InfoRow = ({ icon, label, value, color = "blue" }) => {
+    const colorMap = {
+        blue: "bg-blue-100 text-blue-600",
+        indigo: "bg-indigo-100 text-indigo-600",
+        emerald: "bg-emerald-100 text-emerald-600",
+        red: "bg-red-100 text-red-600"
+    };
+
+    return (
+        <div className="flex items-start gap-3">
+            <div className={`p-2 rounded-lg ${colorMap[color]}`}>
+                {icon}
+            </div>
+
+            <div>
+                <p className="text-xs text-gray-500">{label}</p>
+                <p className="font-medium text-gray-800">
+                    {value || "-"}
+                </p>
+            </div>
+        </div>
+    );
+};
 export const Branches = () => {
     const [branches, setBranches] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedBranch, setSelectedBranch] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
     const token = localStorage.getItem("Authorization");
 
     const GetAllBranches = async () => {
         try {
             setLoading(true);
-            setBranches([]);
-            const res = await axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, {
-                headers: { Authorization: token },
-            });
+            const res = await axios.get(
+                `${VITE_BACKEND_URL}/api/branches/all/branch`,
+                { headers: { Authorization: token } }
+            );
             setBranches(res.data);
         } catch (error) {
-            console.error("Error fetching branches:", error.message);
             toast.error("Failed to fetch branches");
+            console.log(error.message);
         } finally {
             setLoading(false);
         }
@@ -437,9 +464,15 @@ export const Branches = () => {
         GetAllBranches();
     }, []);
 
+    const handleRowClick = (branch) => {
+        setSelectedBranch(branch);
+        setShowModal(true);
+    };
+
     return (
         <>
             {loading && <Loading />}
+
             <div className="p-4 sm:p-6 md:p-8 bg-white text-black">
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-6">
@@ -461,7 +494,7 @@ export const Branches = () => {
                 </p>
 
                 <div className="overflow-x-auto overflow-y-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
-                    <table className="table table-pin-rows table-pin-cols w-full">
+                    <table className="w-full">
                         <thead className="bg-gray-800 text-white">
                             <tr>
                                 <th className="px-4 py-2">Sr No.</th>
@@ -471,14 +504,18 @@ export const Branches = () => {
                                 <th className="px-4 py-2">Pincode</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {branches.map((branch, index) => (
                                 <tr
-                                    key={index}
-                                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}
+                                    key={branch._id}
+                                    onClick={() => handleRowClick(branch)}
+                                    className="cursor-pointer hover:bg-gray-100"
                                 >
                                     <td className="px-4 py-2">{index + 1}</td>
-                                    <td className="px-4 py-2">{branch.branch_name}</td>
+                                    <td className="px-4 py-2 font-semibold">
+                                        {branch.branch_name}
+                                    </td>
                                     <td className="px-4 py-2">{branch.address}</td>
                                     <td className="px-4 py-2">{branch.phone}</td>
                                     <td className="px-4 py-2">{branch.pincode}</td>
@@ -488,6 +525,122 @@ export const Branches = () => {
                     </table>
                 </div>
             </div>
+
+            {/* Model */}
+            {showModal && selectedBranch && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-100/60 backdrop-blur-sm">
+                    <div className="bg-white w-full max-w-xl rounded-2xl shadow-2xl border border-gray-200">
+                        <div className="flex items-center justify-between px-6 py-4 border-b">
+                            <div>
+                                <h3 className="text-xl font-bold text-gray-800">
+                                    Branch Details
+                                </h3>
+                                <p className="text-sm text-gray-500">
+                                    Admin & branch information
+                                </p>
+                            </div>
+
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="p-2 rounded-full hover:bg-gray-100"
+                            >
+                                <X className="w-5 h-5 text-gray-500" />
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-6">
+                            <div className="rounded-xl border p-4 bg-gray-50">
+                                <h4 className="text-sm font-semibold text-gray-600 mb-3">
+                                    Branch Information
+                                </h4>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                    <InfoRow icon={<MapPin />} label="Branch" value={selectedBranch.branch_name} color="blue" />
+                                    <InfoRow icon={<Hash />} label="Pincode" value={selectedBranch.pincode} color="indigo" />
+                                    <InfoRow icon={<Phone />} label="Phone" value={selectedBranch.phone} color="indigo" />
+                                    <div className="sm:col-span-2">
+                                        <InfoRow icon={<MapPin />} label="Address" value={selectedBranch.address} />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Admin Info */}
+                            <div className="rounded-xl border p-4 bg-white">
+                                <h4 className="text-sm font-semibold text-gray-600 mb-3">
+                                    Created By (Admin)
+                                </h4>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                    <InfoRow icon={<Users />} label="Name" value={selectedBranch.created_by?.name} color="emerald" />
+                                    <InfoRow icon={<Mail />} label="Email" value={selectedBranch.created_by?.email} color="emerald" />
+                                    <InfoRow icon={<Shield />} label="Role" value={selectedBranch.created_by?.role} color="emerald" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-between items-center px-6 py-4 border-t bg-gray-50 rounded-b-2xl">
+                            <p className="text-xs text-gray-500">
+                                Only superadmin can delete branches
+                            </p>
+
+                            <button
+                                onClick={() => setShowDeleteConfirm(true)}
+                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                                Delete Branch
+                            </button>
+                        </div>
+                        {showDeleteConfirm && (
+                            <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-100/60 backdrop-blur-sm">
+                                <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl border border-gray-200 p-6">
+
+                                    <div className="flex flex-col items-center gap-4 text-center">
+                                        <div className="bg-red-100 text-red-600 p-4 rounded-full">
+                                            <Trash2 className="w-6 h-6" />
+                                        </div>
+                                        <h3 className="text-lg font-bold text-gray-800">Confirm Deletion</h3>
+                                        <p className="text-sm text-gray-500">
+                                            Are you sure you want to delete the branch <b>{selectedBranch.branch_name}</b>? <br />
+                                            This action cannot be undone.
+                                        </p>
+
+                                        <div className="flex gap-3 mt-4 w-full justify-center">
+                                            <button
+                                                onClick={() => setShowDeleteConfirm(false)}
+                                                className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300"
+                                            >
+                                                Cancel
+                                            </button>
+
+                                            <button
+                                                onClick={async () => {
+                                                    try {
+                                                        await axios.delete(
+                                                            `${VITE_BACKEND_URL}/api/branches/${selectedBranch._id}`,
+                                                            { headers: { Authorization: token } }
+                                                        );
+                                                        toast.success("Branch deleted successfully");
+                                                        setShowDeleteConfirm(false);
+                                                        setShowModal(false);
+                                                        GetAllBranches();
+                                                    } catch (error) {
+                                                        toast.error(error.response?.data?.error || "Delete failed");
+                                                    }
+                                                }}
+                                                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </>
     );
 };
@@ -730,129 +883,6 @@ export const Block_email = () => {
                         ))}
                     </tbody>
                 </table>
-            </div>
-        </>
-    );
-};
-
-export const AddBranch = () => {
-    const token = localStorage.getItem("Authorization");
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
-
-    const [loading, setLoading] = useState(false);
-
-    const onSubmit = async (data) => {
-        try {
-            setLoading(true);
-            const payload = { ...data, created_by: user?._id };
-            await axios.post(`${VITE_BACKEND_URL}/api/branches/new/branch`, payload, {
-                headers: { Authorization: token },
-            });
-            toast.success("Branch added successfully");
-            reset();
-        } catch (err) {
-            console.error(err);
-            toast.error(err.response?.data?.error || "Failed to add branch");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <>
-            {loading && <Loading />}
-            <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
-                <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
-                    {/* Header like AddNewAdmin */}
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
-                            <Building2 className="w-6 h-6" />
-                        </div>
-                        <div>
-                            <h2 className="text-3xl font-bold text-gray-800">Add New Branch</h2>
-                            <p className="text-gray-500 mt-1">Add branch details to your courier system.</p>
-                        </div>
-                    </div>
-
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                        {/* Branch Name */}
-                        <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">Branch Name</label>
-                            <input
-                                {...register("branch_name", { required: "Branch name is required" })}
-                                placeholder="Enter branch name"
-                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
-                            />
-                            {errors.branch_name && <p className="text-red-500 text-sm mt-1">{errors.branch_name.message}</p>}
-                        </div>
-
-                        {/* Address */}
-                        <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">Branch Address</label>
-                            <textarea
-                                {...register("address", { required: "Address is required" })}
-                                placeholder="Enter branch address"
-                                rows={3}
-                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
-                            />
-                            {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
-                        </div>
-
-                        {/* Phone */}
-                        <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">Contact Number</label>
-                            <input
-                                {...register("phone", {
-                                    required: "Phone number is required",
-                                    pattern: { value: /^[0-9]{10}$/, message: "Phone must be 10 digits" },
-                                })}
-                                placeholder="Enter 10 digit number"
-                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
-                            />
-                            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
-                        </div>
-
-                        {/* Pincode */}
-                        <div>
-                            <label className="block text-sm font-semibold mb-1 text-black">Pincode</label>
-                            <input
-                                {...register("pincode", {
-                                    required: "Pincode is required",
-                                    pattern: { value: /^[0-9]{6}$/, message: "Pincode must be 6 digits" },
-                                })}
-                                placeholder="Enter 6 digit pincode"
-                                className="w-full border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800"
-                            />
-                            {errors.pincode && <p className="text-red-500 text-sm mt-1">{errors.pincode.message}</p>}
-                        </div>
-
-                        {/* Submit */}
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            disabled={loading}
-                            sx={{
-                                backgroundColor: "#383185",
-                                textTransform: "none",
-                                fontWeight: 600,
-                                fontSize: "16px",
-                                paddingY: 1.2,
-                                borderRadius: "0.5rem",
-                                "&:hover": { backgroundColor: "#2e285e" },
-                            }}
-                        >
-                            {loading ? <CircularProgress size={24} sx={{ color: "#fff" }} /> : "Add Branch"}
-                        </Button>
-                    </form>
-                </div>
             </div>
         </>
     );

@@ -3,10 +3,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Card, CardContent, Button, TextField, Chip, Divider } from "@mui/material";
 import { FaBox, FaSearch, FaTruck, FaUser, FaRegCalendarAlt } from "react-icons/fa";
-import { MdLocationOn, MdPayment } from "react-icons/md";
+import { MdLocationOn } from "react-icons/md";
+import { User, Package, Settings } from 'lucide-react';
 
 const ClientPage = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user")) || {};
 
     return (
         <div className="min-h-screen p-4 md:p-8">

@@ -40,7 +40,6 @@ export const TopBar = () => {
 
                 {/* RIGHT */}
                 <div className="flex items-center justify-center lg:justify-end gap-4">
-
                     <Tooltip title="Toggle Theme" arrow>
                         <div>
                             <ThemeToggle onClick={toggleTheme} />

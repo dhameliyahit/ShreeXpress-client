@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from '../../Loading';
 import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Phone, Hash, Shield, Trash2, X } from "lucide-react";
+import { HiOfficeBuilding } from "react-icons/hi";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -84,8 +85,9 @@ const SuperadminPage = () => {
 
 export const User = () => {
     const token = localStorage.getItem("Authorization");
+    const loggedInUserId = JSON.parse(localStorage.getItem("user"))?.id;
     const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [selectedRole, setSelectedRole] = useState("all");
 
     const fetchUsers = async () => {
@@ -98,14 +100,10 @@ export const User = () => {
                 headers: { Authorization: token },
             });
 
-            if (res.data?.users) {
-                setUsers(res.data.users);
-            } else {
-                toast.error("Failed to fetch users");
-            }
+            setUsers(res.data?.users || []);
         } catch (err) {
-            console.error(err);
             toast.error("Error fetching users");
+            console.log(err.message);
         } finally {
             setLoading(false);
         }
@@ -115,93 +113,133 @@ export const User = () => {
         fetchUsers();
     }, [selectedRole]);
 
-    const roleColor = (role) => {
+    const updateRole = async (id, role) => {
+        try {
+            await axios.put(`${VITE_BACKEND_URL}/api/auth/user/${id}/role`, { role },
+                { headers: { Authorization: token } }
+            );
+
+            toast.success("Role updated successfully");
+            fetchUsers();
+        } catch (err) {
+            console.log(err.message);
+            toast.error("Failed to update role");
+        }
+    };
+
+    const roleBadge = (role) => {
         switch (role) {
             case "superadmin":
-                return "bg-red-100 text-red-800 border border-red-200";
+                return "bg-red-100 text-red-700 border border-red-200";
             case "admin":
-                return "bg-blue-100 text-blue-800 border border-blue-200";
+                return "bg-blue-100 text-blue-700 border border-blue-200";
             case "client":
-                return "bg-green-100 text-green-800 border border-green-200";
+                return "bg-green-100 text-green-700 border border-green-200";
             default:
-                return "bg-gray-100 text-gray-800 border border-gray-200";
+                return "bg-gray-100 text-gray-700 border border-gray-200";
         }
     };
 
     return (
-        <>
-            {loading && <Loading />}
-            <div className="sm:p-6 p-2">
-                {/* Header */}
-                <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-blue-100 text-blue-600">
-                            <Users className="w-6 h-6" />
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-800">All Users</h2>
-                            <p className="text-gray-500 mt-1">Manage and filter users by role.</p>
-                        </div>
+        <div className="max-w-7xl p-2 mx-auto bg-white rounded-2xl">
+
+            {/* Header */}
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <Users className="w-6 h-6" />
                     </div>
-
-                    {/* Role Filter */}
-                    <div className="relative w-48">
-                        <select value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}
-                            className="w-full cursor-pointer appearance-none border border-gray-300 bg-white text-gray-700 px-4 py-2 pr-8 rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            <option value="all">All</option>
-                            <option value="superadmin">Superadmin</option>
-                            <option value="admin">Admin</option>
-                            <option value="client">Client</option>
-                        </select>
-
-                        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500">
-                            <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20" fill="currentColor" >
-                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                            </svg>
-                        </div>
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            User Management
+                        </h1>
+                        <p className="text-sm text-gray-500 mt-1">
+                            View and manage system users
+                        </p>
                     </div>
                 </div>
 
-                <p className="text-md my-2 text-gray-600">Total Users: {users.length}</p>
+                <select
+                    value={selectedRole}
+                    onChange={(e) => setSelectedRole(e.target.value)}
+                    className="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-primary"
+                >
+                    <option value="all">All Roles</option>
+                    <option value="superadmin">Superadmin</option>
+                    <option value="admin">Admin</option>
+                    <option value="client">Client</option>
+                </select>
+            </div>
 
-                {/* User Table */}
-                <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-200">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-800 text-white">
+            {!loading && (
+                <p className="text-sm text-gray-600 mb-3">
+                    Total Users: <span className="font-semibold">{users.length}</span>
+                </p>
+            )}
+
+            {/* Table */}
+            {loading ? (
+                <div className="flex justify-center items-center h-40">
+                    <span className="loading loading-spinner loading-lg text-primary"></span>
+                </div>
+            ) : users.length === 0 ? (
+                <div className="text-center py-16 text-gray-500">
+                    No users found
+                </div>
+            ) : (
+                <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                    <table className="min-w-[900px] w-full text-sm">
+                        <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">SR No</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Name</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Email</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Role</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Joined</th>
+                                <th className="px-4 py-3 text-left">#</th>
+                                <th className="px-4 py-3 text-left">Name</th>
+                                <th className="px-4 py-3 text-left">Email</th>
+                                <th className="px-4 py-3 text-left">Role</th>
+                                <th className="px-4 py-3 text-left">Joined</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {users.map((user, index) => (
-                                <tr key={user._id} className="hover:bg-gray-50 transition-colors duration-200">
-                                    <td className="px-6 py-4 text-sm text-gray-700">{index + 1}</td>
-                                    <td className="px-6 py-4 font-medium text-gray-800">{user.name}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">{user.email}</td>
-                                    <td className="px-6 py-4 text-sm">
-                                        <span className={`inline-block px-2 py-1 rounded-md text-xs font-medium shadow-sm ${roleColor(user.role)}`}>
-                                            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
-                                        {new Date(user.createdAt).toLocaleString("en-IN", {
-                                            dateStyle: "medium",
-                                            timeStyle: "short",
-                                        })}
-                                    </td>
-                                </tr>
-                            ))}
+
+                        <tbody>
+                            {users.map((user, index) => {
+                                return (
+                                    <tr key={user._id} className="border-b hover:bg-gray-50 transition">
+                                        <td className="px-4 py-3 font-medium">{index + 1}</td>
+
+                                        <td className="px-4 py-3 font-semibold">
+                                            {user.name}
+                                        </td>
+
+                                        <td className="px-4 py-3 text-gray-600">
+                                            {user.email}
+                                        </td>
+
+                                        <td className="px-3 py-2">
+                                            {String(user._id) === String(loggedInUserId) ? (
+                                                <span className={`px-2 py-0.5 rounded text-xs font-medium ${roleBadge(user.role)}`}>
+                                                    {user.role.toUpperCase()}
+                                                </span>
+                                            ) : (
+                                                <select value={user.role} onChange={(e) => updateRole(user._id, e.target.value)}
+                                                    className="border border-gray-300 rounded-md px-2 py-1 text-xs bg-white focus:ring-1 focus:ring-primary"
+                                                >
+                                                    <option value="superadmin">Superadmin</option>
+                                                    <option value="admin">Admin</option>
+                                                    <option value="client">Client</option>
+                                                </select>
+                                            )}
+                                        </td>
+
+                                        <td className="px-4 py-3 text-gray-500">
+                                            {new Date(user.createdAt).toLocaleDateString("en-IN")}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </>
+            )}
+        </div>
     );
 };
 
@@ -656,10 +694,11 @@ export const OTP_Logs = () => {
             const res = await axios.get(`${VITE_BACKEND_URL}/api/otp-logs`, {
                 headers: { Authorization: token },
             });
-            setLogs(res.data);
+            setLogs(Array.isArray(res.data) ? res.data : []);
         } catch (error) {
             console.error("Error fetching logs:", error.message);
             toast.error("Failed to fetch OTP logs");
+            setLogs([]);
         } finally {
             setLoading(false);
         }
@@ -672,15 +711,13 @@ export const OTP_Logs = () => {
     return (
         <>
             {loading && <Loading />}
-            {/* Header */}
+
             <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
                     <ShieldAlert className="w-6 h-6" />
                 </div>
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-800">
-                        OTP Logs
-                    </h2>
+                    <h2 className="text-2xl font-bold text-gray-800">OTP Logs</h2>
                     <p className="text-gray-500 text-sm">
                         All logs from users who requested password resets
                     </p>
@@ -688,47 +725,52 @@ export const OTP_Logs = () => {
             </div>
 
             <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
-                <table className="table table-pin-rows table-pin-cols w-full">
-                    <thead className="bg-gray-800 text-white">
-                        <tr>
-                            <th>Sr No.</th>
-                            <th>To Email</th>
-                            <th>From Email</th>
-                            <th>OTP</th>
-                            <th>Status</th>
-                            <th>IP Address</th>
-                            <th>Created At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {logs.map((log, index) => (
-                            <tr
-                                key={index}
-                                className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}
-                            >
-                                <td className="px-4 py-2">{index + 1}</td>
-                                <td className="px-4 py-2">{log.to_email}</td>
-                                <td className="px-4 py-2">{log.from_email}</td>
-                                <td className="px-4 py-2">{log.otp}</td>
-                                <td className="px-4 py-2">
-                                    <span className={`inline-block px-3 py-1 text-xs font-semibold rounded ${log.status === 'verified'
-                                        ? 'bg-green-500 text-white'
-                                        : 'bg-red-500 text-white'
-                                        }`}>
-                                        {log.status}
-                                    </span>
-                                </td>
-                                <td className="px-4 py-2">{log.ip_address}</td>
-                                <td className="px-4 py-2">
-                                    {new Date(log.created_at).toLocaleString("en-IN", {
-                                        dateStyle: "medium",
-                                        timeStyle: "short",
-                                    })}
-                                </td>
+                {logs.length === 0 ? (
+                    <p className="text-center py-8 text-gray-500">No OTP logs found</p>
+                ) : (
+                    <table className="table table-pin-rows table-pin-cols w-full">
+                        <thead className="bg-gray-800 text-white">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>To Email</th>
+                                <th>From Email</th>
+                                <th>OTP</th>
+                                <th>Status</th>
+                                <th>IP Address</th>
+                                <th>Created At</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {logs.map((log, index) => (
+                                <tr key={log._id || index}
+                                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
+                                    <td className="px-4 py-2">{index + 1}</td>
+                                    <td className="px-4 py-2">{log.to_email}</td>
+                                    <td className="px-4 py-2">{log.from_email}</td>
+                                    <td className="px-4 py-2">{log.otp}</td>
+                                    <td className="px-4 py-2">
+                                        <span className={`inline-block px-3 py-1 text-xs font-semibold rounded ${log.status === 'verified'
+                                            ? 'bg-green-500 text-white'
+                                            : 'bg-red-500 text-white'
+                                            }`}>
+                                            {log.status}
+                                        </span>
+                                    </td>
+                                    <td className="px-4 py-2">{log.ip_address}</td>
+                                    <td className="px-4 py-2">
+                                        {log.createdAt || log.created_at
+                                            ? new Date(log.createdAt || log.created_at).toLocaleString("en-IN", {
+                                                dateStyle: "medium",
+                                                timeStyle: "short",
+                                            })
+                                            : "-"
+                                        }
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </>
     );
@@ -741,17 +783,17 @@ export const Block_email = () => {
     const [reason, setReason] = useState('');
     const token = localStorage.getItem("Authorization");
 
-    // Fetch all blocked emails
     const GetAllBlockedEmails = async () => {
         try {
             setLoading(true);
             const res = await axios.get(`${VITE_BACKEND_URL}/api/blocked-emails`, {
                 headers: { Authorization: token },
             });
-            setBlackEmails(res.data || []);
+            setBlackEmails(Array.isArray(res.data) ? res.data : []);
         } catch (error) {
             console.error(error);
             toast.error("Failed to fetch blocked emails");
+            setBlackEmails([]);
         } finally {
             setLoading(false);
         }
@@ -776,9 +818,10 @@ export const Block_email = () => {
             );
             if (res.data) {
                 toast.success("Email blocked successfully");
-                setBlackEmails([...blackEmails, { email, reason, id: res.data.id }]);
+                setBlackEmails([...blackEmails, { _id: res.data._id || Date.now(), email, reason }]);
                 setEmail('');
                 setReason('');
+                document.getElementById('addBEmail').close();
             }
         } catch (error) {
             console.error(error);
@@ -794,7 +837,7 @@ export const Block_email = () => {
             await axios.delete(`${VITE_BACKEND_URL}/api/block-email/${id}`, {
                 headers: { Authorization: token },
             });
-            setBlackEmails(blackEmails.filter((item) => item.id !== id));
+            setBlackEmails(blackEmails.filter((item) => (item._id || item.id) !== id));
             toast.success("Email unblocked successfully");
         } catch (error) {
             console.error(error);
@@ -859,28 +902,287 @@ export const Block_email = () => {
 
             {/* Table */}
             <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
+                {blackEmails.length === 0 ? (
+                    <p className="text-center py-8 text-gray-500">No blocked emails found</p>
+                ) : (
+                    <table className="table table-pin-rows table-pin-cols w-full">
+                        <thead className="bg-gray-800 text-white">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Email</th>
+                                <th>Reason</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {blackEmails.map((item, index) => (
+                                <tr key={item._id || index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
+                                    <td className="px-4 py-2">{index + 1}</td>
+                                    <td className="px-4 py-2">{item.email}</td>
+                                    <td className="px-4 py-2">{item.reason}</td>
+                                    <td className="px-4 py-2">
+                                        <button onClick={() => handleDelete(item._id || item.id)} className="btn btn-error btn-sm">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+        </>
+    );
+};
+
+const Detail = ({ label, value }) => (
+    <div>
+        <p className="text-gray-500 text-xs">{label}</p>
+        <p className="font-medium text-gray-800">{value || "—"}</p>
+    </div>
+);
+export const FranchiseInquiries = () => {
+    const [inquiries, setInquiries] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selected, setSelected] = useState(null);
+
+    const token = localStorage.getItem("Authorization");
+
+    const fetchInquiries = async () => {
+        try {
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/franchise/`,
+                { headers: { Authorization: token } }
+            );
+            setInquiries(res.data.data || []);
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to load franchise inquiries");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchInquiries();
+    }, []);
+
+    return (
+        <div className="max-w-7xl mx-auto p-4 bg-white rounded-2xl">
+            {/* Header */}
+            <div className="mb-6 flex flex-col sm:flex-row sm:justify-between gap-4">
+                <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <HiOfficeBuilding className="text-2xl" />
+                    </div>
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            Franchise Inquiries
+                        </h1>
+                        <p className="text-sm text-gray-500">
+                            View and manage franchise requests
+                        </p>
+                    </div>
+                </div>
+
+                {!loading && (
+                    <div className="text-sm font-medium text-gray-600">
+                        Total Requests:
+                        <span className="ml-1 font-semibold text-gray-900">
+                            {inquiries.length}
+                        </span>
+                    </div>
+                )}
+            </div>
+
+            {/* Loading */}
+            {loading ? (
+                <div className="flex justify-center items-center h-40">
+                    <span className="loading loading-spinner loading-lg text-primary"></span>
+                </div>
+            ) : inquiries.length === 0 ? (
+                <div className="py-16 text-center">
+                    <h2 className="text-xl font-semibold text-gray-700">
+                        No Franchise Inquiries Found
+                    </h2>
+                </div>
+            ) : (
+                <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                    <table className="min-w-[1000px] w-full text-center text-sm">
+                        <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
+                            <tr>
+                                <th className="px-3 py-2">Name</th>
+                                <th className="px-3 py-2">Email</th>
+                                <th className="px-3 py-2">Phone</th>
+                                <th className="px-3 py-2">Location</th>
+                                <th className="px-3 py-2">Experience</th>
+                                <th className="px-3 py-2">Created At</th>
+                                <th className="px-3 py-2">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {inquiries.map((item) => (
+                                <tr
+                                    key={item._id}
+                                    className="border-b hover:bg-gray-50 transition"
+                                >
+                                    <td className="px-3 py-2 font-semibold">
+                                        {item.first_name} {item.last_name}
+                                    </td>
+                                    <td className="px-3 py-2">{item.email}</td>
+                                    <td className="px-3 py-2">{item.phone}</td>
+                                    <td className="px-3 py-2">{item.location}</td>
+                                    <td className="px-3 py-2">
+                                        {Math.floor(item.no_of_experience / 12)}y{" "}
+                                        {item.no_of_experience % 12}m
+                                    </td>
+                                    <td className="px-3 py-2">
+                                        {new Date(item.createdAt).toLocaleDateString()}
+                                    </td>
+                                    <td className="px-3 py-2">
+                                        <button
+                                            onClick={() => setSelected(item)}
+                                            className="btn btn-xs bg-primary text-white"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
+            {/* MODAL */}
+            {selected && (
+                <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-xl max-w-xl w-full shadow-lg relative">
+                        <button
+                            onClick={() => setSelected(null)}
+                            className="absolute right-3 top-3 text-gray-500 hover:text-black"
+                        >
+                            <X />
+                        </button>
+
+                        <div className="p-6">
+                            <h2 className="text-xl font-bold mb-4">
+                                Franchise Inquiry Details
+                            </h2>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                <Detail label="Name" value={`${selected.first_name} ${selected.last_name}`} />
+                                <Detail label="Email" value={selected.email} />
+                                <Detail label="Phone" value={selected.phone} />
+                                <Detail label="Location" value={selected.location} />
+                                <Detail label="Pincode" value={selected.pincode} />
+                                <Detail label="Current Business" value={selected.current_business} />
+                                <Detail
+                                    label="Experience"
+                                    value={`${Math.floor(selected.no_of_experience / 12)} Years ${selected.no_of_experience % 12} Months`}
+                                />
+                                <Detail
+                                    label="Submitted On"
+                                    value={new Date(selected.createdAt).toLocaleString()}
+                                />
+                            </div>
+
+                            <div className="mt-4">
+                                <p className="text-sm font-semibold text-gray-600 mb-1">
+                                    Message
+                                </p>
+                                <div className="p-3 bg-gray-100 rounded-lg text-sm">
+                                    {selected.message}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export const Contact = () => {
+    const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const token = localStorage.getItem("Authorization");
+
+    const fetchContacts = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/contact`, {
+                headers: { Authorization: token },
+            });
+            setContacts(res.data);
+        } catch (error) {
+            console.error("Error fetching contacts:", error.message);
+            toast.error("Failed to fetch contact requests");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchContacts();
+    }, []);
+
+    return (
+        <>
+            {loading && <Loading />}
+
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
+                    <Mail className="w-6 h-6" />
+                </div>
+                <div>
+                    <h2 className="text-2xl font-bold text-gray-800">
+                        Contact Requests
+                    </h2>
+                    <p className="text-gray-500 text-sm">
+                        All messages submitted through the contact form
+                    </p>
+                </div>
+            </div>
+
+            {/* Table */}
+            <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
                 <table className="table table-pin-rows table-pin-cols w-full">
                     <thead className="bg-gray-800 text-white">
                         <tr>
                             <th>Sr No.</th>
+                            <th>Full Name</th>
                             <th>Email</th>
-                            <th>Reason</th>
-                            <th>Action</th>
+                            <th>Phone</th>
+                            <th>Message</th>
+                            <th>Submitted At</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {blackEmails.map((item, index) => (
-                            <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
-                                <td className="px-4 py-2">{index + 1}</td>
-                                <td className="px-4 py-2">{item.email}</td>
-                                <td className="px-4 py-2">{item.reason}</td>
-                                <td className="px-4 py-2">
-                                    <button onClick={() => handleDelete(item.id)} className="btn btn-error btn-sm">
-                                        Delete
-                                    </button>
+                        {contacts.length === 0 ? (
+                            <tr>
+                                <td colSpan={10} className="text-center py-6 text-gray-500">
+                                    No contact requests found
                                 </td>
                             </tr>
-                        ))}
+                        ) : (
+                            contacts.map((contact, index) => (
+                                <tr key={contact._id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
+                                    <td className="px-4 py-2">{index + 1}</td>
+                                    <td className="px-4 py-2">{contact.full_name}</td>
+                                    <td className="px-4 py-2">{contact.email}</td>
+                                    <td className="px-4 py-2">{contact.phone_number}</td>
+                                    <td className="px-4 py-2">{contact.message}</td>
+                                    <td className="px-4 py-2">
+                                        {contact.createdAt ? new Date(contact.createdAt).toLocaleString("en-IN", {
+                                            dateStyle: "medium",
+                                            timeStyle: "short",
+                                        }) : "-"}
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Sidebar from './SideBar';
 import AdminPage, { AddNewClient, Shipments, Clients, CreateParcel, AddBranch } from '../Admin/admin/AdminPage';
 import ClientPage, { Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { User, AddNewAdmin, Analytics, Branches, OTP_Logs, Block_email } from './superadmin/SuperAdmin';
+import SuperadminPage, { User, AddNewAdmin, Analytics, Branches, OTP_Logs, Block_email, FranchiseInquiries, Contact } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
 const DashboardLayout = ({ role }) => {
@@ -29,6 +29,8 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'AddNewAdmins') return <AddNewAdmin />;
             if (selectedPage === 'Analytics') return <Analytics />;
             if (selectedPage === 'Branches') return <Branches />;
+            if (selectedPage === 'Franchise') return <FranchiseInquiries />;
+            if (selectedPage === 'Contact') return <Contact />;
             if (selectedPage === 'OTP_Logs') return <OTP_Logs />;
             if (selectedPage === 'Block_email') return <Block_email />;
         }

@@ -6,6 +6,8 @@ import {
     FaChartBar,
     FaPlus,
     FaBars,
+    FaStoreAlt,
+    FaEnvelope
 } from 'react-icons/fa';
 import { AiOutlineAim } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
@@ -26,6 +28,8 @@ const iconMap = {
     AddNewAdmins: <FaPlus size={18} />,
     Track: <AiOutlineAim size={18} />,
     Branches: <FaShippingFast size={18} />,
+    Franchise: <FaStoreAlt size={18} />,
+    Contact: <FaEnvelope size={16} />,
     OTP_Logs: <FcSms size={18} />,
     Block_email: <MdOutlineAppBlocking size={18} />,
     AddBranch: <FaCodeBranch size={16} />,
@@ -39,7 +43,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
 
     const navItems = {
         admin: ['Dashboard', 'Shipments', 'CreateParcel', 'AddNewClient', 'Clients', 'AddBranch'],
-        superadmin: ['Dashboard', 'User', 'AddNewAdmins', 'Analytics', 'Branches', 'OTP_Logs', 'Block_email'],
+        superadmin: ['Dashboard', 'User', 'AddNewAdmins', 'Analytics', 'Branches', 'Franchise', 'Contact', 'OTP_Logs', 'Block_email'],
         client: ['Dashboard', 'Track']
     };
 

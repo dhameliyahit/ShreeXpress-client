@@ -745,7 +745,7 @@ export const Clients = () => {
                 if (res.data.clients.length === 0) {
                     toast.info(res.data.message || "No clients found.");
                 } else {
-                    toast.success(res.data.message || "Clients fetched successfully");
+                    // toast.success(res.data.message || "Clients fetched successfully");
                 }
             } else {
                 toast.error(res.data.message || "Unexpected response format");

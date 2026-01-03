@@ -18,7 +18,7 @@ const Header = () => {
         { name: "Services", path: "/services" },
         { name: "Pickup Request", path: "/pickup-request" },
         { name: "Contact Us", path: "/contact-us" },
-        { name: "Franchisee Inquiry", path: "/franchisee-inquiry" },
+        { name: "Franchise Inquiry", path: "/franchise-inquiry" },
     ];
 
     useEffect(() => {

@@ -29,7 +29,7 @@ export default function App() {
         <Route path='/services' element={<Services />} />
         <Route path='/contact-us' element={<ContactUs />} />
         <Route path='/pickup-request' element={<RequestOfPickup />} />
-        <Route path='/franchisee-inquiry' element={<FranchiseeInquiry />} />
+        <Route path='/franchise-inquiry' element={<FranchiseeInquiry />} />
         <Route path='/login' element={<Login />} />
         <Route path='/*' element={<PageNotFound />} />
 

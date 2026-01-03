@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import Layout from '../Layout/Layout'
-import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
+// import { FaRocket, FaShieldAlt, FaGlobe } from "react-icons/fa";
 import AOS from 'aos';
 import ThemeContext from '../../context/Theme/ThemeContext';
-import { ChevronDownIcon } from '@heroicons/react/24/solid'
+import { Phone, Mail, ChevronDown, Rocket, ShieldCheck, Globe } from "lucide-react";
 
 export default function About() {
     // AOS initialize
@@ -23,50 +23,64 @@ export default function About() {
 
 const AboutUs = () => {
     const { theme } = useContext(ThemeContext);
-    const AboutUsImg = './assets/AboutUsImg.png'
+    const AboutUsImg = "./assets/AboutUsImg.png";
+
+    const iconColor = theme === "light" ? "#383185" : "#ffffff";
+
     return (
         <section className="py-12 px-4 md:px-10">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-2 sm:p-5">
                 {/* Left Content */}
                 <div data-aos="fade-right">
-                    {/* Add Shadow Text */}
-                    <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5">ABOUT</h1>
-                    <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>ABOUT US</h2>
-                    <p className="mb-6 leading-relaxed text-sm md:text-base z-10">
-                        Courier Service Pvt Ltd was established to provide efficient and prompt mail management services to every segment of society. Our goal is to deliver secure and reliable service for sensitive documents—both for enterprises and the general public.  Courier Service Pvt Ltd was incorporated in November 2011 with just 10 branches, and within just one year, we expanded to over 500 branches across India. Today, we proudly provide services across 4000 PIN codes and handle approximately 1.5 million transactions daily.
+                    {/* Shadow Text */}
+                    <h1 className="font-bold text-gray-300 opacity-20 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative lg:-left-5">
+                        ABOUT
+                    </h1>
+
+                    <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === "light" ? "text-[#383185]" : "text-white"}`}>
+                        ABOUT US
+                    </h2>
+
+                    <p className="mb-6 leading-relaxed text-sm md:text-base">
+                        Courier Service Pvt Ltd was established to provide efficient and prompt
+                        mail management services to every segment of society. Our goal is to
+                        deliver secure and reliable service for sensitive documents—both for
+                        enterprises and the general public. Incorporated in November 2011 with
+                        just 10 branches, we now operate over 500 branches across India, serving
+                        4000+ PIN codes and handling nearly 1.5 million transactions daily.
                     </p>
 
-                    <div className="space-y-4 flex flex-col z-10">
+                    {/* Features */}
+                    <div className="space-y-4 flex flex-col">
                         {/* Feature 1 */}
-                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
-                            <FaRocket className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
+                        <div className="flex items-start gap-4 border-b pb-3 border-[#1F242A]">
+                            <Rocket size={22} color={iconColor} className="mt-1" />
                             <div>
                                 <h4 className="font-semibold">FAST DELIVERY</h4>
                                 <p className="text-sm">
-                                    We provide efficient and prompt mail management services to the
-                                    entire society.
+                                    Efficient and prompt mail management services nationwide.
                                 </p>
                             </div>
                         </div>
 
                         {/* Feature 2 */}
-                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
-                            <FaShieldAlt className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
+                        <div className="flex items-start gap-4 border-b pb-3 border-[#1F242A]">
+                            <ShieldCheck size={22} color={iconColor} className="mt-1" />
                             <div>
                                 <h4 className="font-semibold">SECURED SERVICE</h4>
                                 <p className="text-sm">
-                                    Secure delivery for sensitive documents for enterprise and public.
+                                    Safe and reliable delivery for sensitive documents.
                                 </p>
                             </div>
                         </div>
 
                         {/* Feature 3 */}
-                        <div className="flex items-start gap-4 border-b-1 pb-2 border-[#1F242A]">
-                            <FaGlobe className={`${theme === 'light' ? 'text-[#383185]' : 'text-white'} mt-1`} size={20} />
+                        <div className="flex items-start gap-4 border-b pb-3 border-[#1F242A]">
+                            <Globe size={22} color={iconColor} className="mt-1" />
                             <div>
-                                <h4 className="font-semibold">WORLDWIDE SHIPPING</h4>
+                                <h4 className="font-semibold">WIDE NETWORK</h4>
                                 <p className="text-sm">
-                                    Serving across 4000 PINs with 1.5 million daily transactions.
+                                    Serving 4000+ PIN codes with nationwide coverage.
                                 </p>
                             </div>
                         </div>
@@ -77,10 +91,11 @@ const AboutUs = () => {
                 <div className="flex lg:justify-end justify-center" data-aos="fade-left">
                     <img
                         src={AboutUsImg}
-                        alt="Courier Van"
+                        alt="Courier Service"
                         className="w-full max-w-md md:max-w-lg object-contain"
                     />
                 </div>
+
             </div>
         </section>
     );
@@ -99,33 +114,51 @@ const CompanyDetails = () => {
             <h2 className="text-xl font-bold uppercase mb-4">Directors of  Courier Service</h2>
             <ul className="mb-6 space-y-4">
                 {directors.map((director, idx) => (
-                    <details key={idx} className="group rounded-lg border border-[#1F242A] p-4 transition-all duration-300 hover:shadow-md" >
-                        <summary className="cursor-pointer text-md sm:text-lg font-semibold flex items-center justify-between">
+                    <details
+                        key={idx}
+                        className="group rounded-xl border border-gray-300 p-4 transition-all duration-300 hover:shadow-md bg-white"
+                    >
+                        <summary className="cursor-pointer text-md sm:text-lg font-semibold flex items-center justify-between text-gray-800">
                             {director.name}
-                            <ChevronDownIcon className="ml-2 w-5 h-5 text-gray-500 transition-transform duration-300 group-open:rotate-180" />
+                            <ChevronDown className="w-5 h-5 text-gray-500 transition-transform duration-300 group-open:rotate-180" />
                         </summary>
-                        <div className="mt-2">
-                            <p> 📞 Phone:{' '}
-                                <a href={`tel:+91${director.phone}`} className="text-blue-600 hover:underline dark:text-blue-400" >
+
+                        <div className="mt-4 space-y-3 text-sm">
+                            {/* Phone */}
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-md bg-indigo-100 text-indigo-600">
+                                    <Phone className="w-4 h-4" />
+                                </div>
+                                <a
+                                    href={`tel:+91${director.phone}`}
+                                    className="font-medium text-gray-700 hover:text-indigo-600 transition-colors"
+                                >
                                     +91 {director.phone}
                                 </a>
-                            </p>
-                            <p> 📧 Email:{' '}
-                                <a href={`mailto:${director.email}`} className="text-blue-600 hover:underline dark:text-blue-400" >
+                            </div>
+
+                            {/* Email */}
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-md bg-emerald-100 text-emerald-600">
+                                    <Mail className="w-4 h-4" />
+                                </div>
+                                <a
+                                    href={`mailto:${director.email}`}
+                                    className="font-medium text-gray-700 hover:text-emerald-600 transition-colors"
+                                >
                                     {director.email}
                                 </a>
-                            </p>
+                            </div>
                         </div>
                     </details>
                 ))}
-
             </ul>
 
 
             <p className="mb-12 text-[15px] leading-relaxed 0">
                 <span className="font-bold"> Courier Service</span> is managed by some of the efficient and
                 dedicated members with over 20 years of experienced personnel from the same industry.{" "}
-                <span className="font-bold"> Courier Service</span> was started by 4 directors with the vast
+                <span className="font-bold"> Courier Service</span> was started by {directors.length} directors with the vast
                 experience of the Courier Industry and now it is spread across India.
             </p>
 

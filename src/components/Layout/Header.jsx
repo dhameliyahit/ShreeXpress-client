@@ -23,7 +23,7 @@ const Header = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsSticky(window.scrollY > 30);
+            setIsSticky(window.scrollY > 60);
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -47,7 +47,7 @@ const Header = () => {
                     </div>
                 </Link>
 
-                <div className="pr-4 hidden md:flex">
+                <div className="pr-4 hidden md:flex items-center text-center">
                     {navigationLinks.map((link, index) => {
                         const isActive = location.pathname === link.path;
                         return (

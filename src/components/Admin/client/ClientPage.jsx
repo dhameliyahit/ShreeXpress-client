@@ -120,20 +120,26 @@ export const Track = () => {
     };
 
     return (
-        <div className="min-h-screen p-6 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="min-h-screen p-6">
             {/* Header */}
-            <div className="bg-indigo-600 text-white rounded-2xl p-6 flex items-center gap-4 shadow-lg mb-8">
-                <div className="bg-indigo-500 p-3 rounded-full shadow">
-                    <FaBox className="w-6 h-6" />
-                </div>
-                <div>
-                    <h1 className="text-3xl font-bold tracking-wide">Track Your Parcel</h1>
-                    <p className="text-indigo-200 mt-1">Enter your tracking ID to see parcel details instantly.</p>
+            <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-indigo-100 text-indigo-600">
+                        <FaBox className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-gray-800">
+                            Track Parcel
+                        </h2>
+                        <p className="text-gray-500 mt-1">
+                            Enter your tracking ID to view shipment status.
+                        </p>
+                    </div>
                 </div>
             </div>
 
             {/* Search */}
-            <div className="flex flex-col md:flex-row gap-4 mb-8 items-center">
+            <div className="flex flex-col md:flex-row gap-4 mb-6 items-center bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                 <TextField
                     label="Enter Tracking ID"
                     variant="outlined"
@@ -153,7 +159,7 @@ export const Track = () => {
                 <Button
                     variant="contained"
                     color="primary"
-                    size="large"
+                    size="medium"
                     className="rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
                     onClick={handleTrack}
                     disabled={loading}
@@ -164,7 +170,7 @@ export const Track = () => {
 
             {/* Result */}
             {result && result.parcel && (
-                <Card className="shadow-2xl border border-gray-200 rounded-3xl hover:shadow-3xl transition p-1">
+                <Card className="rounded-3xl border border-gray-200 shadow-sm hover:shadow-md transition p-1">
                     <CardContent className="p-8">
                         {/* Parcel Header */}
                         <div className="flex items-center justify-between mb-6">
@@ -183,25 +189,47 @@ export const Track = () => {
 
                         {/* Parcel Details */}
                         <div className="grid md:grid-cols-2 gap-6 mb-8">
-                            <div className="flex items-center gap-3 p-4 bg-indigo-50 rounded-xl shadow-inner">
-                                <FaBox className="text-blue-600 text-xl" />
-                                <p className="text-gray-700"><strong>Tracking ID:</strong> {result.trackingId}</p>
+                            <div className="flex items-center gap-3 p-4 bg-indigo-50 rounded-xl">
+                                <FaBox className="text-indigo-600 text-xl" />
+                                <p>
+                                    <strong>Tracking ID:</strong>{" "}
+                                    {result.parcel.tracking_number}
+                                </p>
                             </div>
-                            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl shadow-inner">
+
+                            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl">
                                 <FaTruck className="text-green-600 text-xl" />
-                                <p className="text-gray-700"><strong>Status:</strong> {result.status}</p>
+                                <p>
+                                    <strong>Status:</strong>{" "}
+                                    {result.parcel.current_status}
+                                </p>
                             </div>
-                            <div className="flex items-center gap-3 p-4 bg-red-50 rounded-xl shadow-inner">
+
+                            <div className="flex items-center gap-3 p-4 bg-red-50 rounded-xl">
                                 <MdLocationOn className="text-red-500 text-xl" />
-                                <p className="text-gray-700"><strong>Current Location:</strong> {result.parcel.currentLocation}</p>
+                                <p>
+                                    <strong>Current Location:</strong>{" "}
+                                    {result.parcel.current_status === "delivered"
+                                        ? result.parcel.to_branch?.branch_name
+                                        : result.parcel.from_branch?.branch_name}
+                                </p>
                             </div>
-                            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl shadow-inner">
+
+                            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
                                 <FaRegCalendarAlt className="text-gray-600 text-xl" />
-                                <p className="text-gray-700"><strong>Created At:</strong> {new Date(result.parcel.created_at).toLocaleString()}</p>
+                                <p>
+                                    <strong>Created At:</strong>{" "}
+                                    {new Date(result.parcel.createdAt).toLocaleString()}
+                                </p>
                             </div>
-                            <div className="flex items-center gap-3 col-span-2 p-4 bg-purple-50 rounded-xl shadow-inner">
+
+                            <div className="flex items-center gap-3 col-span-2 p-4 bg-purple-50 rounded-xl">
                                 <MdLocationOn className="text-purple-600 text-xl" />
-                                <p className="text-gray-700"><strong>From → To:</strong> {result.parcel.from_branch_name} → {result.parcel.to_branch_name}</p>
+                                <p>
+                                    <strong>From → To:</strong>{" "}
+                                    {result.parcel.from_branch?.branch_name} →{" "}
+                                    {result.parcel.to_branch?.branch_name}
+                                </p>
                             </div>
                         </div>
 

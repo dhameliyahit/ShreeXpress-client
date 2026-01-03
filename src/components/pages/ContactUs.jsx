@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import AOS from 'aos'
 import { useForm } from 'react-hook-form';
@@ -26,15 +26,14 @@ const ContactForm = () => {
     const [loading, setLoading] = useState(false);
     const ContactUsImg = '/assets/contactus.png';
 
-    const backend_url = import.meta.env.VITE_BACKEND_URL;
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
 
     const onSubmit = async (data) => {
-        // console.log(data);
         try {
             setLoading(true)
-            const res = await axios.post(`${backend_url}/api/v1/lead/contact`, data)
-            console.log("Server Response:", res.data);
+            await axios.post(`${API_URL}/api/contact`, data)
             setLoading(false)
+            toast.success('Contact Form Submited')
             reset();
         } catch (error) {
             toast.error(error.message || "Something went wrong", {
@@ -43,7 +42,7 @@ const ContactForm = () => {
                     fontSize: "17px",
                     color: "black"
                 }
-            }); // Show error in toasts
+            });
             console.log(error);
             setLoading(false);
         }

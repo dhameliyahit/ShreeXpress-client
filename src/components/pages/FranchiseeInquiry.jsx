@@ -1,8 +1,12 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import { useForm } from 'react-hook-form'
 import AOS from 'aos'
 import ThemeContext from '../../context/Theme/ThemeContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function FranchiseeInquiry() {
     return (
@@ -25,12 +29,11 @@ const IntroSection = () => {
     return (
         <section className="py-12 px-4 md:px-10">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-10 items-center p-2 sm:p-5">
-
                 {/* Left Section */}
                 <div className="h-full flex flex-col justify-evenly transition-all" data-aos="fade-right">
                     <div>
-                        <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 ">FRANCHISEE</h1>
-                        <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>FRANCHISEE INQUIRE</h2>
+                        <h1 className="font-bold text-wrap text-gray-300 opacity-25 text-4xl sm:text-5xl lg:text-8xl -mb-10 relative top-0 lg:-left-5 ">FRANCHISE</h1>
+                        <h2 className={`text-3xl md:text-4xl font-bold ${theme === 'light' ? 'text-[#383185]' : 'text-white'} mb-4 z-99`}>FRANCHISE INQUIRE</h2>
                     </div>
                     <div className="space-y-3 ">
                         <p>
@@ -59,12 +62,23 @@ const IntroSection = () => {
 }
 
 const FranchiseeForm = () => {
-    const { handleSubmit, register } = useForm();
+    const { handleSubmit, register, reset } = useForm();
     const { theme } = useContext(ThemeContext);
+    const [loading, setLoading] = useState(false);
 
-    const onSubmit = (data) => {
-        console.log(data);
-    }
+    const onSubmit = async (data) => {
+        try {
+            setLoading(true);
+            await axios.post(`${API_URL}/api/franchise/new/request`, data);
+            setLoading(false);
+            toast.success("Franchise Request Submitted");
+            reset();
+            // console.log(res.data);
+        } catch (error) {
+            toast.error(error.response?.data?.error || "Submission failed");
+            console.error(error.message);
+        }
+    };
 
     return (
         <div className="max-w-7xl mx-auto items-center p-2 sm:p-5 transition-all">
@@ -140,20 +154,53 @@ const FranchiseeForm = () => {
                         <label className="block text-sm font-medium">Current Business / Courier</label>
                         <input
                             type="text"
-                            {...register("business")}
+                            {...register("current_business")}
                             placeholder="Current Business / Courier"
                             className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">No. of Experience in Courier</label>
-                        <input
-                            type="text"
-                            {...register("experience")}
-                            placeholder="No. of Experience in Courier"
-                            className={`w-full border border-gray-400 ${theme === 'dark' ? 'bg-[#1B273B] text-white' : 'bg-white/90 text-gray-800'} focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
-                        />
+                        <label className="block text-sm font-medium">
+                            Experience in Courier
+                        </label>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            {/* Years */}
+                            <select
+                                {...register("experience_years")}
+                                className={`w-full border border-gray-400 ${theme === 'dark'
+                                    ? 'bg-[#1B273B] text-white'
+                                    : 'bg-white/90 text-gray-800'
+                                    } focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
+                            >
+                                <option value="0">0 Years</option>
+                                <option value="1">1 Year</option>
+                                <option value="2">2 Years</option>
+                                <option value="3">3 Years</option>
+                                <option value="4">4 Years</option>
+                                <option value="5">5+ Years</option>
+                            </select>
+
+                            {/* Months */}
+                            <select
+                                {...register("experience_months")}
+                                className={`w-full border border-gray-400 ${theme === 'dark'
+                                    ? 'bg-[#1B273B] text-white'
+                                    : 'bg-white/90 text-gray-800'
+                                    } focus:outline-none focus:ring-1 focus:ring-[#383185] rounded px-3 py-3`}
+                            >
+                                <option value="0">0 Months</option>
+                                <option value="1">1 Month</option>
+                                <option value="2">2 Months</option>
+                                <option value="3">3 Months</option>
+                                <option value="4">4 Months</option>
+                                <option value="5">5 Months</option>
+                                <option value="6">6 Months</option>
+                                <option value="9">9 Months</option>
+                                <option value="11">11 Months</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -167,8 +214,7 @@ const FranchiseeForm = () => {
                 </div>
 
                 <button type="submit" className="bg-purple-700 text-white cursor-pointer px-5 py-3 rounded hover:bg-purple-800 transition">
-                    {/* {loading ? 'Submitting...' : 'SUBMIT'} */}
-                    SUBMIT
+                    {loading ? 'Submitting...' : 'SUBMIT'}
                 </button>
             </form >
         </div >

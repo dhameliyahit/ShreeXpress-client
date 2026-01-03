@@ -30,7 +30,7 @@ export const TopBar = () => {
 
                 {/* CENTER */}
                 <div className="text-center flex flex-col gap-1">
-                    <div className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-wide">
+                    <div className="text-md sm:text-lg lg:text-xl font-bold tracking-wide">
                         !! THIS IS A DEMO PROJECT !!
                     </div>
                     <div className="text-red-400 text-sm lg:text-base underline decoration-wavy">

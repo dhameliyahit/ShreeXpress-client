@@ -77,6 +77,7 @@ const FranchiseeForm = () => {
         } catch (error) {
             toast.error(error.response?.data?.error || "Submission failed");
             console.error(error.message);
+            setLoading(false);
         }
     };
 

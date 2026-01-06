@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     FaTachometerAlt,
     FaShippingFast,
@@ -38,7 +38,7 @@ const iconMap = {
 };
 
 const Sidebar = ({ role = 'client', onItemClick, selected }) => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(window.innerWidth >= 768);
     const navigate = useNavigate();
 
     const navItems = {
@@ -53,13 +53,25 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
         navigate('/login');
     };
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setOpen(false);
+            } else {
+                setOpen(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <div className={`h-screen bg-white transition-all duration-300 ${open ? 'w-60' : 'w-20'} flex flex-col`}>
             {/* Toggle */}
-            <div className={`p-4 flex   ${open ? 'justify-end' : "justify-center"}`}>
+            <div className={`p-4 flex ${open ? 'justify-end' : "justify-center"}`}>
                 <div onClick={() => setOpen(!open)} className='border cursor-pointer flex justify-center items-center border-gray-600 btn btn-accent  bg-white p-2 rounded-full my-0'>
-
-                    <button onClick={() => setOpen(!open)} className=" text-black cursor-pointer text-xl font-bold">
+                    <button onClick={() => setOpen(!open)} className="text-black cursor-pointer text-xl font-bold">
                         <FaBars />
                     </button>
                 </div>
@@ -73,7 +85,12 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
                     const activeStyle = isActive ? 'bg-black text-white hover:bg-gray-900' : 'text-black';
 
                     const content = (
-                        <li key={label} onClick={() => onItemClick(label)} className={`${baseStyle} ${activeStyle} w-full`} data-tip={open ? '' : label} >
+                        <li key={label} onClick={() => {
+                                onItemClick(label);
+                                if (window.innerWidth < 768) setOpen(false);
+                            }}
+                            className={`${baseStyle} ${activeStyle} w-full`}
+                        >
                             <span className="text-lg">{iconMap[label]}</span>
                             {open && <span className="text-sm font-medium">{label}</span>}
                         </li>
@@ -88,10 +105,7 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
 
                 {/* Logout */}
                 <div className={`${open ? '' : 'tooltip tooltip-right'}`} data-tip="Logout">
-                    <li
-                        onClick={handleLogout}
-                        className={`flex items-center gap-3 mt-4 px-3 py-2 rounded-lg text-red-500 hover:bg-red-100 cursor-pointer ${open ? '' : 'justify-center'}`}
-                    >
+                    <li onClick={handleLogout} className={`flex items-center gap-3 mt-4 px-3 py-2 rounded-lg text-red-500 hover:bg-red-100 cursor-pointer ${open ? '' : 'justify-center'}`}>
                         <FiLogOut size={18} />
                         {open && <span className="text-sm font-medium">Logout</span>}
                     </li>

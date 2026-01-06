@@ -15,10 +15,10 @@ const SuperadminPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-        <div className="min-h-screen p-4 md:p-8">
+        <div className="min-h-screen p-2 md:p-8">
             {/* Header */}
             <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
-                <div className="flex items-start gap-4">
+                <div className="flex flex-wrap items-start md:gap-4">
                     <div className="p-3 rounded-lg bg-purple-100 text-purple-700">
                         <Settings className="w-7 h-7" />
                     </div>
@@ -511,7 +511,7 @@ export const Branches = () => {
         <>
             {loading && <Loading />}
 
-            <div className="p-4 sm:p-6 md:p-8 bg-white text-black">
+            <div className="p-2 sm:p-6 md:p-8 bg-white text-black">
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-3 rounded-lg bg-red-100 text-red-600">
@@ -851,7 +851,7 @@ export const Block_email = () => {
         <>
             {loading && <Loading />}
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center flex-wrap justify-evenly sm:justify-between mb-4">
                 <div className="flex items-center gap-3">
                     <div className="p-3 rounded-lg bg-red-100 text-red-600">
                         <Mail className="w-6 h-6" />
@@ -966,8 +966,24 @@ export const FranchiseInquiries = () => {
         fetchInquiries();
     }, []);
 
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${VITE_BACKEND_URL}/api/franchise/${id}`,
+                { headers: { Authorization: token } }
+            );
+
+            toast.success("Franchise inquiry deleted");
+
+            setInquiries(prev => prev.filter(item => item._id !== id));
+            setSelected(null);
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to delete inquiry");
+        }
+    };
+
     return (
-        <div className="max-w-7xl mx-auto p-4 bg-white rounded-2xl">
+        <div className="max-w-7xl mx-auto md:p-4 bg-white rounded-2xl">
             {/* Header */}
             <div className="mb-6 flex flex-col sm:flex-row sm:justify-between gap-4">
                 <div className="flex items-start gap-3">
@@ -1022,10 +1038,7 @@ export const FranchiseInquiries = () => {
 
                         <tbody>
                             {inquiries.map((item) => (
-                                <tr
-                                    key={item._id}
-                                    className="border-b hover:bg-gray-50 transition"
-                                >
+                                <tr key={item._id} className="border-b hover:bg-gray-50 transition">
                                     <td className="px-3 py-2 font-semibold">
                                         {item.first_name} {item.last_name}
                                     </td>
@@ -1040,10 +1053,7 @@ export const FranchiseInquiries = () => {
                                         {new Date(item.createdAt).toLocaleDateString()}
                                     </td>
                                     <td className="px-3 py-2">
-                                        <button
-                                            onClick={() => setSelected(item)}
-                                            className="btn btn-xs bg-primary text-white"
-                                        >
+                                        <button onClick={() => setSelected(item)} className="btn btn-xs bg-primary text-white">
                                             View
                                         </button>
                                     </td>
@@ -1058,10 +1068,7 @@ export const FranchiseInquiries = () => {
             {selected && (
                 <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
                     <div className="bg-white rounded-xl max-w-xl w-full shadow-lg relative">
-                        <button
-                            onClick={() => setSelected(null)}
-                            className="absolute right-3 top-3 text-gray-500 hover:text-black"
-                        >
+                        <button onClick={() => setSelected(null)} className="absolute right-3 top-3 text-gray-500 hover:text-black">
                             <X />
                         </button>
 
@@ -1077,14 +1084,10 @@ export const FranchiseInquiries = () => {
                                 <Detail label="Location" value={selected.location} />
                                 <Detail label="Pincode" value={selected.pincode} />
                                 <Detail label="Current Business" value={selected.current_business} />
-                                <Detail
-                                    label="Experience"
+                                <Detail label="Experience"
                                     value={`${Math.floor(selected.no_of_experience / 12)} Years ${selected.no_of_experience % 12} Months`}
                                 />
-                                <Detail
-                                    label="Submitted On"
-                                    value={new Date(selected.createdAt).toLocaleString()}
-                                />
+                                <Detail label="Submitted On" value={new Date(selected.createdAt).toLocaleString()} />
                             </div>
 
                             <div className="mt-4">
@@ -1094,6 +1097,12 @@ export const FranchiseInquiries = () => {
                                 <div className="p-3 bg-gray-100 rounded-lg text-sm">
                                     {selected.message}
                                 </div>
+                            </div>
+
+                            <div className="mt-6 flex justify-end gap-3">
+                                <button onClick={() => handleDelete(selected._id)} className="btn btn-sm bg-red-600 hover:bg-red-700 text-white">
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     </div>

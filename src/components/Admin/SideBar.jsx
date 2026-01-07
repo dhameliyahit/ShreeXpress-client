@@ -42,9 +42,9 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
     const navigate = useNavigate();
 
     const navItems = {
-        admin: ['Dashboard', 'Shipments', 'CreateParcel', 'AddNewClient', 'Clients', 'AddBranch'],
+        admin: ['Dashboard', 'Shipments', 'AddNewClient', 'Clients', 'AddBranch'],
         superadmin: ['Dashboard', 'User', 'AddNewAdmins', 'Analytics', 'Branches', 'Franchise', 'Contact', 'OTP_Logs', 'Block_email'],
-        client: ['Dashboard', 'Track']
+        client: ['Dashboard', 'Track', 'CreateParcel']
     };
 
     const handleLogout = () => {
@@ -86,9 +86,9 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
 
                     const content = (
                         <li key={label} onClick={() => {
-                                onItemClick(label);
-                                if (window.innerWidth < 768) setOpen(false);
-                            }}
+                            onItemClick(label);
+                            if (window.innerWidth < 768) setOpen(false);
+                        }}
                             className={`${baseStyle} ${activeStyle} w-full`}
                         >
                             <span className="text-lg">{iconMap[label]}</span>

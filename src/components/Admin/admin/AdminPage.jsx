@@ -15,10 +15,10 @@ const AdminPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-        <div className="min-h-screen p-4 md:p-8">
+        <div className="min-h-screen p-2 md:p-8">
             {/* Header */}
             <div className="rounded-xl shadow-md border border-gray-300 p-6 mb-8">
-                <div className="flex items-start gap-4">
+                <div className="flex flex-wrap items-start gap-2">
                     <div className="p-3 rounded-lg bg-primary/10 text-primary">
                         <ShieldCheck className="w-7 h-7" />
                     </div>
@@ -105,7 +105,7 @@ export const Shipments = () => {
 
     const fetchShipments = async () => {
         try {
-            const res = await axios.get(`${API_BASE}/api/courier/my/courier`,
+            const res = await axios.get(`${API_BASE}/api/courier/all/courier`,
                 { headers: { Authorization: `${token}` } }
             );
             setShipments(res.data.parcels || []);
@@ -157,7 +157,7 @@ export const Shipments = () => {
     return (
         <div className="max-w-7xl p-2 mx-auto bg-white text-black rounded-2xl">
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div className="flex items-start gap-3">
+                <div className="flex flex-wrap items-start gap-2">
                     <div className="p-2 rounded-lg bg-primary/10 text-primary">
                         <HiTruck className="text-2xl" />
                     </div>
@@ -351,9 +351,9 @@ export const CreateParcel = () => {
     );
 
     return (
-        <div className="max-w-5xl mx-auto p-6 rounded-xl shadow-xl bg-white text-black border border-gray-300">
-            <div className="mb-6 pb-4 border-b border-gray-200">
-                <div className="flex items-start gap-4">
+        <div className="max-w-5xl mx-auto p-4 rounded-xl shadow-xl bg-white text-black">
+            <div className="sm:mb-6 pb-4 border-b border-gray-100">
+                <div className="flex flex-wrap items-start gap-1">
                     <div className="p-3 rounded-lg bg-primary/10 text-primary">
                         <PackagePlus className="w-7 h-7" />
                     </div>
@@ -624,7 +624,7 @@ export const AddNewClient = () => {
         <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
             <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
                 <div className="mb-8 pb-4 border-b border-gray-200">
-                    <div className="flex items-start gap-4">
+                    <div className="flex flex-wrap items-start gap-1">
                         <div className="p-3 rounded-lg bg-[#383185]/10 text-[#383185]">
                             <UserPlus className="w-7 h-7" />
                         </div>
@@ -791,7 +791,7 @@ export const Clients = () => {
             {loading && <Loading />}
             <div className="sm:p-6 p-2">
                 <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <div className="flex items-start gap-3">
+                    <div className="flex flex-wrap items-start gap-1">
                         <div className="p-2 rounded-lg bg-primary/10 text-primary">
                             <HiUsers className="text-2xl" />
                         </div>
@@ -818,7 +818,7 @@ export const Clients = () => {
                     <table className="min-w-[900px] w-full text-sm text-left table-auto">
                         <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th className="px-3 py-2 font-semibold whitespace-nowrap">SR No.</th>
+                                <th className="px-3 py-2 font-semibold whitespace-nowrap">#</th>
                                 <th className="px-3 py-2 font-semibold whitespace-nowrap">Client</th>
                                 <th className="px-3 py-2 font-semibold whitespace-nowrap">Email</th>
                                 <th className="px-3 py-2 font-semibold whitespace-nowrap">Joined</th>
@@ -914,8 +914,7 @@ export const AddBranch = () => {
             {loading && <Loading />}
             <div className="w-full py-2 px-2 sm:py-5 md:py-10 md:px-4">
                 <div className="w-full max-w-2xl mx-auto bg-white sm:shadow-lg rounded-xl p-2 sm:p-5 md:p-10">
-                    {/* Header like AddNewAdmin */}
-                    <div className="flex items-center gap-3 mb-8">
+                    <div className="flex flex-wrap items-start gap-1 mb-2">
                         <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
                             <Building2 className="w-6 h-6" />
                         </div>

@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from '../../Loading';
-import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Phone, Hash, Shield, Trash2, X } from "lucide-react";
+import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Phone, Hash, Shield, Trash2, X, Package, Building2 } from "lucide-react";
 import { HiOfficeBuilding } from "react-icons/hi";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -89,6 +90,7 @@ export const User = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedRole, setSelectedRole] = useState("all");
+    const [deleteUser, setDeleteUser] = useState(null);
 
     const fetchUsers = async () => {
         try {
@@ -112,6 +114,21 @@ export const User = () => {
     useEffect(() => {
         fetchUsers();
     }, [selectedRole]);
+
+    const handleDeleteUser = async (id) => {
+        try {
+            await axios.delete(`${VITE_BACKEND_URL}/api/auth/users/${id}`,
+                { headers: { Authorization: token } }
+            );
+
+            toast.success("User deleted successfully");
+            setUsers(prev => prev.filter(u => u._id !== id));
+            setDeleteUser(null);
+        } catch (error) {
+            console.error(error);
+            toast.error(error.response?.data?.message || "Failed to delete user");
+        }
+    };
 
     const updateRole = async (id, role) => {
         try {
@@ -195,7 +212,9 @@ export const User = () => {
                                 <th className="px-4 py-3 text-left">Name</th>
                                 <th className="px-4 py-3 text-left">Email</th>
                                 <th className="px-4 py-3 text-left">Role</th>
+                                <th className="px-4 py-3 text-left">Created BY</th>
                                 <th className="px-4 py-3 text-left">Joined</th>
+                                <th className="px-4 py-3 text-center">Action</th>
                             </tr>
                         </thead>
 
@@ -229,9 +248,68 @@ export const User = () => {
                                             )}
                                         </td>
 
+                                        <td className="px-4 py-3">
+                                            {user.created_by?.email ? (
+                                                user.created_by.email
+                                            ) : (
+                                                <span className="text-gray-400">—</span>
+                                            )}
+                                        </td>
+
                                         <td className="px-4 py-3 text-gray-500">
                                             {new Date(user.createdAt).toLocaleDateString("en-IN")}
                                         </td>
+
+                                        <td className="px-4 py-3 text-center">
+                                            {String(user._id) !== String(loggedInUserId) && (
+                                                <button onClick={() => setDeleteUser(user)}
+                                                    className="btn btn-xs bg-red-600 hover:bg-red-700 text-white">
+                                                    Delete
+                                                </button>
+                                            )}
+                                        </td>
+
+                                        {deleteUser && (
+                                            <div className="fixed inset-0 z-50 bg-black/20 flex items-center justify-center p-4">
+                                                <div className="bg-white rounded-xl max-w-md w-full shadow-lg relative">
+
+                                                    <button onClick={() => setDeleteUser(null)} className="absolute right-3 top-3 text-gray-500 hover:text-black">
+                                                        ✕
+                                                    </button>
+
+                                                    <div className="p-6 text-center">
+                                                        <h2 className="text-xl font-bold text-gray-800">
+                                                            Delete User
+                                                        </h2>
+
+                                                        <p className="text-sm text-gray-600 mt-3">
+                                                            Are you sure you want to delete
+                                                        </p>
+
+                                                        <p className="font-semibold text-gray-900 mt-1">
+                                                            {deleteUser.name} ({deleteUser.role})
+                                                        </p>
+
+                                                        <p className="text-xs text-red-600 mt-2">
+                                                            This action cannot be undone.
+                                                        </p>
+
+                                                        <div className="mt-6 flex justify-center gap-3">
+                                                            <button onClick={() => setDeleteUser(null)}
+                                                                className="btn btn-sm border border-gray-300" >
+                                                                Cancel
+                                                            </button>
+
+                                                            <button onClick={() => handleDeleteUser(deleteUser._id)}
+                                                                className="btn btn-sm bg-red-600 hover:bg-red-700 text-white"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </tr>
                                 );
                             })}
@@ -379,21 +457,26 @@ export const Analytics = () => {
     const token = localStorage.getItem("Authorization");
     const [loading, setLoading] = useState(false);
     const [analytics, setAnalytics] = useState({ admins: 0, parcels: 0, branches: 0 });
+    const [chartData, setChartData] = useState([]);
 
     const fetchAnalytics = async () => {
         try {
             setLoading(true);
-            const [adminsRes, parcelsRes, branchesRes] = await Promise.all([
+
+            const [adminsRes, parcelsRes, branchesRes, parcelsChartRes] = await Promise.all([
                 axios.get(`${VITE_BACKEND_URL}/api/auth/all/admin`, { headers: { Authorization: token } }),
                 axios.get(`${VITE_BACKEND_URL}/api/courier/all/courier`, { headers: { Authorization: token } }),
                 axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`, { headers: { Authorization: token } }),
+                axios.get(`${VITE_BACKEND_URL}/api/courier/analytics`, { headers: { Authorization: token } }),
             ]);
 
             setAnalytics({
                 admins: adminsRes?.data?.admins.length || 0,
-                parcels: parcelsRes?.data.length || 0,
+                parcels: parcelsRes?.data?.count || 0,
                 branches: branchesRes?.data.length || 0,
             });
+
+            setChartData(parcelsChartRes?.data?.parcelsPerDay || []);
         } catch (err) {
             console.error("Error:", err);
             toast.error("Error fetching analytics");
@@ -407,7 +490,7 @@ export const Analytics = () => {
     return (
         <div className="p-2 sm:p-4 md:p-6">
             {/* Header */}
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex flex-wrap items-center gap-2 mb-6">
                 <div className="p-3 rounded-lg bg-teal-100 text-teal-600">
                     <BarChart2 className="w-6 h-6" />
                 </div>
@@ -420,31 +503,92 @@ export const Analytics = () => {
             {loading ? (
                 <Loading />
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Total Admins */}
-                    <div className="relative text-center bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
-                        <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
-                            <h4 className="text-lg font-semibold">Total Admins</h4>
-                            <h2 className="text-3xl font-bold mt-2">{analytics.admins}</h2>
+                <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Admins */}
+                        <div className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-2 sm:p-5 border-l-4 border-blue-500">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-500">Total Admins</p>
+                                    <h2 className="text-3xl font-bold text-gray-800 mt-1">
+                                        {analytics.admins}
+                                    </h2>
+                                </div>
+                                <div className="p-3 bg-blue-100 text-blue-600 rounded-full group-hover:scale-110 transition">
+                                    <Users className="w-6 h-6" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Parcels */}
+                        <div className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-5 border-l-4 border-rose-500">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-500">Parcels Issued</p>
+                                    <h2 className="text-3xl font-bold text-gray-800 mt-1">
+                                        {analytics.parcels}
+                                    </h2>
+                                </div>
+                                <div className="p-3 bg-rose-100 text-rose-600 rounded-full group-hover:scale-110 transition">
+                                    <Package className="w-6 h-6" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Branches */}
+                        <div className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-5 border-l-4 border-emerald-500">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-500">Branches</p>
+                                    <h2 className="text-3xl font-bold text-gray-800 mt-1">
+                                        {analytics.branches}
+                                    </h2>
+                                </div>
+                                <div className="p-3 bg-emerald-100 text-emerald-600 rounded-full group-hover:scale-110 transition">
+                                    <Building2 className="w-6 h-6" />
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Parcels Issued */}
-                    <div className="relative text-center bg-gradient-to-r from-pink-400 to-red-300 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
-                        <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
-                            <h4 className="text-lg font-semibold">Parcels Issued</h4>
-                            <h2 className="text-3xl font-bold mt-2">{analytics.parcels}</h2>
+                    <div className="mt-10 bg-white rounded-xl shadow-lg sm:p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-gray-800">
+                                Parcels Issued (Last 30 Days)
+                            </h3>
+                            <span className="text-sm text-gray-500">
+                                Daily distribution
+                            </span>
                         </div>
-                    </div>
 
-                    {/* Branches */}
-                    <div className="relative text-center sm:col-span-2 lg:col-span-1 bg-gradient-to-r from-teal-400 to-green-400 text-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden">
-                        <div className="py-3 sm:py-6 p-3 sm:p-4 relative">
-                            <h4 className="text-lg font-semibold">Branches</h4>
-                            <h2 className="text-3xl font-bold mt-2">{analytics.branches}</h2>
-                        </div>
+                        <ResponsiveContainer width="100%" height={320}>
+                            <BarChart data={chartData} margin={{ top: 20, right: 20, left: -20, bottom: 50 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                <XAxis
+                                    dataKey="day"
+                                    tick={{ fontSize: 11, fill: "#6b7280" }}
+                                    angle={-90}
+                                    textAnchor="end"
+                                />
+                                <YAxis tick={{ fontSize: 12, fill: "#6b7280" }} />
+                                <Tooltip
+                                    contentStyle={{
+                                        borderRadius: "8px",
+                                        border: "none",
+                                        boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                                    }}
+                                    labelStyle={{ fontWeight: "600" }}
+                                />
+                                <Bar
+                                    dataKey="count"
+                                    fill="#f43f5e"
+                                    radius={[6, 6, 0, 0]}
+                                    barSize={18}
+                                />
+                            </BarChart>
+                        </ResponsiveContainer>
                     </div>
-                </div>
+                </>
             )}
         </div>
     );
@@ -535,7 +679,7 @@ export const Branches = () => {
                     <table className="w-full">
                         <thead className="bg-gray-800 text-white">
                             <tr>
-                                <th className="px-4 py-2">Sr No.</th>
+                                <th className="px-4 py-2">#</th>
                                 <th className="px-4 py-2">Branch Name</th>
                                 <th className="px-4 py-2">Branch Address</th>
                                 <th className="px-4 py-2">Contact No</th>
@@ -731,7 +875,7 @@ export const OTP_Logs = () => {
                     <table className="table table-pin-rows table-pin-cols w-full">
                         <thead className="bg-gray-800 text-white">
                             <tr>
-                                <th>Sr No.</th>
+                                <th>#</th>
                                 <th>To Email</th>
                                 <th>From Email</th>
                                 <th>OTP</th>
@@ -908,7 +1052,7 @@ export const Block_email = () => {
                     <table className="table table-pin-rows table-pin-cols w-full">
                         <thead className="bg-gray-800 text-white">
                             <tr>
-                                <th>Sr No.</th>
+                                <th>#</th>
                                 <th>Email</th>
                                 <th>Reason</th>
                                 <th>Action</th>
@@ -1160,7 +1304,7 @@ export const Contact = () => {
                 <table className="table table-pin-rows table-pin-cols w-full">
                     <thead className="bg-gray-800 text-white">
                         <tr>
-                            <th>Sr No.</th>
+                            <th>#</th>
                             <th>Full Name</th>
                             <th>Email</th>
                             <th>Phone</th>

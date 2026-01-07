@@ -25,7 +25,7 @@ export const TopBar = () => {
                         <IoCall className="text-base sm:text-lg" />
                         <span className="font-semibold">CALL US :</span>
                         <a href="tel:+919638601192" className="text-[#D8262D] font-bold hover:underline text-sm sm:text-base">
-                            +91-0000000
+                            00000
                         </a>
                     </div>
 

@@ -736,7 +736,7 @@ export const Clients = () => {
 
             const authHeader = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
 
-            const res = await axios.get("http://localhost:5000/api/auth/all/client", {
+            const res = await axios.get(`${API_BASE}/api/auth/all/client`, {
                 headers: { Authorization: authHeader }
             });
 
@@ -770,7 +770,7 @@ export const Clients = () => {
         try {
             const authHeader = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
 
-            const res = await axios.delete(`http://localhost:5000/api/auth/delete/client/${clientId}`,
+            const res = await axios.delete(`${API_BASE}/api/auth/delete/client/${clientId}`,
                 { headers: { Authorization: authHeader } }
             );
 

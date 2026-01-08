@@ -67,18 +67,20 @@ const Sidebar = ({ role = 'client', onItemClick, selected }) => {
     }, []);
 
     return (
-        <div className={`h-screen bg-white transition-all duration-300 ${open ? 'w-60' : 'w-20'} flex flex-col`}>
+        <div className={`h-screen bg-white transition-all duration-300 ${open ? 'w-60' : 'w-15 sm:w-20'} flex flex-col`}>
             {/* Toggle */}
-            <div className={`p-4 flex ${open ? 'justify-end' : "justify-center"}`}>
-                <div onClick={() => setOpen(!open)} className='border cursor-pointer flex justify-center items-center border-gray-600 btn btn-accent  bg-white p-2 rounded-full my-0'>
-                    <button onClick={() => setOpen(!open)} className="text-black cursor-pointer text-xl font-bold">
-                        <FaBars />
-                    </button>
+            {window.innerWidth >= 768 && (
+                <div className={`p-4 flex ${open ? 'justify-end' : "justify-center"}`}>
+                    <div onClick={() => setOpen(!open)} className='border cursor-pointer flex justify-center items-center border-gray-600 btn btn-accent  bg-white p-2 rounded-full my-0'>
+                        <button onClick={() => setOpen(!open)} className="text-black cursor-pointer text-xl font-bold">
+                            <FaBars />
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Navigation */}
-            <ul className={`flex flex-col ${open ? 'items-start' : 'items-center'} px-2 space-y-2`}>
+            <ul className={`flex flex-col ${open ? 'items-start' : 'items-center'} py-2 sm:py-0 px-2 space-y-2`}>
                 {navItems[role]?.map((label) => {
                     const isActive = selected === label;
                     const baseStyle = `flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 hover:bg-gray-100 cursor-pointer`;

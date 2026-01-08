@@ -108,7 +108,7 @@ export const Track = () => {
             setResult(null);
 
             const token = localStorage.getItem("Authorization");
-            const res = await axios.get(`http://localhost:5000/api/courier/track/${trackingId}`,
+            const res = await axios.get(`${API_BASE}/api/courier/track/${trackingId}`,
                 { headers: { Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}` } }
             );
             setResult(res.data);
@@ -242,6 +242,7 @@ export const Track = () => {
         </div>
     );
 };
+
 const InfoBox = ({ icon, label, children }) => (
     <div className="flex items-start gap-3 p-4 bg-gray-100 rounded-xl text-sm sm:text-base">
         <div className="text-indigo-600 text-lg">{icon}</div>

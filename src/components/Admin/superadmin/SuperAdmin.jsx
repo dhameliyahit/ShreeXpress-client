@@ -629,8 +629,7 @@ export const Branches = () => {
     const GetAllBranches = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(
-                `${VITE_BACKEND_URL}/api/branches/all/branch`,
+            const res = await axios.get(`${VITE_BACKEND_URL}/api/branches/all/branch`,
                 { headers: { Authorization: token } }
             );
             setBranches(res.data);

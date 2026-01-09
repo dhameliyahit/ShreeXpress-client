@@ -6,18 +6,23 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import ThemeContext from '../../context/Theme/ThemeContext';
 
-export default function ContactUs() {
-    // AOS intialize
+export default function ContactUs({ isLayout = true }) {
     useEffect(() => {
         AOS.init()
     }, []);
 
-    return (
-        <Layout>
+    const content = (
+        <>
             <ContactForm />
             <ContactMap />
-        </Layout>
-    )
+        </>
+    );
+
+    return (
+        <>
+            {isLayout ? <Layout>{content}</Layout> : content}
+        </>
+    );
 }
 
 const ContactForm = () => {

@@ -37,47 +37,59 @@ const SuperadminPage = () => {
             {/* Dashboard Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Box 1 - Manage Users */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Users className="w-5 h-5 text-blue-600" />
-                        <h2 className="text-xl font-semibold">Manage Users</h2>
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <Users className="w-5 h-5 text-blue-600" />
+                            <h2 className="text-xl font-semibold">Manage Users</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">View, edit, or remove users from the system.</p>
                     </div>
-                    <p className="mb-4 text-gray-600">View, edit, or remove users from the system.</p>
-                    <Button variant="contained" color="primary">Go to Users</Button>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
 
                 {/* Box 2 - Manage Content */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <div className="flex items-center gap-2 mb-2">
-                        <FileText className="w-5 h-5 text-green-600" />
-                        <h2 className="text-xl font-semibold">Manage Content</h2>
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <FileText className="w-5 h-5 text-green-600" />
+                            <h2 className="text-xl font-semibold">Manage Content</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">Add or edit website content like posts or updates.</p>
                     </div>
-                    <p className="mb-4 text-gray-600">Add or edit website content like posts or updates.</p>
-                    <Button variant="contained" color="success">Manage Content</Button>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
 
                 {/* Box 3 - Analytics */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <div className="flex items-center gap-2 mb-2">
-                        <BarChart2 className="w-5 h-5 text-purple-600" />
-                        <h2 className="text-xl font-semibold">Analytics</h2>
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <BarChart2 className="w-5 h-5 text-purple-600" />
+                            <h2 className="text-xl font-semibold">Analytics</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">Check performance and activity reports.</p>
                     </div>
-                    <p className="mb-4 text-gray-600">Check performance and activity reports.</p>
-                    <Button variant="contained" style={{ backgroundColor: "#7e22ce", color: "#fff" }}>
-                        View Analytics
-                    </Button>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
 
                 {/* Box 4 - Settings */}
-                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Settings className="w-5 h-5 text-gray-700" />
-                        <h2 className="text-xl font-semibold">Settings</h2>
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <Settings className="w-5 h-5 text-gray-700" />
+                            <h2 className="text-xl font-semibold">Settings</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">Adjust system preferences and configurations.</p>
                     </div>
-                    <p className="mb-4 text-gray-600">Adjust system preferences and configurations.</p>
-                    <Button variant="contained" style={{ backgroundColor: "#374151", color: "#fff" }}>
-                        Open Settings
-                    </Button>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
             </div>
         </div>

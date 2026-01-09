@@ -13,6 +13,7 @@ import Progress from './components/Progress'
 import ThemeContext from './context/Theme/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import DashboardMain from './components/Admin/DashboardMain'
+import TrackingPage from './components/pages/TrackingPage'
 import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
         <Route path='/pickup-request' element={<RequestOfPickup />} />
         <Route path='/franchise-inquiry' element={<FranchiseeInquiry />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/track/:trackingNumber' element={<TrackingPage />} />
         <Route path='/*' element={<PageNotFound />} />
 
 

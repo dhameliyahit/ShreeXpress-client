@@ -87,193 +87,154 @@ function HeroSection() {
 }
 
 const QuickAccessSection = () => {
-    const [branches, setBranches] = useState([]);
     const [trackingInput, setTrackingInput] = useState("");
     const [searchText, setSearchText] = useState("");
     const [filteredBranches, setFilteredBranches] = useState([]);
     const [loadingTrack, setLoadingTrack] = useState(false);
     const [loadingBranches, setLoadingBranches] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     const navigate = useNavigate();
+    const searchTimer = useRef(null);
 
-    // Fetch branches on component mount
-    useEffect(() => {
-        fetchBranches();
-    }, []);
-
-    const fetchBranches = async () => {
-        try {
-            setLoadingBranches(true);
-            const response = await axios.get(`${API_BASE}/api/branches`);
-            const branchesData = response.data?.data || response.data || [];
-            setBranches(branchesData);
-        } catch (error) {
-            console.error('Error fetching branches:', error);
-            setBranches([]);
-        } finally {
-            setLoadingBranches(false);
-        }
-    };
-
-    const handleTrackingSubmit = async (e) => {
+    const handleTrackingSubmit = (e) => {
         e.preventDefault();
-        
+
         if (!trackingInput.trim()) {
             alert("Please enter a consignment number");
             return;
         }
 
         setLoadingTrack(true);
-        try {
-            // Navigate to tracking page with the tracking number
-            navigate(`/track/${trackingInput.trim()}`);
-        } catch (error) {
-            console.log(error)
-            alert("Error navigating to tracking page");
-        } finally {
-            setLoadingTrack(false);
-        }
+        navigate(`/track/${trackingInput.trim()}`);
+        setLoadingTrack(false);
     };
 
-    const searchTimer = useRef(null);
+    const searchBranches = async (query) => {
+        if (!query.trim()) {
+            setFilteredBranches([]);
+            setIsDropdownOpen(false);
+            return;
+        }
 
-    const searchBranches = async (q) => {
-        if (!q || !q.trim()) return setFilteredBranches([]);
-        setLoadingBranches(true);
         try {
-            // Try dedicated search endpoint first
-            let res;
-            try {
-                res = await axios.get(`${API_BASE}/api/branches/search?query=${encodeURIComponent(q)}`);
-            } catch (err) {
-                console.log(err)
-                // fallback to common endpoint with query param
-                res = await axios.get(`${API_BASE}/api/branches?search=${encodeURIComponent(q)}`);
-            }
+            setLoadingBranches(true);
 
-            const data = res.data?.data || res.data || [];
-            if (Array.isArray(data) && data.length > 0) {
-                setFilteredBranches(data);
-                setIsDropdownOpen(true);
-                return;
-            }
+            const res = await axios.get(`${API_BASE}/api/branches/all/${encodeURIComponent(query)}`);
+
+            const data = res.data || [];
+            setFilteredBranches(data);
+            setIsDropdownOpen(data.length > 0);
         } catch (err) {
-            // ignore and fall back to client-side filter
-            console.log(err)
-            console.debug('Search API not available or failed, falling back to client filter');
+            console.error("Branch search failed:", err);
+            setFilteredBranches([]);
+            setIsDropdownOpen(false);
         } finally {
             setLoadingBranches(false);
         }
-
-        // client-side fallback
-        const ql = q.toLowerCase();
-        const filtered = branches.filter((branch) =>
-            (branch.name || '').toLowerCase().includes(ql) ||
-            (branch.city || '').toLowerCase().includes(ql) ||
-            (branch.state || '').toLowerCase().includes(ql) ||
-            (branch.pincode || '').toString().includes(ql)
-        );
-        setFilteredBranches(filtered);
-        setIsDropdownOpen(filtered.length > 0);
     };
 
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearchText(value);
 
-        // debounce API calls
         if (searchTimer.current) clearTimeout(searchTimer.current);
+
         searchTimer.current = setTimeout(() => {
             searchBranches(value);
         }, 300);
     };
 
     const handleBranchSelect = (branch) => {
-        setSearchText(`${branch.name} - ${branch.city}`);
+        setSearchText(`${branch.branch_name} - ${branch.pincode}`);
         setFilteredBranches([]);
         setIsDropdownOpen(false);
     };
 
-    return (
-        <section className="backdrop-blur-md py-3 px-1 sm:px-4 md:px-10 ">
-            <div className="max-w-5xl mx-auto grid grid-cols-1 text-lg md:grid-cols-2 gap-6 p-2 md:p-10">
-                {/* Track Consignment */}
-                <form onSubmit={handleTrackingSubmit} className='shadow-2xl p-5 border border-[#383185] transition-all' data-aos="zoom-in-right">
-                    <div className='mb-2 flex items-center'>
-                        <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
-                        <h2 className="font-semibold">Track Your Consignment</h2>
-                    </div>
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        searchBranches(searchText);
+    };
 
-                    <div className="flex flex-col sm:flex-row gap-2">
+    useEffect(() => {
+        return () => {
+            if (searchTimer.current) clearTimeout(searchTimer.current);
+        };
+    }, []);
+
+    return (
+        <section className="backdrop-blur-md py-3 px-1 sm:px-4 md:px-10">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-2 md:p-10">
+                <form
+                    onSubmit={handleTrackingSubmit}
+                    className="shadow-2xl p-5 border border-[#383185]"
+                >
+                    <h2 className="font-semibold mb-2">Track Your Consignment</h2>
+
+                    <div className="flex gap-2">
                         <input
                             type="text"
-                            placeholder="Enter Consignment No."
                             value={trackingInput}
                             onChange={(e) => setTrackingInput(e.target.value)}
-                            className="w-full focus:outline-none focus:ring-1 focus:ring-[#383185] border border-gray-300 bg-white text-black placeholder-gray-500 rounded px-4 py-3 text-sm"
+                            placeholder="Enter Consignment No."
+                            className="w-full border px-4 py-3 rounded"
                         />
-                        <button 
+
+                        <button
                             type="submit"
                             disabled={loadingTrack}
-                            className="bg-[#383185] cursor-pointer text-white px-4 py-2 rounded transition-all duration-700 hover:bg-[#C52024] disabled:opacity-50"
+                            className="bg-[#383185] text-white px-4 rounded"
                         >
                             {loadingTrack ? "TRACKING..." : "TRACK"}
                         </button>
                     </div>
-                    <p className="text-sm text-gray-400 font-semibold mt-1">
-                        Enter your shipment tracking number (e.g. 123456789123)
-                    </p>
                 </form>
 
-                {/* Find Outlet */}
-                <div className="relative shadow-2xl p-5 border border-[#383185] transition-all" data-aos="zoom-in-left">
-                    <div className='mb-2 flex items-center'>
-                        <div className='relative left-0 w-8 h-2 mx-2 bg-[#383185]'></div>
-                        <h2 className="font-semibold">Find Our Outlet</h2>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                        <div className="w-full relative">
+                <form onSubmit={handleSearchSubmit} className="relative shadow-2xl p-5 border border-[#383185]">
+                    <h2 className="font-semibold mb-2">Find Our Outlet</h2>
+
+                    <div className="flex gap-2">
+                        <div className="relative w-full">
                             <input
                                 type="text"
-                                placeholder={loadingBranches ? "Loading branches..." : "Search Branch / City / Pincode"}
-                                className="w-full focus:outline-none focus:ring-1 focus:ring-[#383185] border border-gray-300 bg-white text-black placeholder-gray-500 rounded px-4 py-3 text-sm"
                                 value={searchText}
                                 onChange={handleSearchChange}
-                                onFocus={() => searchText.trim() && setIsDropdownOpen(true)}
-                                disabled={loadingBranches}
+                                placeholder="Search Branch / City / Pincode"
+                                className="w-full border px-4 py-3 rounded"
+                                onFocus={() => searchText && setIsDropdownOpen(true)}
                             />
-                            
-                            {/* Dropdown Suggestions */}
+
                             {isDropdownOpen && filteredBranches.length > 0 && (
-                                <ul className="absolute z-50 bg-white border border-gray-300 w-full mt-1 rounded shadow-lg max-h-48 overflow-y-auto text-sm">
-                                    {filteredBranches.map((branch, index) => (
+                                <ul className="absolute z-50 bg-white w-full border rounded shadow max-h-48 overflow-y-auto">
+                                    {filteredBranches.map((branch) => (
                                         <li
-                                            key={index}
-                                            className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0 transition"
+                                            key={branch._id}
                                             onClick={() => handleBranchSelect(branch)}
+                                            className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
                                         >
-                                            <div className="font-semibold text-gray-800">{branch.name}</div>
-                                            <div className="text-xs text-gray-600">
-                                                {branch.city}, {branch.state} - {branch.pincode}
+                                            <div className="font-semibold">
+                                                {branch.branch_name}
                                             </div>
-                                            {branch.phone && (
-                                                <div className="text-xs text-gray-500 mt-1">{branch.phone}</div>
-                                            )}
+                                            <div className="text-xs text-gray-600">
+                                                {branch.address} - {branch.pincode}
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
                             )}
                         </div>
-                        <button className="bg-[#383185] cursor-pointer text-white px-4 py-2 rounded transition-all duration-700 hover:bg-[#C52024] whitespace-nowrap">
-                            SEARCH
+
+                        <button
+                            type="submit"
+                            disabled={loadingBranches}
+                            className="bg-[#383185] text-white px-4 rounded whitespace-nowrap"
+                        >
+                            {loadingBranches ? "SEARCHING..." : "SEARCH"}
                         </button>
                     </div>
-                    <p className="text-sm text-gray-400 font-semibold mt-1">
-                        Type branch name, city, or pincode to find outlets
-                    </p>
-                </div>
-            </div>
-        </section>
+                </form>
+            </div >
+        </section >
     );
 };
 

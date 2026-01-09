@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -15,24 +16,25 @@ const TrackingPage = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchTrackingData = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                const response = await axios.get(
-                    `${API_BASE}/api/shipment/track/${trackingNumber}`
-                );
-                setShipment(response.data?.data || response.data);
-                toast.success('Shipment found!');
-            } catch (err) {
-                setError(err.response?.data?.message || 'Shipment not found. Please check the tracking number.');
-                toast.error('Error fetching tracking information');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchTrackingData();
     }, [trackingNumber]);
+
+    const fetchTrackingData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await axios.get(
+                `${API_BASE}/api/courier/track/${trackingNumber}`
+            );
+            setShipment(response?.data);
+            toast.success('Shipment found!');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Shipment not found. Please check the tracking number.');
+            toast.error('Error fetching tracking information');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -47,12 +49,15 @@ const TrackingPage = () => {
             <div className="min-h-screen p-4 md:p-8 bg-gray-50">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
-                    <div className="mb-8">
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-                            Track Your Shipment
+                    <div className="mb-10">
+                        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#383185] to-indigo-500 bg-clip-text text-transparent">
+                            Shipment Tracking
                         </h1>
-                        <p className="text-gray-600">
-                            Tracking Number: <span className="font-semibold text-[#383185]">{trackingNumber}</span>
+                        <p className="mt-2 text-sm text-gray-600">
+                            Tracking ID
+                            <span className="ml-2 inline-block rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-[#383185]">
+                                {trackingNumber}
+                            </span>
                         </p>
                     </div>
 
@@ -66,135 +71,132 @@ const TrackingPage = () => {
                         </div>
                     ) : shipment ? (
                         <div className="space-y-6">
-                            {/* Status Overview */}
-                            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#383185]">
+                            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-[#383185] hover:shadow-md transition">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    {/* Order Status */}
-                                    <div className="flex items-start gap-4">
-                                        <div className="p-3 bg-blue-100 rounded-lg">
-                                            <Package className="w-6 h-6 text-blue-600" />
+                                    {/* Status */}
+                                    <div className="flex items-center justify-center gap-3">
+                                        <div className="p-3 rounded-full bg-indigo-100">
+                                            <Package className="w-6 h-6 text-[#383185]" />
                                         </div>
-                                        <div>
-                                            <p className="text-sm text-gray-600">Status</p>
-                                            <p className="text-lg font-semibold text-gray-800 capitalize">
-                                                {shipment.status || 'Processing'}
-                                            </p>
+                                        <div className="text-left">
+                                            <p className="text-xs uppercase tracking-wide text-gray-500">Status</p>
+                                            <span className="rounded-full bg-green-100 px-4 py-1 text-sm font-semibold text-green-700 capitalize">
+                                                {shipment.parcel.current_status}
+                                            </span>
                                         </div>
                                     </div>
 
                                     {/* Weight */}
-                                    <div className="flex items-start gap-4">
-                                        <div className="p-3 bg-green-100 rounded-lg">
-                                            <Truck className="w-6 h-6 text-green-600" />
+                                    <div className="flex items-center justify-center gap-3">
+                                        <div className="p-3 rounded-full bg-emerald-100">
+                                            <Truck className="w-6 h-6 text-emerald-600" />
                                         </div>
-                                        <div>
-                                            <p className="text-sm text-gray-600">Weight</p>
+                                        <div className="text-left">
+                                            <p className="text-xs uppercase tracking-wide text-gray-500">Weight</p>
                                             <p className="text-lg font-semibold text-gray-800">
-                                                {shipment.weight || 'N/A'} kg
+                                                {shipment.parcel.weight} kg
                                             </p>
                                         </div>
                                     </div>
 
-                                    {/* Delivery Type */}
-                                    <div className="flex items-start gap-4">
-                                        <div className="p-3 bg-purple-100 rounded-lg">
+                                    {/* Package */}
+                                    <div className="flex items-center justify-center gap-3">
+                                        <div className="p-3 rounded-full bg-purple-100">
                                             <Clock className="w-6 h-6 text-purple-600" />
                                         </div>
-                                        <div>
-                                            <p className="text-sm text-gray-600">Type</p>
+                                        <div className="text-left">
+                                            <p className="text-xs uppercase tracking-wide text-gray-500">Package</p>
                                             <p className="text-lg font-semibold text-gray-800 capitalize">
-                                                {shipment.deliveryType || 'Standard'}
+                                                {shipment.parcel.package_type}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* From & To */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* From */}
-                                <div className="bg-white rounded-lg shadow-md p-6">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                        <MapPin className="w-5 h-5 text-[#383185]" />
-                                        From
+                                <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                                    <h3 className="flex items-center gap-2 text-sm font-semibold text-[#383185] mb-4">
+                                        <MapPin className="w-4 h-4" /> Sender
                                     </h3>
-                                    <div className="space-y-2 text-gray-700">
-                                        <p><span className="font-semibold">Name:</span> {shipment.senderName || 'N/A'}</p>
-                                        <p><span className="font-semibold">Address:</span> {shipment.senderAddress || 'N/A'}</p>
-                                        <p><span className="font-semibold">City:</span> {shipment.senderCity || 'N/A'}</p>
-                                        <p><span className="font-semibold">Pincode:</span> {shipment.senderPincode || 'N/A'}</p>
-                                        <p><span className="font-semibold">Phone:</span> {shipment.senderPhone || 'N/A'}</p>
+
+                                    <div className="space-y-1 text-sm text-gray-700">
+                                        <p className="font-semibold">{shipment.parcel.sender_name}</p>
+                                        <p>{shipment.parcel.sender_address}</p>
+                                        <p className="text-gray-500">{shipment.parcel.sender_phone}</p>
+                                        <span className="inline-block mt-2 rounded-md bg-gray-100 px-2 py-1 text-xs">
+                                            {shipment.parcel.from_branch?.branch_name}
+                                        </span>
                                     </div>
                                 </div>
 
                                 {/* To */}
-                                <div className="bg-white rounded-lg shadow-md p-6">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                        <MapPin className="w-5 h-5 text-[#C52024]" />
-                                        To
+                                <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                                    <h3 className="flex items-center gap-2 text-sm font-semibold text-red-600 mb-4">
+                                        <MapPin className="w-4 h-4" /> Receiver
                                     </h3>
-                                    <div className="space-y-2 text-gray-700">
-                                        <p><span className="font-semibold">Name:</span> {shipment.receiverName || 'N/A'}</p>
-                                        <p><span className="font-semibold">Address:</span> {shipment.receiverAddress || 'N/A'}</p>
-                                        <p><span className="font-semibold">City:</span> {shipment.receiverCity || 'N/A'}</p>
-                                        <p><span className="font-semibold">Pincode:</span> {shipment.receiverPincode || 'N/A'}</p>
-                                        <p><span className="font-semibold">Phone:</span> {shipment.receiverPhone || 'N/A'}</p>
+
+                                    <div className="space-y-1 text-sm text-gray-700">
+                                        <p className="font-semibold">{shipment.parcel.receiver_name}</p>
+                                        <p>{shipment.parcel.receiver_address}</p>
+                                        <p className="text-gray-500">{shipment.parcel.receiver_phone}</p>
+                                        <span className="inline-block mt-2 rounded-md bg-gray-100 px-2 py-1 text-xs">
+                                            {shipment.parcel.to_branch?.branch_name}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Timeline */}
-                            {shipment.timeline && shipment.timeline.length > 0 && (
-                                <div className="bg-white rounded-lg shadow-md p-6">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                                        <Clock className="w-5 h-5 text-[#383185]" />
-                                        Tracking History
-                                    </h3>
-                                    <div className="space-y-4">
-                                        {shipment.timeline.map((event, index) => (
-                                            <div key={index} className="flex gap-4">
-                                                <div className="flex flex-col items-center">
-                                                    <div className="w-4 h-4 bg-[#383185] rounded-full border-2 border-white"></div>
-                                                    {index < shipment.timeline.length - 1 && (
-                                                        <div className="w-0.5 h-12 bg-gray-300 my-2"></div>
-                                                    )}
-                                                </div>
-                                                <div className="pb-4">
-                                                    <p className="font-semibold text-gray-800">{event.status || event.title}</p>
-                                                    <p className="text-sm text-gray-600">{event.location || event.message}</p>
-                                                    <p className="text-xs text-gray-500 mt-1">
-                                                        {new Date(event.timestamp || event.date).toLocaleString()}
-                                                    </p>
-                                                </div>
+                            {shipment.history.length > 0 && (
+                                <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                                    <h3 className="text-lg font-semibold mb-6">Tracking History</h3>
+
+                                    <div className="relative border-l-2 border-indigo-200 pl-6 space-y-6">
+                                        {shipment.history.map((event, index) => (
+                                            <div key={index} className="relative">
+                                                <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#383185]" />
+                                                <p className="font-semibold capitalize">{event.status}</p>
+                                                <p className="text-sm text-gray-600">{event.note}</p>
+                                                <p className="text-xs text-gray-400 mt-1">
+                                                    {new Date(event.createdAt).toLocaleString()}
+                                                </p>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             )}
 
-                            {/* Additional Info */}
-                            <div className="bg-white rounded-lg shadow-md p-6">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Additional Details</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                                <h3 className="text-lg font-semibold mb-4">Additional Information</h3>
+
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                                     <div>
-                                        <p className="text-sm text-gray-600">Created Date</p>
-                                        <p className="font-semibold text-gray-800">
-                                            {shipment.createdAt ? new Date(shipment.createdAt).toLocaleDateString() : 'N/A'}
+                                        <p className="text-gray-500">Created</p>
+                                        <p className="font-semibold">
+                                            {new Date(shipment.parcel.createdAt).toLocaleDateString()}
                                         </p>
                                     </div>
+
                                     <div>
-                                        <p className="text-sm text-gray-600">Expected Delivery</p>
-                                        <p className="font-semibold text-gray-800">
-                                            {shipment.expectedDelivery ? new Date(shipment.expectedDelivery).toLocaleDateString() : 'N/A'}
+                                        <p className="text-gray-500">Payment</p>
+                                        <p className="font-semibold capitalize">
+                                            {shipment.parcel.payment_method}
                                         </p>
                                     </div>
+
                                     <div>
-                                        <p className="text-sm text-gray-600">Amount</p>
-                                        <p className="font-semibold text-gray-800">₹{shipment.amount || 'N/A'}</p>
+                                        <p className="text-gray-500">Status</p>
+                                        <p className="font-semibold capitalize">
+                                            {shipment.parcel.payment_status}
+                                        </p>
                                     </div>
+
                                     <div>
-                                        <p className="text-sm text-gray-600">Courier</p>
-                                        <p className="font-semibold text-gray-800">{shipment.courierName || 'N/A'}</p>
+                                        <p className="text-gray-500">Dimensions</p>
+                                        <p className="font-semibold">
+                                            {shipment.parcel.dimensions}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

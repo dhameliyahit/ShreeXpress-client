@@ -240,7 +240,7 @@ export const Shipments = () => {
                                     <td className="px-3 py-2 whitespace-nowrap">
                                         {parcel.to_branch?.branch_name || "—"}
                                     </td>
-                                    <td className="px-3 py-2 whitespace-nowrap">{parcel.weight} g</td>
+                                    <td className="px-3 py-2 whitespace-nowrap">{parcel.weight} kg</td>
                                     <td className="px-1 py-2 whitespace-nowrap">
                                         <select className="select select-bordered select-sm bg-white text-black focus:border-blue-500 focus:outline-none" value={parcel.current_status || "created"}
                                             onChange={(e) => updateStatus(parcel._id, e.target.value)} >

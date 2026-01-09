@@ -174,70 +174,85 @@ export const Track = () => {
 
             {/* Result */}
             {result && result.parcel && (
-                <Card className="rounded-2xl border border-gray-200 shadow-sm">
-                    <CardContent className="p-2 sm:p-6">
-                        {/* Header */}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
-                            <h3 className="text-lg sm:text-xl font-semibold flex items-center gap-2 text-indigo-700">
-                                <FaBox /> Parcel Details
-                            </h3>
-                            <Chip
-                                label={result.status.toUpperCase()}
-                                color="success"
-                                size="small"
-                                className="w-fit font-semibold"
-                            />
+                <div className="space-y-6">
+
+                    {/* STATUS BAR (SAME AS TRACKING PAGE) */}
+                    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-[#383185]">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                            <div className="flex items-center justify-center gap-3">
+                                <div className="p-3 rounded-full bg-indigo-100">
+                                    <FaTruck className="w-6 h-6 text-[#383185]" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-xs uppercase tracking-wide text-gray-500">Status</p>
+                                    <span className="rounded-full bg-green-100 px-4 py-1 text-sm font-semibold text-green-700 capitalize">
+                                        {result.parcel.current_status}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-center gap-3">
+                                <div className="p-3 rounded-full bg-emerald-100">
+                                    <FaBox className="w-6 h-6 text-emerald-600" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-xs uppercase tracking-wide text-gray-500">Tracking ID</p>
+                                    <p className="text-sm font-semibold">
+                                        {result.parcel.tracking_number}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-center gap-3">
+                                <div className="p-3 rounded-full bg-purple-100">
+                                    <FaRegCalendarAlt className="w-6 h-6 text-purple-600" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-xs uppercase tracking-wide text-gray-500">Created</p>
+                                    <p className="text-sm font-semibold">
+                                        {new Date(result.parcel.createdAt).toLocaleDateString()}
+                                    </p>
+                                </div>
+                            </div>
+
                         </div>
+                    </div>
 
-                        <Divider className="mb-5" />
+                    {/* FROM / TO */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        {/* Parcel Info */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                            <InfoBox icon={<FaBox />} label="Tracking ID">
-                                {result.parcel.tracking_number}
-                            </InfoBox>
-
-                            <InfoBox icon={<FaTruck />} label="Status">
-                                {result.parcel.current_status}
-                            </InfoBox>
-
-                            <InfoBox icon={<MdLocationOn />} label="Current Location">
-                                {result.parcel.current_status === "delivered"
-                                    ? result.parcel.to_branch?.branch_name
-                                    : result.parcel.from_branch?.branch_name}
-                            </InfoBox>
-
-                            <InfoBox icon={<FaRegCalendarAlt />} label="Created At">
-                                {new Date(result.parcel.createdAt).toLocaleString()}
-                            </InfoBox>
-
-                            <div className="sm:col-span-2">
-                                <InfoBox icon={<MdLocationOn />} label="From → To">
-                                    {result.parcel.from_branch?.branch_name} →{" "}
-                                    {result.parcel.to_branch?.branch_name}
-                                </InfoBox>
+                        <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                            <h3 className="flex items-center gap-2 text-sm font-semibold text-[#383185] mb-4">
+                                <MdLocationOn /> Sender
+                            </h3>
+                            <div className="space-y-1 text-sm text-gray-700">
+                                <p className="font-semibold">{result.parcel.sender_name}</p>
+                                <p>{result.parcel.sender_address}</p>
+                                <p className="text-gray-500">{result.parcel.sender_phone}</p>
+                                <span className="inline-block mt-2 rounded-md bg-gray-100 px-2 py-1 text-xs">
+                                    {result.parcel.from_branch?.branch_name}
+                                </span>
                             </div>
                         </div>
 
-                        {/* Sender / Receiver */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <PersonCard
-                                title="Sender"
-                                name={result.parcel.sender_name}
-                                phone={result.parcel.sender_phone}
-                                address={result.parcel.sender_address}
-                                color="indigo"
-                            />
-                            <PersonCard
-                                title="Receiver"
-                                name={result.parcel.receiver_name}
-                                phone={result.parcel.receiver_phone}
-                                address={result.parcel.receiver_address}
-                                color="green"
-                            />
+                        <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                            <h3 className="flex items-center gap-2 text-sm font-semibold text-green-600 mb-4">
+                                <MdLocationOn /> Receiver
+                            </h3>
+                            <div className="space-y-1 text-sm text-gray-700">
+                                <p className="font-semibold">{result.parcel.receiver_name}</p>
+                                <p>{result.parcel.receiver_address}</p>
+                                <p className="text-gray-500">{result.parcel.receiver_phone}</p>
+                                <span className="inline-block mt-2 rounded-md bg-gray-100 px-2 py-1 text-xs">
+                                    {result.parcel.to_branch?.branch_name}
+                                </span>
+                            </div>
                         </div>
-                    </CardContent>
-                </Card>
+
+                    </div>
+
+                </div>
             )}
         </div>
     );

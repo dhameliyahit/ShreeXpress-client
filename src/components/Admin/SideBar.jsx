@@ -25,7 +25,6 @@ const iconMap = {
   Users: <FaUsers size={18} />,
   AddNewAdmins: <FaPlus size={18} />,
   Track: <AiOutlineAim size={18} />,
-  Shipments: <FaShippingFast size={18} />,
   Editor: <BiLogoPostgresql size={18} />,
   Branches: <FaShippingFast size={18} />,
   OTP_Logs: <FcSms size={18} />,

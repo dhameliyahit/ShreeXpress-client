@@ -19,8 +19,8 @@ const HomePage = () => {
     return (
         <>
             <Layout>
-                <HeroSection /> {/* This is the Hero section */}
-                <QuickAccessSection /> {/* This is the Quick Access section */}
+                <HeroSection />
+                <QuickAccessSection />
                 <AboutUs />
                 <ContactUs isLayout={false} />
             </Layout>
@@ -187,7 +187,9 @@ const QuickAccessSection = () => {
                         >
                             {loadingTrack ? "TRACKING..." : "TRACK"}
                         </button>
+
                     </div>
+                    <p className="text-sm text-gray-400 font-semibold mt-1"> Enter your shipment tracking number (e.g. 123456789123) </p>
                 </form>
 
                 <form onSubmit={handleSearchSubmit} className="relative shadow-2xl p-5 border border-[#383185]">
@@ -231,7 +233,9 @@ const QuickAccessSection = () => {
                         >
                             {loadingBranches ? "SEARCHING..." : "SEARCH"}
                         </button>
+
                     </div>
+                    <p className="text-sm text-gray-400 font-semibold mt-1"> Type branch name, city, or pincode to find outlets </p>
                 </form>
             </div >
         </section >

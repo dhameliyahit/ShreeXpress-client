@@ -5,7 +5,6 @@ import AOS from 'aos'
 import axios from 'axios';
 import { toast } from "react-toastify";
 import ThemeContext from "../../context/Theme/ThemeContext";
-import { MenuItem, TextField } from "@mui/material";
 
 export default function RequestOfPickup({ isLayout = true }) {
     const ROPImg = './assets/ROP_2.png'; // Adjust the path as necessary
@@ -19,7 +18,7 @@ export default function RequestOfPickup({ isLayout = true }) {
         // console.log(data);
         try {
             setLoading(true)
-            const res = await axios.post(`${backend_url}/api/v1/lead/pickup`, data)
+            const res = await axios.post(`${backend_url}/api/pickups`, data)
             console.log("Server Response:", res.data);
             setLoading(false)
             reset();

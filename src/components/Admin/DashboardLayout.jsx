@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Sidebar from './SideBar';
-import AdminPage, { AddNewClient,Shipments, Clients, CreateParcel } from '../Admin/admin/AdminPage';
-import ClientPage, { MyShipments, Track } from '../Admin/client/ClientPage';
-import SuperadminPage, { Users , AddNewAdmin, Analytics, SqlEditor, Branches, OTP_Logs, Block_email } from './superadmin/SuperAdmin';
+import AdminPage, { AddNewClient, Shipments, Clients, AddBranch } from '../Admin/admin/AdminPage';
+import ClientPage, { Track, CreateParcel } from '../Admin/client/ClientPage';
+import SuperadminPage, { User, AddNewAdmin, Analytics, Branches, OTP_Logs, Block_email, FranchiseInquiries, Contact } from './superadmin/SuperAdmin';
 import { TopBar } from '../TopBar';
 
 const DashboardLayout = ({ role }) => {
@@ -13,25 +13,26 @@ const DashboardLayout = ({ role }) => {
             if (selectedPage === 'Dashboard') return <AdminPage />;
             if (selectedPage === 'Clients') return <Clients />;
             if (selectedPage === 'AddNewClient') return <AddNewClient />;
-            if (selectedPage === 'CreateParcel') return <CreateParcel />;
-            if(selectedPage === 'Shipments') return <Shipments/>
+            if (selectedPage === 'Shipments') return <Shipments />
+            if (selectedPage === 'AddBranch') return <AddBranch />;
         }
 
         if (role === 'client') {
             if (selectedPage === 'Dashboard') return <ClientPage />;
             if (selectedPage === 'Track') return <Track />;
-            if (selectedPage === 'My Shipments') return <MyShipments />;
+            if (selectedPage === 'CreateParcel') return <CreateParcel />;
         }
 
         if (role === 'superadmin') {
             if (selectedPage === 'Dashboard') return <SuperadminPage />;
-            if (selectedPage === 'Users') return <Users />;
+            if (selectedPage === 'User') return <User />;
             if (selectedPage === 'AddNewAdmins') return <AddNewAdmin />;
             if (selectedPage === 'Analytics') return <Analytics />;
-            if (selectedPage === 'Branches') return <Branches/>;
+            if (selectedPage === 'Branches') return <Branches />;
+            if (selectedPage === 'Franchise') return <FranchiseInquiries />;
+            if (selectedPage === 'Contact') return <Contact />;
             if (selectedPage === 'OTP_Logs') return <OTP_Logs />;
-            if( selectedPage === 'Block_email') return <Block_email/>;
-            if (selectedPage === 'Editor') return <SqlEditor />;
+            if (selectedPage === 'Block_email') return <Block_email />;
         }
 
         return <div>Page not found</div>;

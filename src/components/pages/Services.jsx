@@ -125,7 +125,7 @@ export default function Services() {
                                 auto-rotate
                                 camera-controls
                                 ar
-                                style={{ width: '100%', height: '100%' }}
+                                className="w-full h-[300px] sm:h-[400px] md:h-[500px] block"
                             ></model-viewer>
                         </div>
 

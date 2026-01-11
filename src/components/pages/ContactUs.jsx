@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import AOS from 'aos'
 import { useForm } from 'react-hook-form';
@@ -6,18 +6,23 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import ThemeContext from '../../context/Theme/ThemeContext';
 
-export default function ContactUs() {
-    // AOS intialize
+export default function ContactUs({ isLayout = true }) {
     useEffect(() => {
         AOS.init()
     }, []);
 
-    return (
-        <Layout>
+    const content = (
+        <>
             <ContactForm />
             <ContactMap />
-        </Layout>
-    )
+        </>
+    );
+
+    return (
+        <>
+            {isLayout ? <Layout>{content}</Layout> : content}
+        </>
+    );
 }
 
 const ContactForm = () => {
@@ -26,15 +31,14 @@ const ContactForm = () => {
     const [loading, setLoading] = useState(false);
     const ContactUsImg = '/assets/contactus.png';
 
-    const backend_url = import.meta.env.VITE_BACKEND_URL;
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
 
     const onSubmit = async (data) => {
-        // console.log(data);
         try {
             setLoading(true)
-            const res = await axios.post(`${backend_url}/api/v1/lead/contact`, data)
-            console.log("Server Response:", res.data);
+            await axios.post(`${API_URL}/api/contact`, data)
             setLoading(false)
+            toast.success('Contact Form Submited')
             reset();
         } catch (error) {
             toast.error(error.message || "Something went wrong", {
@@ -43,7 +47,7 @@ const ContactForm = () => {
                     fontSize: "17px",
                     color: "black"
                 }
-            }); // Show error in toasts
+            });
             console.log(error);
             setLoading(false);
         }
@@ -63,9 +67,9 @@ const ContactForm = () => {
                         <img src={ContactUsImg} alt="" className='max-w-full sm:max-w-[400px]' />
                     </div>
                     <ul className='flex-1 flex flex-col justify-center gap-1'>
-                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Phone numbers:</span> <p className=" w-full wrap-anywhere"> +91-9825515123 </p> </li>
+                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Phone numbers:</span> <p className=" w-full wrap-anywhere"> +91-0000000000 </p> </li>
 
-                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Email address:</span> <p className=" w-full wrap-anywhere"> info@shreexpresscourier.co.in <br /> service@shreexpresscourier.co.in </p> </li>
+                        <li className='flex justify-around flex-wrap sm:flex-nowrap text-center sm:text-left' data-aos="fade-right"> <span className='w-full text-center'>Email address:</span> <p className=" w-full wrap-anywhere"> info@courier.co.in <br /> service@courier.co.in </p> </li>
                     </ul>
                 </div>
 

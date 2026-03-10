@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Loading from "../../Loading";
 import { HiUsers, HiTruck } from "react-icons/hi2";
-import { ShieldCheck, Package, Truck, DollarSign, Settings, PackagePlus, UserPlus, Building2 } from "lucide-react";
+import { ShieldCheck, Package, Truck, DollarSign, Settings, PackagePlus, UserPlus, Building2, Search } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
@@ -108,6 +108,8 @@ const AdminPage = () => {
 export const Shipments = () => {
     const [shipments, setShipments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [shipmentSearch, setShipmentSearch] = useState("");
+    const [shipmentStatusFilter, setShipmentStatusFilter] = useState("all");
 
     const token = localStorage.getItem("Authorization");
 
@@ -162,9 +164,21 @@ export const Shipments = () => {
         }
     };
 
+    const filteredShipments = shipments.filter((parcel) => {
+        const q = shipmentSearch.toLowerCase();
+        const matchSearch =
+            parcel.tracking_number?.toLowerCase().includes(q) ||
+            parcel.sender_name?.toLowerCase().includes(q) ||
+            parcel.receiver_name?.toLowerCase().includes(q) ||
+            parcel.sender_phone?.includes(shipmentSearch) ||
+            parcel.receiver_phone?.includes(shipmentSearch);
+        const matchStatus = shipmentStatusFilter === "all" || parcel.current_status === shipmentStatusFilter;
+        return matchSearch && matchStatus;
+    });
+
     return (
         <div className="max-w-7xl p-2 mx-auto bg-white text-black rounded-2xl">
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex flex-wrap items-start gap-2">
                     <div className="p-2 rounded-lg bg-primary/10 text-primary">
                         <HiTruck className="text-2xl" />
@@ -180,21 +194,42 @@ export const Shipments = () => {
                     </div>
                 </div>
 
-                {!loading && (
-                    <div className="text-sm font-medium text-gray-600">
-                        Total Shipments:
-                        <span className="ml-1 text-gray-900 font-semibold">
-                            {shipments.length}
-                        </span>
+                {/* Search + Status Filter */}
+                <div className="flex flex-wrap gap-2 items-center">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search tracking, sender, receiver..."
+                            value={shipmentSearch}
+                            onChange={(e) => setShipmentSearch(e.target.value)}
+                            className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
                     </div>
-                )}
+                    <select
+                        value={shipmentStatusFilter}
+                        onChange={(e) => setShipmentStatusFilter(e.target.value)}
+                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                        <option value="all">All Status</option>
+                        <option value="created">Created</option>
+                        <option value="in-transit">In Transit</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
             </div>
+            {!loading && (
+                <p className="text-sm text-gray-600 mb-3">
+                    Showing <span className="font-semibold">{filteredShipments.length}</span> of <span className="font-semibold">{shipments.length}</span> shipments
+                </p>
+            )}
 
             {loading ? (
                 <div className="flex justify-center items-center h-40">
                     <span className="loading loading-spinner loading-lg text-primary"></span>
                 </div>
-            ) : shipments.length === 0 ? (
+            ) : filteredShipments.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                     <h2 className="text-2xl font-semibold text-gray-700">
                         No Shipments Found
@@ -222,7 +257,7 @@ export const Shipments = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {shipments.map((parcel) => (
+                            {filteredShipments.map((parcel) => (
                                 <tr key={parcel._id} className="border-b border-gray-200 hover:bg-gray-50 transition">
                                     <td className="px-3 py-2 whitespace-nowrap font-semibold">{parcel.tracking_number}</td>
                                     <td className="px-3 py-2 whitespace-nowrap">
@@ -730,6 +765,7 @@ export const AddNewClient = () => {
 export const Clients = () => {
     const [clients, setClients] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [clientSearch, setClientSearch] = useState("");
 
     const token = localStorage.getItem("Authorization");
 
@@ -794,11 +830,16 @@ export const Clients = () => {
         }
     };
 
+    const filteredClients = clients.filter((c) =>
+        c.name?.toLowerCase().includes(clientSearch.toLowerCase()) ||
+        c.email?.toLowerCase().includes(clientSearch.toLowerCase())
+    );
+
     return (
         <>
             {loading && <Loading />}
             <div className="sm:p-6 p-2">
-                <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div className="flex flex-wrap items-start gap-1">
                         <div className="p-2 rounded-lg bg-primary/10 text-primary">
                             <HiUsers className="text-2xl" />
@@ -814,14 +855,24 @@ export const Clients = () => {
                         </div>
                     </div>
 
-                    <div className="text-sm font-medium text-gray-600">
-                        Total Clients:
-                        <span className="ml-1 text-gray-900 font-semibold">
-                            {clients.length}
-                        </span>
+                    <div className="flex flex-wrap gap-2 items-center">
+                        {/* Search */}
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Search name or email..."
+                                value={clientSearch}
+                                onChange={(e) => setClientSearch(e.target.value)}
+                                className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                            />
+                        </div>
                     </div>
                 </div>
 
+                <div className="text-sm font-medium text-gray-600">
+                    Showing <span className="text-gray-900 font-semibold">{filteredClients.length}</span> of <span className="text-gray-900 font-semibold">{clients.length}</span>
+                </div>
                 <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
                     <table className="min-w-[900px] w-full text-sm text-left table-auto">
                         <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
@@ -837,7 +888,10 @@ export const Clients = () => {
                         </thead>
 
                         <tbody>
-                            {clients.map((client, index) => (
+                            {filteredClients.length === 0 ? (
+                                <tr><td colSpan={5} className="text-center py-8 text-gray-500">No clients match your search</td></tr>
+                            ) : null}
+                            {filteredClients.map((client, index) => (
                                 <tr
                                     key={client._id || index}
                                     className="border-b border-gray-200 hover:bg-gray-50 transition"

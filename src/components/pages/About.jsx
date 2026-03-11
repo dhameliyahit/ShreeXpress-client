@@ -104,7 +104,8 @@ const AboutUs = () => {
 const directors = [
     { name: "BALAR CRENS", phone: 9825515123, email: "balarcrens@gmail.com" },
     { name: "DHAMELIYA HEET", phone: 9638601192, email: "heetdhameliya@gmail.com" },
-    { name: "CHAUHAN JAYDIP", phone: 9624983883, email: "jatinchauhan2004@gmail.com" }
+    { name: "CHAUHAN JAYDIP", phone: 9624983883, email: "jatinchauhan2004@gmail.com" },
+    { name: "DHAMELIYA KAUSHAL", phone: 9724690442, email: "dhameliyakaushal@gmail.com" }
 ];
 
 const CompanyDetails = () => {

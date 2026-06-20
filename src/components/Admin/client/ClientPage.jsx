@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Card, CardContent, Button, TextField, Chip, Divider } from "@mui/material";
-import { FaBox, FaSearch, FaTruck, FaUser, FaRegCalendarAlt } from "react-icons/fa";
+import { Button, TextField } from "@mui/material";
+import { FaBox, FaSearch, FaTruck, FaRegCalendarAlt } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { User, Package, Settings, PackagePlus } from 'lucide-react';
 import { useForm } from "react-hook-form";
@@ -16,20 +16,18 @@ const ClientPage = () => {
     return (
         <div className="min-h-screen p-2 md:p-8">
             {/* Header */}
-            <div className="rounded-xl shadow-md border border-gray-300 p-6 mb-8 flex flex-wrap items-center gap-2">
-                <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
-                    <User className="w-6 h-6" />
-                </div>
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-800">Client Dashboard</h1>
-                    <p className="text-gray-500 mt-1">Welcome to your Client panel.</p>
-                    <div className="text-lg space-y-1 mt-2">
-                        <p>
-                            <strong>Role:</strong> {user.role}
-                        </p>
-                        <p>
-                            <strong>Welcome,</strong> {user.name}
-                        </p>
+            <div className="rounded-xl shadow-md border border-gray-400 p-6 mb-8">
+                <div className="flex flex-wrap items-start md:gap-4">
+                    <div className="p-3 rounded-lg bg-purple-100 text-purple-700">
+                        <User className="w-7 h-7" />
+                    </div>
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">Client Dashboard</h1>
+                        <p className="text-gray-500 mt-1">Manage your orders and shipments.</p>
+                        <div className="text-lg space-y-1 mt-2">
+                            <p><strong>Role:</strong> {user.role}</p>
+                            <p><strong>Welcome,</strong> {user.name}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,55 +35,67 @@ const ClientPage = () => {
             {/* Dashboard Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Orders */}
-                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-indigo-700">
-                        <FaBox /> View Orders
-                    </h2>
-                    <p className="mb-4">Track, update, and manage customer orders.</p>
-                    <Button variant="contained" color="primary" className="rounded-lg">
-                        Go to Orders
-                    </Button>
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <FaBox className="w-5 h-5 text-indigo-600" />
+                            <h2 className="text-xl font-semibold">View Orders</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                            Track, update, and manage your customer orders.
+                        </p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
 
-                {/* Track */}
-                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-green-600">
-                        <FaTruck /> Track Orders
-                    </h2>
-                    <p className="mb-4">Check delivery progress in real-time.</p>
-                    <Button variant="contained" color="success" className="rounded-lg">
-                        Track Panel
-                    </Button>
+                {/* Track Orders */}
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <FaTruck className="w-5 h-5 text-green-600" />
+                            <h2 className="text-xl font-semibold">Track Orders</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                            Monitor delivery progress in real-time.
+                        </p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
 
-                {/* Shipment */}
-                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-purple-600">
-                        <Package /> My Shipment
-                    </h2>
-                    <p className="mb-4">View all your shipments.</p>
-                    <Button
-                        variant="contained"
-                        style={{ backgroundColor: "#7e22ce", color: "#fff" }}
-                        className="rounded-lg"
-                    >
-                        My Shipment
-                    </Button>
+                {/* Shipments */}
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <Package className="w-5 h-5 text-purple-600" />
+                            <h2 className="text-xl font-semibold">My Shipments</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                            View and manage all your shipments.
+                        </p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
 
                 {/* Settings */}
-                <div className="p-6 rounded-lg border border-gray-300 shadow hover:shadow-lg transition">
-                    <h2 className="text-xl font-semibold mb-2 flex items-center gap-2 text-gray-700">
-                        <Settings /> Client Settings
-                    </h2>
-                    <p className="mb-4">Update your profile and dashboard preferences.</p>
-                    <Button
-                        variant="contained"
-                        style={{ backgroundColor: "#374151", color: "#fff" }}
-                        className="rounded-lg"
-                    >
-                        Settings
-                    </Button>
+                <div className="p-6 rounded-lg border border-gray-400 shadow hover:shadow-lg transition hover:scale-105">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <Settings className="w-5 h-5 text-gray-700" />
+                            <h2 className="text-xl font-semibold">Client Settings</h2>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                            Update your profile and preferences.
+                        </p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500 font-medium">QUICK ACCESS</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -175,8 +185,6 @@ export const Track = () => {
             {/* Result */}
             {result && result.parcel && (
                 <div className="space-y-6">
-
-                    {/* STATUS BAR (SAME AS TRACKING PAGE) */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-[#383185]">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -249,35 +257,65 @@ export const Track = () => {
                                 </span>
                             </div>
                         </div>
-
                     </div>
 
+                    {result.history.length > 0 && (
+                        <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                            <h3 className="text-lg font-semibold mb-6">Tracking History</h3>
+
+                            <div className="relative border-l-2 border-indigo-200 pl-6 space-y-6">
+                                {result.history.map((event, index) => (
+                                    <div key={index} className="relative">
+                                        <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#383185]" />
+                                        <p className="font-semibold capitalize">{event.status}</p>
+                                        <p className="text-sm text-gray-600">{event.note}</p>
+                                        <p className="text-xs text-gray-400 mt-1">
+                                            {new Date(event.createdAt).toLocaleString()}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                        <h3 className="text-lg font-semibold mb-4">Additional Information</h3>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                                <p className="text-gray-500">Created</p>
+                                <p className="font-semibold">
+                                    {new Date(result.parcel.createdAt).toLocaleDateString()}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p className="text-gray-500">Payment</p>
+                                <p className="font-semibold capitalize">
+                                    {result.parcel.payment_method}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p className="text-gray-500">Status</p>
+                                <p className="font-semibold capitalize">
+                                    {result.parcel.payment_status}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p className="text-gray-500">Dimensions</p>
+                                <p className="font-semibold">
+                                    {result.parcel.dimensions}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
     );
 };
-
-const InfoBox = ({ icon, label, children }) => (
-    <div className="flex items-start gap-3 p-4 bg-gray-100 rounded-xl text-sm sm:text-base">
-        <div className="text-indigo-600 text-lg">{icon}</div>
-        <div>
-            <p className="font-medium text-gray-600">{label}</p>
-            <p className="text-gray-800 break-words">{children}</p>
-        </div>
-    </div>
-);
-const PersonCard = ({ title, name, phone, address, color }) => (
-    <div className={`p-4 rounded-xl bg-${color}-50 border border-${color}-100`}>
-        <h4 className={`font-semibold text-${color}-600 flex items-center gap-2`}>
-            <FaUser /> {title}
-        </h4>
-        <p className="mt-2 text-gray-800 text-sm sm:text-base">
-            {name} ({phone})
-        </p>
-        <p className="text-gray-500 text-sm">{address}</p>
-    </div>
-);
 
 export const CreateParcel = () => {
     const [branches, setBranches] = useState([]);

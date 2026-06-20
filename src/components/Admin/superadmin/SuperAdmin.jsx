@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from '../../Loading';
-import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Phone, Hash, Shield, Trash2, X, Package, Building2 } from "lucide-react";
+import { Users, FileText, BarChart2, Settings, UserPlus, MapPin, ShieldAlert, Mail, Phone, Hash, Shield, Trash2, X, Package, Building2, Search } from "lucide-react";
 import { HiOfficeBuilding } from "react-icons/hi";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -103,6 +103,7 @@ export const User = () => {
     const [loading, setLoading] = useState(true);
     const [selectedRole, setSelectedRole] = useState("all");
     const [deleteUser, setDeleteUser] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const fetchUsers = async () => {
         try {
@@ -169,6 +170,11 @@ export const User = () => {
         }
     };
 
+    const filteredUsers = users.filter((u) =>
+        u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        u.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="max-w-7xl p-2 mx-auto bg-white rounded-2xl">
 
@@ -188,21 +194,34 @@ export const User = () => {
                     </div>
                 </div>
 
-                <select
-                    value={selectedRole}
-                    onChange={(e) => setSelectedRole(e.target.value)}
-                    className="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-primary"
-                >
-                    <option value="all">All Roles</option>
-                    <option value="superadmin">Superadmin</option>
-                    <option value="admin">Admin</option>
-                    <option value="client">Client</option>
-                </select>
+                <div className="flex flex-wrap gap-2 items-center">
+                    {/* Search */}
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search name or email..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+                    <select
+                        value={selectedRole}
+                        onChange={(e) => setSelectedRole(e.target.value)}
+                        className="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-primary"
+                    >
+                        <option value="all">All Roles</option>
+                        <option value="superadmin">Superadmin</option>
+                        <option value="admin">Admin</option>
+                        <option value="client">Client</option>
+                    </select>
+                </div>
             </div>
 
             {!loading && (
                 <p className="text-sm text-gray-600 mb-3">
-                    Total Users: <span className="font-semibold">{users.length}</span>
+                    Showing <span className="font-semibold">{filteredUsers.length}</span> of <span className="font-semibold">{users.length}</span> users
                 </p>
             )}
 
@@ -211,9 +230,9 @@ export const User = () => {
                 <div className="flex justify-center items-center h-40">
                     <span className="loading loading-spinner loading-lg text-primary"></span>
                 </div>
-            ) : users.length === 0 ? (
+            ) : filteredUsers.length === 0 ? (
                 <div className="text-center py-16 text-gray-500">
-                    No users found
+                    No users found matching your search
                 </div>
             ) : (
                 <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
@@ -231,7 +250,7 @@ export const User = () => {
                         </thead>
 
                         <tbody>
-                            {users.map((user, index) => {
+                            {filteredUsers.map((user, index) => {
                                 return (
                                     <tr key={user._id} className="border-b hover:bg-gray-50 transition">
                                         <td className="px-4 py-3 font-medium">{index + 1}</td>
@@ -635,6 +654,7 @@ export const Branches = () => {
     const [selectedBranch, setSelectedBranch] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [branchSearch, setBranchSearch] = useState("");
 
     const token = localStorage.getItem("Authorization");
 
@@ -662,28 +682,47 @@ export const Branches = () => {
         setShowModal(true);
     };
 
+    const filteredBranches = branches.filter((b) =>
+        b.branch_name?.toLowerCase().includes(branchSearch.toLowerCase()) ||
+        b.pincode?.toString().includes(branchSearch) ||
+        b.address?.toLowerCase().includes(branchSearch.toLowerCase())
+    );
+
     return (
         <>
             {loading && <Loading />}
 
             <div className="p-2 sm:p-6 md:p-8 bg-white text-black">
                 {/* Header */}
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-lg bg-red-100 text-red-600">
-                        <MapPin className="w-6 h-6" />
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                    <div className="flex items-center gap-3">
+                        <div className="p-3 rounded-lg bg-red-100 text-red-600">
+                            <MapPin className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-bold text-gray-800">
+                                ShreeXpress Courier Service
+                            </h2>
+                            <p className="text-gray-500 mt-1">
+                                View all our active branches and contact details.
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 className="text-3xl font-bold text-gray-800">
-                            ShreeXpress Courier Service
-                        </h2>
-                        <p className="text-gray-500 mt-1">
-                            View all our active branches and contact details.
-                        </p>
+                    {/* Branch Search */}
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search branch, pincode..."
+                            value={branchSearch}
+                            onChange={(e) => setBranchSearch(e.target.value)}
+                            className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
                     </div>
                 </div>
 
                 <p className="mb-4 text-md font-semibold text-gray-700">
-                    Our All Branches
+                    Showing {filteredBranches.length} of {branches.length} branches
                 </p>
 
                 <div className="overflow-x-auto overflow-y-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
@@ -699,7 +738,11 @@ export const Branches = () => {
                         </thead>
 
                         <tbody>
-                            {branches.map((branch, index) => (
+                            {filteredBranches.length === 0 ? (
+                                <tr>
+                                    <td colSpan={5} className="text-center py-8 text-gray-500">No branches match your search</td>
+                                </tr>
+                            ) : filteredBranches.map((branch, index) => (
                                 <tr
                                     key={branch._id}
                                     onClick={() => handleRowClick(branch)}
@@ -841,6 +884,8 @@ export const Branches = () => {
 export const OTP_Logs = () => {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [logSearch, setLogSearch] = useState("");
+    const [logStatusFilter, setLogStatusFilter] = useState("all");
     const token = localStorage.getItem("Authorization");
 
     const fetchLogs = async () => {
@@ -863,25 +908,58 @@ export const OTP_Logs = () => {
         fetchLogs();
     }, []);
 
+    const filteredLogs = logs.filter((log) => {
+        const matchSearch =
+            log.to_email?.toLowerCase().includes(logSearch.toLowerCase()) ||
+            log.ip_address?.toLowerCase().includes(logSearch.toLowerCase());
+        const matchStatus = logStatusFilter === "all" || log.status === logStatusFilter;
+        return matchSearch && matchStatus;
+    });
+
     return (
         <>
             {loading && <Loading />}
 
-            <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
-                    <ShieldAlert className="w-6 h-6" />
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div className="flex items-center gap-3">
+                    <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
+                        <ShieldAlert className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-gray-800">OTP Logs</h2>
+                        <p className="text-gray-500 text-sm">
+                            All logs from users who requested password resets
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-800">OTP Logs</h2>
-                    <p className="text-gray-500 text-sm">
-                        All logs from users who requested password resets
-                    </p>
+                {/* OTP Logs Search + Filter */}
+                <div className="flex flex-wrap gap-2">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search email or IP..."
+                            value={logSearch}
+                            onChange={(e) => setLogSearch(e.target.value)}
+                            className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+                    <select
+                        value={logStatusFilter}
+                        onChange={(e) => setLogStatusFilter(e.target.value)}
+                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                        <option value="all">All Status</option>
+                        <option value="verified">Verified</option>
+                        <option value="pending">Pending</option>
+                    </select>
                 </div>
             </div>
 
+            <p className="text-sm text-gray-600 mb-2">Showing <span className="font-semibold">{filteredLogs.length}</span> of <span className="font-semibold">{logs.length}</span> logs</p>
             <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
-                {logs.length === 0 ? (
-                    <p className="text-center py-8 text-gray-500">No OTP logs found</p>
+                {filteredLogs.length === 0 ? (
+                    <p className="text-center py-8 text-gray-500">No OTP logs match your search</p>
                 ) : (
                     <table className="table table-pin-rows table-pin-cols w-full">
                         <thead className="bg-gray-800 text-white">
@@ -896,7 +974,7 @@ export const OTP_Logs = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {logs.map((log, index) => (
+                            {filteredLogs.map((log, index) => (
                                 <tr key={log._id || index}
                                     className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
                                     <td className="px-4 py-2">{index + 1}</td>
@@ -936,6 +1014,7 @@ export const Block_email = () => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [reason, setReason] = useState('');
+    const [blockSearch, setBlockSearch] = useState("");
     const token = localStorage.getItem("Authorization");
 
     const GetAllBlockedEmails = async () => {
@@ -1002,11 +1081,16 @@ export const Block_email = () => {
         }
     };
 
+    const filteredBlackEmails = blackEmails.filter((item) =>
+        item.email?.toLowerCase().includes(blockSearch.toLowerCase()) ||
+        item.reason?.toLowerCase().includes(blockSearch.toLowerCase())
+    );
+
     return (
         <>
             {loading && <Loading />}
             {/* Header */}
-            <div className="flex items-center flex-wrap justify-evenly sm:justify-between mb-4">
+            <div className="flex items-center flex-wrap justify-evenly sm:justify-between mb-4 gap-3">
                 <div className="flex items-center gap-3">
                     <div className="p-3 rounded-lg bg-red-100 text-red-600">
                         <Mail className="w-6 h-6" />
@@ -1016,12 +1100,25 @@ export const Block_email = () => {
                         <p className="text-gray-500 text-sm">Manage blacklisted emails and reasons</p>
                     </div>
                 </div>
-                <button
-                    className="btn btn-primary"
-                    onClick={() => document.getElementById('addBEmail').showModal()}
-                >
-                    Add Block Email
-                </button>
+                <div className="flex flex-wrap gap-2 items-center">
+                    {/* Search */}
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search email or reason..."
+                            value={blockSearch}
+                            onChange={(e) => setBlockSearch(e.target.value)}
+                            className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => document.getElementById('addBEmail').showModal()}
+                    >
+                        Add Block Email
+                    </button>
+                </div>
             </div>
 
             {/* Modal */}
@@ -1056,9 +1153,10 @@ export const Block_email = () => {
             </dialog>
 
             {/* Table */}
+            <p className="text-sm text-gray-600 mb-2">Showing <span className="font-semibold">{filteredBlackEmails.length}</span> of <span className="font-semibold">{blackEmails.length}</span> entries</p>
             <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
-                {blackEmails.length === 0 ? (
-                    <p className="text-center py-8 text-gray-500">No blocked emails found</p>
+                {filteredBlackEmails.length === 0 ? (
+                    <p className="text-center py-8 text-gray-500">No blocked emails match your search</p>
                 ) : (
                     <table className="table table-pin-rows table-pin-cols w-full">
                         <thead className="bg-gray-800 text-white">
@@ -1070,7 +1168,7 @@ export const Block_email = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {blackEmails.map((item, index) => (
+                            {filteredBlackEmails.map((item, index) => (
                                 <tr key={item._id || index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
                                     <td className="px-4 py-2">{index + 1}</td>
                                     <td className="px-4 py-2">{item.email}</td>
@@ -1100,6 +1198,7 @@ export const FranchiseInquiries = () => {
     const [inquiries, setInquiries] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selected, setSelected] = useState(null);
+    const [franchiseSearch, setFranchiseSearch] = useState("");
 
     const token = localStorage.getItem("Authorization");
 
@@ -1137,6 +1236,13 @@ export const FranchiseInquiries = () => {
         }
     };
 
+    const filteredInquiries = inquiries.filter((item) =>
+        `${item.first_name} ${item.last_name}`.toLowerCase().includes(franchiseSearch.toLowerCase()) ||
+        item.email?.toLowerCase().includes(franchiseSearch.toLowerCase()) ||
+        item.location?.toLowerCase().includes(franchiseSearch.toLowerCase()) ||
+        item.phone?.includes(franchiseSearch)
+    );
+
     return (
         <div className="max-w-7xl mx-auto md:p-4 bg-white rounded-2xl">
             {/* Header */}
@@ -1155,14 +1261,24 @@ export const FranchiseInquiries = () => {
                     </div>
                 </div>
 
-                {!loading && (
-                    <div className="text-sm font-medium text-gray-600">
-                        Total Requests:
-                        <span className="ml-1 font-semibold text-gray-900">
-                            {inquiries.length}
-                        </span>
+                <div className="flex flex-wrap items-center gap-3">
+                    {/* Search */}
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search name, email, location..."
+                            value={franchiseSearch}
+                            onChange={(e) => setFranchiseSearch(e.target.value)}
+                            className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
                     </div>
-                )}
+                    {!loading && (
+                        <div className="text-sm font-medium text-gray-600">
+                            Showing <span className="font-semibold text-gray-900">{filteredInquiries.length}</span> of <span className="font-semibold text-gray-900">{inquiries.length}</span>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Loading */}
@@ -1170,10 +1286,10 @@ export const FranchiseInquiries = () => {
                 <div className="flex justify-center items-center h-40">
                     <span className="loading loading-spinner loading-lg text-primary"></span>
                 </div>
-            ) : inquiries.length === 0 ? (
+            ) : filteredInquiries.length === 0 ? (
                 <div className="py-16 text-center">
                     <h2 className="text-xl font-semibold text-gray-700">
-                        No Franchise Inquiries Found
+                        No Franchise Inquiries Match Your Search
                     </h2>
                 </div>
             ) : (
@@ -1192,7 +1308,7 @@ export const FranchiseInquiries = () => {
                         </thead>
 
                         <tbody>
-                            {inquiries.map((item) => (
+                            {filteredInquiries.map((item) => (
                                 <tr key={item._id} className="border-b hover:bg-gray-50 transition">
                                     <td className="px-3 py-2 font-semibold">
                                         {item.first_name} {item.last_name}
@@ -1270,6 +1386,7 @@ export const FranchiseInquiries = () => {
 export const Contact = () => {
     const [contacts, setContacts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [contactSearch, setContactSearch] = useState("");
     const token = localStorage.getItem("Authorization");
 
     const fetchContacts = async () => {
@@ -1291,24 +1408,44 @@ export const Contact = () => {
         fetchContacts();
     }, []);
 
+    const filteredContacts = contacts.filter((c) =>
+        c.full_name?.toLowerCase().includes(contactSearch.toLowerCase()) ||
+        c.email?.toLowerCase().includes(contactSearch.toLowerCase()) ||
+        c.phone_number?.includes(contactSearch)
+    );
+
     return (
         <>
             {loading && <Loading />}
 
             {/* Header */}
-            <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
-                    <Mail className="w-6 h-6" />
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div className="flex items-center gap-3">
+                    <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
+                        <Mail className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-gray-800">
+                            Contact Requests
+                        </h2>
+                        <p className="text-gray-500 text-sm">
+                            All messages submitted through the contact form
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-800">
-                        Contact Requests
-                    </h2>
-                    <p className="text-gray-500 text-sm">
-                        All messages submitted through the contact form
-                    </p>
+                {/* Search */}
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Search name, email, phone..."
+                        value={contactSearch}
+                        onChange={(e) => setContactSearch(e.target.value)}
+                        className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    />
                 </div>
             </div>
+            <p className="text-sm text-gray-600 mb-2">Showing <span className="font-semibold">{filteredContacts.length}</span> of <span className="font-semibold">{contacts.length}</span> messages</p>
 
             {/* Table */}
             <div className="overflow-auto h-[80vh] shadow-lg rounded-lg border border-gray-200">
@@ -1324,14 +1461,14 @@ export const Contact = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {contacts.length === 0 ? (
+                        {filteredContacts.length === 0 ? (
                             <tr>
                                 <td colSpan={10} className="text-center py-6 text-gray-500">
-                                    No contact requests found
+                                    No contact requests match your search
                                 </td>
                             </tr>
                         ) : (
-                            contacts.map((contact, index) => (
+                            filteredContacts.map((contact, index) => (
                                 <tr key={contact._id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50 hover:bg-gray-100"}>
                                     <td className="px-4 py-2">{index + 1}</td>
                                     <td className="px-4 py-2">{contact.full_name}</td>
